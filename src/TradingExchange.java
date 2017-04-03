@@ -14,7 +14,6 @@ public class TradingExchange {
 	private LinkedList<Company> exchange;
 	//private LinkedList<Shares> upForSell; not needed as all shares are occupied by a client
 	private LinkedList<Trader> traders;
-	private float shareIndex;
 	private SmartTrader smartTrader;
 	private double shareIndex;
 	
