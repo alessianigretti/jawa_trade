@@ -22,6 +22,7 @@ public class TradingExchange {
 	private SmartTrader smartTrader;
 	private double shareIndex;
 	private Client currentClient;
+	public LinkedList<Events> events;
 	
 	public TradingExchange()
 	{
@@ -29,6 +30,7 @@ public class TradingExchange {
 		//upForSell = new LinkedList();
 		traders = new LinkedList();
 		smartTrader = new SmartTrader();
+		events = new LinkedList();
 		setUpSim();
 		updateShareIndex();
 	}
@@ -96,10 +98,16 @@ public class TradingExchange {
 	
 	public void setUpEvents()
 	{
+		List<String[]> myEntries;
 		try{
 			 CSVReader reader = new CSVReader(new FileReader("events.csv"));
 		     try {
-				List<String[]> myEntries = reader.readAll();
+				myEntries = reader.readAll();
+				for(String[] array:myEntries)
+				{
+					Events event = new Events(array[1],array[0]);
+					events.add(event);
+				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
