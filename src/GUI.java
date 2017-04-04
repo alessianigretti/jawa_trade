@@ -6,7 +6,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.beans.property.Property;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -45,7 +47,8 @@ import javafx.scene.control.MenuItem;
 public class GUI extends Application
 {
     private Stage stage;
-    private Property<String> selectedClient; // temporarily only a string, in the future a client
+    private String selectedTrader = "No trader selected.";
+    private String selectedClient = "No client selected.";
     private TradingExchange exchange = new TradingExchange();
 	
     @Override
@@ -58,7 +61,8 @@ public class GUI extends Application
         xAxis.setLabel("Month");
         // creating the chart
         final LineChart<Number,Number> lineChart = new LineChart<Number,Number>(xAxis,yAxis);
-        lineChart.setPrefHeight(600);
+        lineChart.setMaxHeight(550);
+        lineChart.setMinHeight(550);
                 
         lineChart.setTitle("Stock Monitoring");
         // defining a series
@@ -82,10 +86,11 @@ public class GUI extends Application
         
         // newsfeed panel
         BorderPane rightPane = new BorderPane();
-        rightPane.setMaxHeight(720);
-        rightPane.setMinWidth(250);
+        rightPane.setMaxSize(250, 720);
+        rightPane.setMinSize(250, 720);
         ScrollPane newsfeedScroll = new ScrollPane();
-        newsfeedScroll.setMaxHeight(720);
+        newsfeedScroll.setMaxSize(250, 720);
+        newsfeedScroll.setMinSize(250, 720);
         newsfeedScroll.setStyle("-fx-border-color: #606060;"
         		+ "-fx-border-width: 0 3 3 3;");
 	    	GridPane allNews = displayAllNews();
@@ -94,10 +99,11 @@ public class GUI extends Application
         
         // commodities panel
         BorderPane leftPane = new BorderPane();
-        leftPane.setMaxHeight(720);
-        rightPane.setMinWidth(250);
+        leftPane.setMaxSize(250, 720);
+        leftPane.setMinSize(250, 720);
         ScrollPane commoditiesScroll = new ScrollPane();
-        commoditiesScroll.setMaxSize(300, 720);
+        commoditiesScroll.setMaxSize(250, 720);
+        commoditiesScroll.setMinSize(250, 720);
         commoditiesScroll.setStyle("-fx-border-color: #606060;"
         		+ "-fx-border-width: 0 3 3 3;");
         	GridPane allCommodities = displayAllCommodities();
@@ -106,7 +112,10 @@ public class GUI extends Application
 		
         // bottom of the chart
         TabPane bottomPane = new TabPane();
-        bottomPane.setMaxHeight(250);
+        bottomPane.setStyle("-fx-border-color: #606060;"
+        		+ "-fx-border-width: 3 0 3 0;");
+        bottomPane.setMaxHeight(150);
+        bottomPane.setMinHeight(150);
         Tab ordersTab = new Tab();
         Tab pendingTab = new Tab();
         ordersTab.setText("Orders");
@@ -117,6 +126,7 @@ public class GUI extends Application
         
         // orders and pending tabs (extending bottom of the chart)
         TableView ordersTable = new TableView();
+        ordersTable.setMaxHeight(150);
         TableColumn instrumentsOrders = new TableColumn("Instruments");
         TableColumn quantityOrders = new TableColumn("Quantity");
         TableColumn buyOrSellOrders = new TableColumn("Buy/Sell");
@@ -127,6 +137,7 @@ public class GUI extends Application
         buyOrSellOrders.setMinWidth(100);
         priceOrders.setMinWidth(100);
         TableView pendingTable = new TableView();
+        pendingTable.setMaxHeight(150);
         TableColumn instrumentsPending = new TableColumn("Instruments");
         TableColumn quantityPending = new TableColumn("Quantity");
         TableColumn buyOrSellPending = new TableColumn("Buy/Sell");
@@ -147,10 +158,18 @@ public class GUI extends Application
         topPane.setTop(menuBar);
         BorderPane clientPane = new BorderPane();
         clientPane.setPadding(new Insets(15, 0, 15, 10));
-        Label clientLabel = new Label("Client: ");
+        Label traderLabel = new Label("Trader: " + selectedTrader);
+        Label clientLabel = new Label("Client: " + selectedClient);
+        BorderPane topLeftPanel = new BorderPane();
+        topLeftPanel.setPadding(new Insets(0, 10, 0, 0));
+        topLeftPanel.setAlignment(traderLabel, Pos.CENTER_RIGHT);
+        topLeftPanel.setAlignment(clientLabel, Pos.CENTER_RIGHT);
+        topLeftPanel.setTop(traderLabel);
+        topLeftPanel.setBottom(clientLabel);
         clientPane.setStyle("-fx-border-color: #606060;"
-        		+ "-fx-border-width: 3 3 3 3;");
-        clientPane.setLeft(clientLabel);
+        		+ "-fx-border-width: 3 3 3 3;"
+        		+ "-fx-font-size: 16;");
+        clientPane.setRight(topLeftPanel);
         topPane.setBottom(clientPane);
         
         // put together all elements
@@ -163,11 +182,33 @@ public class GUI extends Application
         root.setLeft(leftPane);
         root.setRight(rightPane);
         
-        Scene scene = new Scene(root, 1200, 800);
+        Task task = new Task<Void>() {
+      	  @Override
+      	  public Void call() throws Exception {
+      	    int i = 0;
+      	    while (true) {
+      	      final int finalI = i;
+      	      Platform.runLater(new Runnable() {
+      	        @Override
+      	        public void run() {
+      	        	traderLabel.setText("Trader: " + selectedTrader);
+      	        	clientLabel.setText("Client: " + selectedClient);
+      	        }
+      	      });
+      	      i++;
+      	      Thread.sleep(1000);
+      	    }
+      	  }
+      	};
+      	Thread th = new Thread(task);
+      	th.setDaemon(true);
+      	th.start();
+        
+        Scene scene = new Scene(root, 1200, 832);
         scene.getStylesheets().add("resources/com/guigarage/flatterfx/flatterfx.css");
         
         //stage.setResizable(false);
-        stage.setTitle("JAWATrade");
+        stage.setTitle("Stock Market Simulation by JAWA Trade");
         stage.setScene(scene);
         stage.show();
     }
@@ -176,20 +217,16 @@ public class GUI extends Application
     {
     	// insert main grid for all news
     	GridPane allNews = new GridPane();
-		allNews.setPrefSize(215, 200);
+		allNews.setMaxWidth(215);
 		allNews.setMinWidth(215);
-		allNews.setPadding(new Insets(10, 10, 10, 10));
+		allNews.setPadding(new Insets(20, 0, 0, 20));
 	
 		for (int i = 0; i < exchange.getEvents().size(); i++)
 		{
 			// create new cells and add them to main grid
 			BorderPane news = createNewsCell(exchange.getEvents().get(i).getDateTime().toString(), exchange.getEvents().get(i).getEventText());
 		    allNews.add(news, 0, (i * 2 + 1));
-		    allNews.add(new Label(), 0, (i * 2));
 		}
-	    
-	    // set alignment of content of grid
-	    allNews.setAlignment((Pos.TOP_CENTER));
 	    
 	    return allNews;
     }
@@ -203,9 +240,8 @@ public class GUI extends Application
 			newsNameLabel.setFont(new Font(20));
 		// create label for content of news
 		Label newsContentLabel = new Label(newsContent);
-		//newsContentLabel.getStyleClass().add("label");
-		newsContentLabel.setMaxSize(180, 60);
-		newsContentLabel.setMinSize(180, 60);
+		newsContentLabel.setMinSize(190, 75);
+		newsContentLabel.setMaxSize(190, 90);
 		newsContentLabel.setTextAlignment(TextAlignment.JUSTIFY);
 		newsContentLabel.setWrapText(true);
 		    news.setTop(newsNameLabel);
@@ -217,10 +253,9 @@ public class GUI extends Application
     {
     	// insert main grid for all commodities
     	GridPane allCommodities = new GridPane();
-		allCommodities.setPrefWidth(215);
 		allCommodities.setMinWidth(215);
 		allCommodities.setMaxWidth(215);
-		allCommodities.setPadding(new Insets(10, 10, 10, 10));
+		allCommodities.setPadding(new Insets(0, 0, 0, 20));
 	
 		for (int i = 0; i < exchange.getCompanies().size(); i++)
 		{
@@ -229,8 +264,6 @@ public class GUI extends Application
 	        allCommodities.add(commodity, 0, i * 2 + 1);
 	        allCommodities.add(new Label(), 0, i * 2);
 		}
-        
-        allCommodities.setAlignment((Pos.TOP_CENTER));
         
         return allCommodities;
     }
@@ -256,14 +289,14 @@ public class GUI extends Application
 			trendLabel.setFont(new Font(20));
 		
 		commodity.setTop(commodityNameLabel);
-		commodity.setCenter(trendLabel);
+		commodity.setRight(trendLabel);
 
 		// separate each commodity cell in left and right side
 		BorderPane leftPaneCommodity = new BorderPane();
 		leftPaneCommodity.setTop(newOrderButton);
 		leftPaneCommodity.setBottom(shareValueLabel);
 		
-		commodity.setLeft(leftPaneCommodity);
+		commodity.setCenter(leftPaneCommodity);
 		
 		return commodity;
     }
@@ -306,7 +339,7 @@ public class GUI extends Application
             @Override
             public void handle(ActionEvent event) {
             	// need to add a field somewhere in the code where all clients are stored
-            	// selectedClient = "Norbert DaVinci";
+            	selectedTrader = "Random Trader";
             }
         });
 		MenuItem trader2 = new MenuItem("Intelligent Trader");
@@ -314,7 +347,7 @@ public class GUI extends Application
             @Override
             public void handle(ActionEvent event) {
             	// need to add a field somewhere in the code where all clients are stored
-            	// selectedClient = "Norbert DaVinci";
+            	selectedTrader = "Intelligent Trader";
             }
         });
 		Menu clientMenu = new Menu("Clients");
@@ -323,14 +356,14 @@ public class GUI extends Application
             @Override
             public void handle(ActionEvent event) {
             	// need to add a field somewhere in the code where all clients are stored
-            	// selectedClient = "Norbert DaVinci";
+            	selectedClient = "Norbert DaVinci";
             }
         });
         MenuItem client2 = new MenuItem("Justine Thyme");
         client2.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-            	//selectedClient = "Justine Thyme";
+            	selectedClient = "Justine Thyme";
             }
         });
         traderMenu.getItems().add(trader1);

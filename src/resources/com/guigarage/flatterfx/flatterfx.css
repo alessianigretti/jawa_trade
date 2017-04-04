@@ -7,7 +7,7 @@
 
     /*default font */
     -fx-font-family: 'Helvetica Neue';
-    -fx-font-size: 10.0px;
+    -fx-font-size: 11.5px;
     -fx-font-weight: 600;
     -fx-disabled-opacity: 0.6;
 
@@ -82,19 +82,22 @@
 .toggle-button:focused,
 .button:focused,
 .button:default:focused {
-       -fx-background-color: derive(-flatter-blue, 50.0%);
+    -fx-opacity: 0.5;
 }
 
 .toggle-button:focused:selected {
-       -fx-background-color: derive(-flatter-blue, 50.0%), derive(-flatter-blue, -20.0%);
-       -fx-background-insets: 0.0, 0.2em;
+    -fx-opacity: 0.5;
+}
+
+.button:hover{
+	-fx-opacity: 0.5;	
 }
 
 .toggle-button:armed,
 .toggle-button:selected,
 .button:armed,
 .button:default:armed {
-     -fx-background-color: derive(-flatter-blue, -20.0%);
+     -fx-background-color: derive(white, -20.0%);
 }
 
 /*******************************************************************************
@@ -139,8 +142,27 @@
 
 .tab-pane>*.tab-header-area>*.tab-header-background {
    -fx-background-image: url("custom.jpg");
+   -fx-background-repeat: round;
 }
 
+.tab-pane .tab
+{
+    -fx-background-color: -dark;
+    -fx-text-fill: white;
+}
+
+.tab:hover
+{
+	-fx-opacity: 0.5;	
+}
+
+.tab .tab-label { 
+    -fx-text-fill: white;
+}
+
+.tab:selected .tab-label { 
+    -fx-text-fill: white;
+}
 .table-view .column-header {
     -fx-background-color: transparent;
 }
@@ -151,6 +173,17 @@
 
 .table-row-cell{
     -fx-background-color: -fx-table-cell-border-color, rgb(53.0, 58.0, 63.0);
+}
+
+/*******************************************************************************
+ *                                                                             *
+ * MenuBar & MenuItem                                                        *
+ *                                                                             *
+ ******************************************************************************/
+
+.menu-bar { 
+   -fx-background-image: url("custom.jpg");
+   -fx-background-repeat: round;
 }
 
 /*******************************************************************************
@@ -189,7 +222,7 @@
 }
 
 .text-area:focused, .text-field:focused {
-    -fx-background-color: -flatter-blue, derive(-dark, 80.0%);
+    -fx-background-color: white, derive(-dark, 80.0%);
     -fx-background-insets: 0.0, 0.2em;
     -fx-background-radius: 2.0;
 }
@@ -222,7 +255,6 @@
 .scroll-bar > .track-background{
     -fx-background-color: -dark;
 }
-
 
 
 /*******************************************************************************
@@ -355,12 +387,12 @@
 }
 
 .check-box:focused > .box {
-    -fx-background-color: -flatter-blue, derive(rgb(94.0, 203.0, 234.0), 80.0%);
+    -fx-background-color: white, derive(rgb(94.0, 203.0, 234.0), 80.0%);
     -fx-background-insets: 0.0, 0.15em;
 }
 
 .check-box:focused:armed > .box {
-    -fx-background-color: -flatter-blue, derive(-fx-text-base-color, 80.0%);
+    -fx-background-color: white, derive(-fx-text-base-color, 80.0%);
     -fx-background-insets: 0.0, 0.15em;
 }
 
@@ -392,13 +424,13 @@
 }
 
 .radio-button:focused > .radio {
-    -fx-background-color: -flatter-blue, derive(rgb(94.0, 203.0, 234.0), 80.0%);
+    -fx-background-color: white, derive(rgb(94.0, 203.0, 234.0), 80.0%);
     -fx-background-insets: 0.0, 0.15em;
     -fx-padding: 0.4em;
 }
 
 .radio-button:focused:armed > .radio {
-    -fx-background-color: -flatter-blue, derive(-fx-text-base-color, 80.0%);
+    -fx-background-color: white, derive(-fx-text-base-color, 80.0%);
     -fx-background-insets: 0.0, 0.15em;
 }
 
@@ -420,7 +452,7 @@
 }
 
 .progress-bar > .bar {
-    -fx-background-color: -flatter-blue;
+    -fx-background-color: white;
     -fx-background-radius: 2.0;
     -fx-background-insets: 0.0;
     -fx-border-width: 0.0;
@@ -428,7 +460,7 @@
 }
 
 .progress-bar:indeterminate > .bar {
-    -fx-background-color: derive(-flatter-blue, 50.0%);
+    -fx-background-color: derive(white, 50.0%);
     -fx-background-radius: 2.0;
     -fx-background-insets: 0.0;
     -fx-border-width: 0.0;
@@ -447,7 +479,7 @@
 }
 
 .progress-indicator > .determinate-indicator > .progress {
-    -fx-background-color:  -flatter-blue,  derive(-flatter-blue, 50.0%);
+    -fx-background-color:  white,  derive(white, 50.0%);
     -fx-background-insets: 0.0, 0.4em;
     -fx-padding: 1.0em;
 }
