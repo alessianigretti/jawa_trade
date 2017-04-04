@@ -82,25 +82,23 @@ public class GUI extends Application
         
         // newsfeed panel
         BorderPane rightPane = new BorderPane();
-        rightPane.setMaxHeight(760);
+        rightPane.setMaxHeight(735);
         rightPane.setMinWidth(250);
-        rightPane.setPadding(new Insets(10, 10, 10, 0));
         ScrollPane newsfeedScroll = new ScrollPane();
-        newsfeedScroll.setMaxHeight(760);
-        newsfeedScroll.setStyle("-fx-border-color: gray;"
-        		+ "-fx-border-width: 3;");
+        newsfeedScroll.setMaxHeight(735);
+        newsfeedScroll.setStyle("-fx-border-color: #606060;"
+        		+ "-fx-border-width: 0 3 3 3;");
 	    	GridPane allNews = displayAllNews();
         newsfeedScroll.setContent(allNews);
         rightPane.setCenter(newsfeedScroll);
         
         // commodities panel
         BorderPane leftPane = new BorderPane();
-        leftPane.setMaxHeight(760);
-        leftPane.setPadding(new Insets(10, 0, 10, 10));
+        leftPane.setMaxHeight(735);
         ScrollPane commoditiesScroll = new ScrollPane();
-        commoditiesScroll.setMaxHeight(760);
-        commoditiesScroll.setStyle("-fx-border-color: gray;"
-        		+ "-fx-border-width: 3;");
+        commoditiesScroll.setMaxHeight(735);
+        commoditiesScroll.setStyle("-fx-border-color: #606060;"
+        		+ "-fx-border-width: 0 3 3 3;");
         	GridPane allCommodities = displayAllCommodities();
 		commoditiesScroll.setContent(allCommodities);
 		//TextField searchBar = new TextField("Search...");
@@ -150,9 +148,11 @@ public class GUI extends Application
         MenuBar menuBar = createMenu();
         topPane.setTop(menuBar);
         BorderPane clientPane = new BorderPane();
-        clientPane.setStyle("-fx-border-color: gray;"
+        clientPane.setStyle("-fx-border-color: #606060;"
         		+ "-fx-border-width: 0 0 3 0;"
-        		+ "-fx-background-color: gray");
+        		+ "-fx-background-color: #404040;"
+        		+ "-fx-font-color: #A9A9A9;"
+        		+ "-fx-font: 16px \"Symbol\";");
         clientPane.setPadding(new Insets(15, 0, 15, 10));
         Label clientLabel = new Label("Client: ");
         clientPane.setLeft(clientLabel);
