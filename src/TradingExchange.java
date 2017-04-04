@@ -60,6 +60,11 @@ public class TradingExchange {
 		return currentClient;
 	}
 	
+	public LinkedList<Events> getEvents()
+	{
+		return events;
+	}
+	
 	public void tradeSim()
 	{
 		
@@ -98,23 +103,25 @@ public class TradingExchange {
 	
 	public void setUpEvents()
 	{
-		List<String[]> myEntries;
+		String[] myEntries;
 		try{
 			 CSVReader reader = new CSVReader(new FileReader("events.csv"));
 		     try {
-				myEntries = reader.readAll();
-				for(String[] array:myEntries)
+				String[] next = reader.readNext();
+				while(next != null)
 				{
-					Events event = new Events(array[1],array[0]);
+					myEntries = next;
+					Events event = new Events(myEntries[1],myEntries[0]);
 					events.add(event);
+					next = reader.readNext();
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			}
-			catch (FileNotFoundException e){
-				e.printStackTrace();
-			}
+		}
+		catch (FileNotFoundException e){
+			e.printStackTrace();
+		}
 	}
 	
 	

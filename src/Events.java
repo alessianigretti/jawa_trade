@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
@@ -13,13 +14,13 @@ import java.util.Locale;
 public class Events {
 	
 	private String eventText;
-	private LocalDateTime dateTime;
-	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d yyyy k:m", Locale.ENGLISH);
+	private LocalDate dateTime;
+	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM d yyyy", Locale.ENGLISH);
 	
 	public Events(String eventText, String dateTime)
 	{
 		this.eventText = eventText;
-		this.dateTime = LocalDateTime.parse(dateTime, formatter);	
+		this.dateTime = LocalDate.parse(dateTime, formatter);	
 	}
 	
 	public String getEventText()
@@ -27,8 +28,9 @@ public class Events {
 		return eventText;
 	}
 	
-	public LocalDateTime getDateTime()
+	public LocalDate getDateTime()
 	{
+	
 		return dateTime;
 	}
 

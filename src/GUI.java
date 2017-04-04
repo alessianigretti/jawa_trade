@@ -183,66 +183,13 @@ public class GUI extends Application
 		allNews.setPrefSize(215, 200);
 		allNews.setPadding(new Insets(10, 10, 10, 10));
 	
-		// create new cells and add them to main grid
-		BorderPane news1 = createNewsCell("News 1", "News Content 1 - Information about the first news to be displayed here.");
-	    allNews.add(news1, 0, 1);
-	    allNews.add(new Label(), 0, 2);
-	    
-	    BorderPane news2 = createNewsCell("News 2", "News Content 2 - Information about the first news to be displayed here.");
-	    allNews.add(news2, 0, 3);
-	    allNews.add(new Label(), 0, 4);
-	    
-	    BorderPane news3 = createNewsCell("News 3", "News Content 3 - Information about the first news to be displayed here.");
-	    allNews.add(news3, 0, 5);
-	    allNews.add(new Label(), 0, 6);
-	    
-	    BorderPane news4 = createNewsCell("News 4", "News Content 4 - Information about the first news to be displayed here.");
-	    allNews.add(news4, 0, 7);
-	    allNews.add(new Label(), 0, 8);
-	    
-	    BorderPane news5 = createNewsCell("News 5", "News Content 5 - Information about the first news to be displayed here.");
-	    allNews.add(news5, 0, 9);
-	    allNews.add(new Label(), 0, 10);
-	    
-	    BorderPane news6 = createNewsCell("News 6", "News Content 6 - Information about the first news to be displayed here.");
-	    allNews.add(news6, 0, 11);
-	    allNews.add(new Label(), 0, 12);
-	    
-	    BorderPane news7 = createNewsCell("News 7", "News Content 6 - Information about the first news to be displayed here.");
-	    allNews.add(news7, 0, 13);
-	    allNews.add(new Label(), 0, 14);
-	    
-	    BorderPane news8 = createNewsCell("News 8", "News Content 6 - Information about the first news to be displayed here.");
-	    allNews.add(news8, 0, 15);
-	    allNews.add(new Label(), 0, 16);
-	    
-	    BorderPane news9 = createNewsCell("News 9", "News Content 6 - Information about the first news to be displayed here.");
-	    allNews.add(news9, 0, 17);
-	    allNews.add(new Label(), 0, 18);
-	    
-	    BorderPane news10 = createNewsCell("News 10", "News Content 6 - Information about the first news to be displayed here.");
-	    allNews.add(news10, 0, 19);
-	    allNews.add(new Label(), 0, 20);
-	    
-	    BorderPane news11 = createNewsCell("News 11", "News Content 6 - Information about the first news to be displayed here.");
-	    allNews.add(news11, 0, 21);
-	    allNews.add(new Label(), 0, 22);
-	    
-	    BorderPane news12 = createNewsCell("News 12", "News Content 6 - Information about the first news to be displayed here.");
-	    allNews.add(news12, 0, 23);
-	    allNews.add(new Label(), 0, 24);
-	    
-	    BorderPane news13 = createNewsCell("News 13", "News Content 6 - Information about the first news to be displayed here.");
-	    allNews.add(news13, 0, 25);
-	    allNews.add(new Label(), 0, 26);
-	    
-	    BorderPane news14 = createNewsCell("News 14", "News Content 6 - Information about the first news to be displayed here.");
-	    allNews.add(news14, 0, 27);
-	    allNews.add(new Label(), 0, 28);
-	    
-	    BorderPane news15 = createNewsCell("News 15", "News Content 6 - Information about the first news to be displayed here.");
-	    allNews.add(news15, 0, 29);
-	    allNews.add(new Label(), 0, 30);
+		for (int i = 0; i < exchange.getEvents().size(); i++)
+		{
+			// create new cells and add them to main grid
+			BorderPane news = createNewsCell(exchange.getEvents().get(i).getDateTime().toString(), exchange.getEvents().get(i).getEventText());
+		    allNews.add(news, 0, (i * 2 + 1));
+		    allNews.add(new Label(), 0, (i * 2));
+		}
 	    
 	    // set alignment of content of grid
 	    allNews.setAlignment((Pos.TOP_CENTER));
@@ -250,12 +197,12 @@ public class GUI extends Application
 	    return allNews;
     }
     
-    private BorderPane createNewsCell(String newsName, String newsContent)
+    private BorderPane createNewsCell(String newsDate, String newsContent)
     {
     	// create cell in news grid
     	BorderPane news = new BorderPane();
     	// create label for name of news
-		Label newsNameLabel = new Label(newsName);
+		Label newsNameLabel = new Label(newsDate);
 			newsNameLabel.setFont(new Font(20));
 		// create label for content of news
 		Label newsContentLabel = new Label(newsContent);
