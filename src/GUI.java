@@ -1,18 +1,25 @@
+import java.awt.Dimension;
+import java.awt.Paint;
 import java.awt.Panel;
-
-import com.sun.glass.ui.MenuItem;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.application.Application;
+import javafx.beans.property.Property;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.NodeOrientation;
 import javafx.geometry.Pos;
 import javafx.scene.*;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
@@ -30,6 +37,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
 
 /**
  *
@@ -37,6 +45,7 @@ import javafx.scene.control.Menu;
 public class GUI extends Application
 {
     private Stage stage;
+    private Property<String> selectedClient; // temporarily only a string, in the future a client
     private TradingExchange exchange = new TradingExchange();
 	
     @Override
@@ -72,26 +81,33 @@ public class GUI extends Application
         lineChart.getData().add(series);
         
         // newsfeed panel
+        BorderPane rightPane = new BorderPane();
+        //rightPane.setBorder(new Border());
+        rightPane.setMaxHeight(760);
+        rightPane.setMinWidth(250);
+        rightPane.setPadding(new Insets(10, 10, 10, 0));
         ScrollPane newsfeedScroll = new ScrollPane();
-        newsfeedScroll.setPrefSize(215, 200);
+        newsfeedScroll.setMaxHeight(760);
 	    	GridPane allNews = displayAllNews();
         newsfeedScroll.setContent(allNews);
+        rightPane.setCenter(newsfeedScroll);
         
         // commodities panel
-        BorderPane commodities = new BorderPane();
-        commodities.setPadding(new Insets(10, 0, 10, 10));
-        TextField searchBar = new TextField("Search...");
-        searchBar.setPrefWidth(215);
+        BorderPane leftPane = new BorderPane();
+        leftPane.setMaxHeight(760);
+        leftPane.setPadding(new Insets(10, 0, 10, 10));
         ScrollPane commoditiesScroll = new ScrollPane();
-        commoditiesScroll.setPrefSize(215, 100);
+        commoditiesScroll.setMaxHeight(760);
         	GridPane allCommodities = displayAllCommodities();
 		commoditiesScroll.setContent(allCommodities);
-		commodities.setTop(searchBar);
-        commodities.setCenter(commoditiesScroll);
+		//TextField searchBar = new TextField("Search...");
+        //searchBar.setPrefWidth(215);
+		//commodities.setTop(searchBar);
+        leftPane.setCenter(commoditiesScroll);
 		
         // bottom of the chart
         TabPane bottomPane = new TabPane();
-        bottomPane.setPrefHeight(200);
+        bottomPane.setMaxHeight(250);
         Tab ordersTab = new Tab();
         Tab pendingTab = new Tab();
         ordersTab.setText("Orders");
@@ -127,9 +143,14 @@ public class GUI extends Application
         pendingTab.setContent(pendingTable);
         
         // top menu
-        Menu menu = new Menu("Settings");
-        MenuBar menuBar = new MenuBar();
-        menuBar.getMenus().add(menu);
+        BorderPane topPane = new BorderPane();
+        MenuBar menuBar = createMenu();
+        topPane.setTop(menuBar);
+        BorderPane clientPane = new BorderPane();
+        clientPane.setPadding(new Insets(5, 0, 0, 10));
+        Label clientLabel = new Label("Client: ");
+        clientPane.setLeft(clientLabel);
+        topPane.setBottom(clientPane);
         
         // put together all elements
         BorderPane root = new BorderPane();
@@ -137,14 +158,14 @@ public class GUI extends Application
         root.setCenter(centre);
         centre.setTop(lineChart);
         centre.setBottom(bottomPane);
-        root.setTop(menuBar);
-        root.setLeft(commodities);
-        root.setRight(newsfeedScroll);
+        root.setTop(topPane);
+        root.setLeft(leftPane);
+        root.setRight(rightPane);
         
         Scene scene = new Scene(root, 1200, 800);
         
+        stage.setResizable(false);
         stage.setTitle("JAWATrade");
-       
         stage.setScene(scene);
         stage.show();
     }
@@ -153,33 +174,69 @@ public class GUI extends Application
     {
     	// insert main grid for all news
     	GridPane allNews = new GridPane();
-		allNews.setPrefWidth(210);
+		allNews.setPrefSize(215, 200);
 		allNews.setPadding(new Insets(10, 10, 10, 10));
 	
 		// create new cells and add them to main grid
-		GridPane news1 = createNewsCell("News 1", "News Content 1 - Information about the first news to be displayed here.");
+		BorderPane news1 = createNewsCell("News 1", "News Content 1 - Information about the first news to be displayed here.");
 	    allNews.add(news1, 0, 1);
 	    allNews.add(new Label(), 0, 2);
 	    
-	    GridPane news2 = createNewsCell("News 2", "News Content 2 - Information about the first news to be displayed here.");
+	    BorderPane news2 = createNewsCell("News 2", "News Content 2 - Information about the first news to be displayed here.");
 	    allNews.add(news2, 0, 3);
 	    allNews.add(new Label(), 0, 4);
 	    
-	    GridPane news3 = createNewsCell("News 3", "News Content 3 - Information about the first news to be displayed here.");
+	    BorderPane news3 = createNewsCell("News 3", "News Content 3 - Information about the first news to be displayed here.");
 	    allNews.add(news3, 0, 5);
 	    allNews.add(new Label(), 0, 6);
 	    
-	    GridPane news4 = createNewsCell("News 4", "News Content 4 - Information about the first news to be displayed here.");
+	    BorderPane news4 = createNewsCell("News 4", "News Content 4 - Information about the first news to be displayed here.");
 	    allNews.add(news4, 0, 7);
 	    allNews.add(new Label(), 0, 8);
 	    
-	    GridPane news5 = createNewsCell("News 5", "News Content 5 - Information about the first news to be displayed here.");
+	    BorderPane news5 = createNewsCell("News 5", "News Content 5 - Information about the first news to be displayed here.");
 	    allNews.add(news5, 0, 9);
 	    allNews.add(new Label(), 0, 10);
 	    
-	    GridPane news6 = createNewsCell("News 6", "News Content 6 - Information about the first news to be displayed here.");
+	    BorderPane news6 = createNewsCell("News 6", "News Content 6 - Information about the first news to be displayed here.");
 	    allNews.add(news6, 0, 11);
 	    allNews.add(new Label(), 0, 12);
+	    
+	    BorderPane news7 = createNewsCell("News 7", "News Content 6 - Information about the first news to be displayed here.");
+	    allNews.add(news7, 0, 13);
+	    allNews.add(new Label(), 0, 14);
+	    
+	    BorderPane news8 = createNewsCell("News 8", "News Content 6 - Information about the first news to be displayed here.");
+	    allNews.add(news8, 0, 15);
+	    allNews.add(new Label(), 0, 16);
+	    
+	    BorderPane news9 = createNewsCell("News 9", "News Content 6 - Information about the first news to be displayed here.");
+	    allNews.add(news9, 0, 17);
+	    allNews.add(new Label(), 0, 18);
+	    
+	    BorderPane news10 = createNewsCell("News 10", "News Content 6 - Information about the first news to be displayed here.");
+	    allNews.add(news10, 0, 19);
+	    allNews.add(new Label(), 0, 20);
+	    
+	    BorderPane news11 = createNewsCell("News 11", "News Content 6 - Information about the first news to be displayed here.");
+	    allNews.add(news11, 0, 21);
+	    allNews.add(new Label(), 0, 22);
+	    
+	    BorderPane news12 = createNewsCell("News 12", "News Content 6 - Information about the first news to be displayed here.");
+	    allNews.add(news12, 0, 23);
+	    allNews.add(new Label(), 0, 24);
+	    
+	    BorderPane news13 = createNewsCell("News 13", "News Content 6 - Information about the first news to be displayed here.");
+	    allNews.add(news13, 0, 25);
+	    allNews.add(new Label(), 0, 26);
+	    
+	    BorderPane news14 = createNewsCell("News 14", "News Content 6 - Information about the first news to be displayed here.");
+	    allNews.add(news14, 0, 27);
+	    allNews.add(new Label(), 0, 28);
+	    
+	    BorderPane news15 = createNewsCell("News 15", "News Content 6 - Information about the first news to be displayed here.");
+	    allNews.add(news15, 0, 29);
+	    allNews.add(new Label(), 0, 30);
 	    
 	    // set alignment of content of grid
 	    allNews.setAlignment((Pos.TOP_CENTER));
@@ -187,19 +244,21 @@ public class GUI extends Application
 	    return allNews;
     }
     
-    private GridPane createNewsCell(String newsName, String newsContent)
+    private BorderPane createNewsCell(String newsName, String newsContent)
     {
     	// create cell in news grid
-    	GridPane news = new GridPane();
+    	BorderPane news = new BorderPane();
     	// create label for name of news
 		Label newsNameLabel = new Label(newsName);
 			newsNameLabel.setFont(new Font(20));
 		// create label for content of news
 		Label newsContentLabel = new Label(newsContent);
-			newsContentLabel.setWrapText(true);
-		    news.add(newsNameLabel, 0, 0);
-	        news.add(newsContentLabel, 0, 2);
-	        news.setAlignment(Pos.TOP_CENTER);
+		newsContentLabel.setMaxSize(180, 60);
+		newsContentLabel.setMinSize(180, 60);
+		newsContentLabel.setTextAlignment(TextAlignment.JUSTIFY);
+		newsContentLabel.setWrapText(true);
+		    news.setTop(newsNameLabel);
+	        news.setCenter(newsContentLabel);
 	   return news;
     }
     
@@ -211,23 +270,23 @@ public class GUI extends Application
 		allCommodities.setPadding(new Insets(10, 0, 10, 10));
 	
 		// create new cells and add them to main grid
-		BorderPane commodity1 = createCommodityCell("Commodity 1", "1234.56", "1234.56", "^");
+		BorderPane commodity1 = createCommodityCell("Commodity 1", "1234.56", "^");
         allCommodities.add(commodity1, 0, 1);
         allCommodities.add(new Label(), 0, 2);
         
-        BorderPane commodity2 = createCommodityCell("Commodity 2", "1234.56", "1234.56", "^");
+        BorderPane commodity2 = createCommodityCell("Commodity 2", "1234.56", "^");
         allCommodities.add(commodity2, 0, 3);
         allCommodities.add(new Label(), 0, 4);
         
-        BorderPane commodity3 = createCommodityCell("Commodity 3", "1234.56", "1234.56", "^");
+        BorderPane commodity3 = createCommodityCell("Commodity 3", "1234.56", "^");
         allCommodities.add(commodity3, 0, 5);
         allCommodities.add(new Label(), 0, 6);
         
-        BorderPane commodity4 = createCommodityCell("Commodity 4", "1234.56", "1234.56", "^");
+        BorderPane commodity4 = createCommodityCell("Commodity 4", "1234.56", "^");
         allCommodities.add(commodity4, 0, 7);
         allCommodities.add(new Label(), 0, 8);
         
-        BorderPane commodity5 = createCommodityCell("Commodity 5", "1234.56", "1234.56", "^");
+        BorderPane commodity5 = createCommodityCell("Commodity 5", "1234.56", "^");
         allCommodities.add(commodity5, 0, 9);
         allCommodities.add(new Label(), 0, 10);
         
@@ -236,7 +295,7 @@ public class GUI extends Application
         return allCommodities;
     }
     
-    private BorderPane createCommodityCell(String commodityName, String buyValue, String sellValue, String upOrDownArrow)
+    private BorderPane createCommodityCell(String commodityName, String shareValue, String trend)
     {
     	// create cell in commodities grid
     	BorderPane commodity = new BorderPane();
@@ -245,43 +304,83 @@ public class GUI extends Application
 		Label commodityNameLabel = new Label(commodityName);
 			commodityNameLabel.setFont(new Font(20));
 		// create content for commodity cell
+		Button newOrderButton = new Button("New Order");
+		newOrderButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+            	Stage newOrderStage = createNewOrder();
+            }
+        });
+		Label shareValueLabel = new Label(shareValue);
+		Label trendLabel = new Label(trend);
+			trendLabel.setFont(new Font(20));
+		
+		commodity.setTop(commodityNameLabel);
+		commodity.setCenter(trendLabel);
+
+		// separate each commodity cell in left and right side
+		BorderPane leftPaneCommodity = new BorderPane();
+		leftPaneCommodity.setTop(newOrderButton);
+		leftPaneCommodity.setBottom(shareValueLabel);
+		
+		commodity.setLeft(leftPaneCommodity);
+		
+		return commodity;
+    }
+    
+    private Stage createNewOrder()
+    {
+    	Stage makeNewOrder = new Stage();
+		BorderPane orderPane = new BorderPane();
+		orderPane.setPadding(new Insets(10, 30, 10, 30));
+		Label quantityLabel = new Label("Quantity:");
+		quantityLabel.setFont(new Font(20));
+		ComboBox quantities = new ComboBox();
+		orderPane.setLeft(quantityLabel);
+		orderPane.setRight(quantities);
+		BorderPane buyOrSell = new BorderPane();
 		Button buyButton = new Button("Buy");
 		buyButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                // create new window for buying/selling and inserting 
-            	exchange.getSmartTrader().buy(client, quantity, company);
+            	//exchange.getSmartTrader().buy(selectedClient, //quantities, company);
+            	// need to test for no client selected
             }
         });
 		Button sellButton = new Button("Sell");
-		sellButton.setOnAction(new EventHandler<ActionEvent>() {
+		buyOrSell.setLeft(buyButton);
+		buyOrSell.setRight(sellButton);
+		orderPane.setBottom(buyOrSell);
+		Scene newOrderScene = new Scene(orderPane, 200, 200);
+		makeNewOrder.setScene(newOrderScene);
+		
+		makeNewOrder.show();
+		return makeNewOrder;
+    }
+    
+    private MenuBar createMenu()
+    {
+		Menu menu = new Menu("Clients");
+        MenuItem client1 = new MenuItem("Norbert DaVinci");
+        client1.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                // Trader.sell
+            	// need to add a field somewhere in the code where all clients are stored
+            	// selectedClient = "Norbert DaVinci";
             }
         });
-		Label buyValueLabel = new Label(buyValue);
-		Label sellValueLabel = new Label(sellValue);
-		Label upOrDown = new Label(upOrDownArrow);
-		upOrDown.setFont(new Font(20));
-		
-		commodity.setTop(commodityNameLabel);
-		commodity.setCenter(upOrDown);
-
-		// separate each commodity cell in left and right side
-		BorderPane leftPaneCommodity = new BorderPane();
-		leftPaneCommodity.setTop(buyButton);
-		leftPaneCommodity.setBottom(buyValueLabel);
-		
-		commodity.setLeft(leftPaneCommodity);
-		
-		BorderPane rightPaneCommodity = new BorderPane();
-		rightPaneCommodity.setTop(sellButton);
-		rightPaneCommodity.setBottom(sellValueLabel);
-		
-		commodity.setRight(rightPaneCommodity);
-		
-		return commodity;
+        MenuItem client2 = new MenuItem("Justine Thyme");
+        client2.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+            	//selectedClient = "Justine Thyme";
+            }
+        });
+        menu.getItems().add(client1);
+        menu.getItems().add(client2);
+        MenuBar menuBar = new MenuBar();
+        menuBar.getMenus().add(menu);
+        return menuBar;
     }
 
     public static void main(String[] args)
