@@ -65,6 +65,11 @@ public class TradingExchange {
 		return events;
 	}
 	
+	public LinkedList<Company> getCompanies()
+	{
+		return companies;
+	}
+	
 	public void tradeSim()
 	{
 		

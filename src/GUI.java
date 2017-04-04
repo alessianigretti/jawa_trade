@@ -82,10 +82,10 @@ public class GUI extends Application
         
         // newsfeed panel
         BorderPane rightPane = new BorderPane();
-        rightPane.setMaxHeight(735);
+        rightPane.setMaxHeight(720);
         rightPane.setMinWidth(250);
         ScrollPane newsfeedScroll = new ScrollPane();
-        newsfeedScroll.setMaxHeight(735);
+        newsfeedScroll.setMaxHeight(720);
         newsfeedScroll.setStyle("-fx-border-color: #606060;"
         		+ "-fx-border-width: 0 3 3 3;");
 	    	GridPane allNews = displayAllNews();
@@ -94,16 +94,14 @@ public class GUI extends Application
         
         // commodities panel
         BorderPane leftPane = new BorderPane();
-        leftPane.setMaxHeight(735);
+        leftPane.setMaxHeight(720);
+        rightPane.setMinWidth(250);
         ScrollPane commoditiesScroll = new ScrollPane();
-        commoditiesScroll.setMaxHeight(735);
+        commoditiesScroll.setMaxSize(300, 720);
         commoditiesScroll.setStyle("-fx-border-color: #606060;"
         		+ "-fx-border-width: 0 3 3 3;");
         	GridPane allCommodities = displayAllCommodities();
 		commoditiesScroll.setContent(allCommodities);
-		//TextField searchBar = new TextField("Search...");
-        //searchBar.setPrefWidth(215);
-		//commodities.setTop(searchBar);
         leftPane.setCenter(commoditiesScroll);
 		
         // bottom of the chart
@@ -148,13 +146,10 @@ public class GUI extends Application
         MenuBar menuBar = createMenu();
         topPane.setTop(menuBar);
         BorderPane clientPane = new BorderPane();
-        clientPane.setStyle("-fx-border-color: #606060;"
-        		+ "-fx-border-width: 0 0 3 0;"
-        		+ "-fx-background-color: #404040;"
-        		+ "-fx-font-color: #A9A9A9;"
-        		+ "-fx-font: 16px \"Symbol\";");
         clientPane.setPadding(new Insets(15, 0, 15, 10));
         Label clientLabel = new Label("Client: ");
+        clientPane.setStyle("-fx-border-color: #606060;"
+        		+ "-fx-border-width: 3 3 3 3;");
         clientPane.setLeft(clientLabel);
         topPane.setBottom(clientPane);
         
@@ -169,8 +164,9 @@ public class GUI extends Application
         root.setRight(rightPane);
         
         Scene scene = new Scene(root, 1200, 800);
+        scene.getStylesheets().add("resources/com/guigarage/flatterfx/flatterfx.css");
         
-        stage.setResizable(false);
+        //stage.setResizable(false);
         stage.setTitle("JAWATrade");
         stage.setScene(scene);
         stage.show();
@@ -181,6 +177,7 @@ public class GUI extends Application
     	// insert main grid for all news
     	GridPane allNews = new GridPane();
 		allNews.setPrefSize(215, 200);
+		allNews.setMinWidth(215);
 		allNews.setPadding(new Insets(10, 10, 10, 10));
 	
 		for (int i = 0; i < exchange.getEvents().size(); i++)
@@ -206,6 +203,7 @@ public class GUI extends Application
 			newsNameLabel.setFont(new Font(20));
 		// create label for content of news
 		Label newsContentLabel = new Label(newsContent);
+		//newsContentLabel.getStyleClass().add("label");
 		newsContentLabel.setMaxSize(180, 60);
 		newsContentLabel.setMinSize(180, 60);
 		newsContentLabel.setTextAlignment(TextAlignment.JUSTIFY);
@@ -219,40 +217,29 @@ public class GUI extends Application
     {
     	// insert main grid for all commodities
     	GridPane allCommodities = new GridPane();
-		allCommodities.setPrefSize(200, 100);
-		allCommodities.setPadding(new Insets(10, 0, 10, 10));
+		allCommodities.setPrefWidth(215);
+		allCommodities.setMinWidth(215);
+		allCommodities.setMaxWidth(215);
+		allCommodities.setPadding(new Insets(10, 10, 10, 10));
 	
-		// create new cells and add them to main grid
-		BorderPane commodity1 = createCommodityCell("Commodity 1", "1234.56", "^");
-        allCommodities.add(commodity1, 0, 1);
-        allCommodities.add(new Label(), 0, 2);
-        
-        BorderPane commodity2 = createCommodityCell("Commodity 2", "1234.56", "^");
-        allCommodities.add(commodity2, 0, 3);
-        allCommodities.add(new Label(), 0, 4);
-        
-        BorderPane commodity3 = createCommodityCell("Commodity 3", "1234.56", "^");
-        allCommodities.add(commodity3, 0, 5);
-        allCommodities.add(new Label(), 0, 6);
-        
-        BorderPane commodity4 = createCommodityCell("Commodity 4", "1234.56", "^");
-        allCommodities.add(commodity4, 0, 7);
-        allCommodities.add(new Label(), 0, 8);
-        
-        BorderPane commodity5 = createCommodityCell("Commodity 5", "1234.56", "^");
-        allCommodities.add(commodity5, 0, 9);
-        allCommodities.add(new Label(), 0, 10);
+		for (int i = 0; i < exchange.getCompanies().size(); i++)
+		{
+			// create new cells and add them to main grid
+			BorderPane commodity = createCommodityCell(exchange.getCompanies().get(i).getName(), exchange.getCompanies().get(i).getCurrentShareValue(), "^");
+	        allCommodities.add(commodity, 0, i * 2 + 1);
+	        allCommodities.add(new Label(), 0, i * 2);
+		}
         
         allCommodities.setAlignment((Pos.TOP_CENTER));
         
         return allCommodities;
     }
     
-    private BorderPane createCommodityCell(String commodityName, String shareValue, String trend)
+    private BorderPane createCommodityCell(String commodityName, double shareValue, String trend)
     {
     	// create cell in commodities grid
     	BorderPane commodity = new BorderPane();
-    		commodity.setPrefSize(200, 50);
+    	commodity.setMaxWidth(230);
     	// create label for name of commodity
 		Label commodityNameLabel = new Label(commodityName);
 			commodityNameLabel.setFont(new Font(20));
@@ -264,7 +251,7 @@ public class GUI extends Application
             	Stage newOrderStage = createNewOrder();
             }
         });
-		Label shareValueLabel = new Label(shareValue);
+		Label shareValueLabel = new Label(String.valueOf(shareValue));
 		Label trendLabel = new Label(trend);
 			trendLabel.setFont(new Font(20));
 		
@@ -313,8 +300,25 @@ public class GUI extends Application
     
     private MenuBar createMenu()
     {
-		Menu menu = new Menu("Clients");
-        MenuItem client1 = new MenuItem("Norbert DaVinci");
+		Menu traderMenu = new Menu("Traders");
+		MenuItem trader1 = new MenuItem("Random Trader");
+		trader1.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+            	// need to add a field somewhere in the code where all clients are stored
+            	// selectedClient = "Norbert DaVinci";
+            }
+        });
+		MenuItem trader2 = new MenuItem("Intelligent Trader");
+		trader2.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+            	// need to add a field somewhere in the code where all clients are stored
+            	// selectedClient = "Norbert DaVinci";
+            }
+        });
+		Menu clientMenu = new Menu("Clients");
+		MenuItem client1 = new MenuItem("Norbert DaVinci");
         client1.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -329,10 +333,13 @@ public class GUI extends Application
             	//selectedClient = "Justine Thyme";
             }
         });
-        menu.getItems().add(client1);
-        menu.getItems().add(client2);
+        traderMenu.getItems().add(trader1);
+        traderMenu.getItems().add(trader2);
+        clientMenu.getItems().add(client1);
+        clientMenu.getItems().add(client2);
         MenuBar menuBar = new MenuBar();
-        menuBar.getMenus().add(menu);
+        menuBar.getMenus().add(traderMenu);
+        menuBar.getMenus().add(clientMenu);
         return menuBar;
     }
 
