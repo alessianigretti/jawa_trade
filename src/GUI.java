@@ -82,12 +82,13 @@ public class GUI extends Application
         
         // newsfeed panel
         BorderPane rightPane = new BorderPane();
-        //rightPane.setBorder(new Border());
         rightPane.setMaxHeight(760);
         rightPane.setMinWidth(250);
         rightPane.setPadding(new Insets(10, 10, 10, 0));
         ScrollPane newsfeedScroll = new ScrollPane();
         newsfeedScroll.setMaxHeight(760);
+        newsfeedScroll.setStyle("-fx-border-color: gray;"
+        		+ "-fx-border-width: 3;");
 	    	GridPane allNews = displayAllNews();
         newsfeedScroll.setContent(allNews);
         rightPane.setCenter(newsfeedScroll);
@@ -98,6 +99,8 @@ public class GUI extends Application
         leftPane.setPadding(new Insets(10, 0, 10, 10));
         ScrollPane commoditiesScroll = new ScrollPane();
         commoditiesScroll.setMaxHeight(760);
+        commoditiesScroll.setStyle("-fx-border-color: gray;"
+        		+ "-fx-border-width: 3;");
         	GridPane allCommodities = displayAllCommodities();
 		commoditiesScroll.setContent(allCommodities);
 		//TextField searchBar = new TextField("Search...");
@@ -147,7 +150,10 @@ public class GUI extends Application
         MenuBar menuBar = createMenu();
         topPane.setTop(menuBar);
         BorderPane clientPane = new BorderPane();
-        clientPane.setPadding(new Insets(5, 0, 0, 10));
+        clientPane.setStyle("-fx-border-color: gray;"
+        		+ "-fx-border-width: 0 0 3 0;"
+        		+ "-fx-background-color: gray");
+        clientPane.setPadding(new Insets(15, 0, 15, 10));
         Label clientLabel = new Label("Client: ");
         clientPane.setLeft(clientLabel);
         topPane.setBottom(clientPane);
