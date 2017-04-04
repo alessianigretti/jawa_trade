@@ -1,18 +1,14 @@
 /**
- * 
- */
-
-/**
  * @author jon
  *
  */
+import java.util.LinkedList;
 public class Company {
 	
 	private String name;
 	private int  shareCount;
-	private double netWorth, currentShareValue;
-	//private LinkedList()<double> trends;
-	
+	private double netWorth, currentShareValue; 
+	private LinkedList shareValueList = new LinkedList();
 	
 	public Company(String name,  int shareCount, double netWorth, double currentShareValue) 
 	{
@@ -20,6 +16,7 @@ public class Company {
 		this.shareCount = shareCount;
 		this.netWorth = netWorth;
 		this.currentShareValue = currentShareValue;
+		shareValueList.add(currentShareValue);	
 	}
 
 	public void setName(String name) 

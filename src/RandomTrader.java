@@ -15,6 +15,8 @@ public class RandomTrader extends Trader {
 		BALANCED, AGGRESSIVE_BUY, AGGRESSIVE_SELL
 	}
 	
+	private Mode[] ranMode = Mode.values();
+	
 	private Mode mode;
 	
 	private RandomTrader(Mode mode)
