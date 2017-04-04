@@ -9,13 +9,19 @@ public class Company {
 	private int  shareCount;
 	private double netWorth, currentShareValue; 
 	private LinkedList shareValueList = new LinkedList();
+	/*private enum ShareType
+	{
+		FOOD, HARD, TECH, PROPERTY
+	}*/
+	private String shareType;
 	
-	public Company(String name,  int shareCount, double netWorth, double currentShareValue) 
+	public Company(String name,String shareType,double currentShareValue,int shareCount) 
 	{
 		this.name = name;
 		this.shareCount = shareCount;
-		this.netWorth = netWorth;
-		this.currentShareValue = currentShareValue;
+		setNetWorth();
+		this.netWorth = getNetWorth();
+		this.currentShareValue = currentShareValue/100;
 		shareValueList.add(currentShareValue);	
 	}
 
@@ -40,9 +46,9 @@ public class Company {
 		return shareCount;
 	}
 	
-	public void setNetWorth(double netWorth) 
+	public void setNetWorth() 
 	{
-		this.netWorth = netWorth;
+		this.netWorth = getShareCount()*getCurrentShareValue();
 	}
 	
 	public double getNetWorth() 
@@ -60,10 +66,16 @@ public class Company {
 		return currentShareValue;
 	}
 	
-	public void updateShareValue(double excess)
+	/*public void updateShareValue(double excess)
 	{
 		setNetWorth((excess/shareCount)*getCurrentShareValue()); // supply vs demand
+	}*/
+	
+	public String getShareType()
+	{
+		return shareType;
 	}
+	
 	
 	
 }

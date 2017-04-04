@@ -78,13 +78,21 @@ public class TradingExchange {
 	
 	private void setUpCompanies()
 	{
+		String[] myEntries;
 		try{
-		 CSVReader reader = new CSVReader(new FileReader("companies.csv"));
-	     try {
-			List<String[]> myEntries = reader.readAll();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+			 CSVReader reader = new CSVReader(new FileReader("companies.csv"));
+		     try {
+				String[] next = reader.readNext();
+				while(next != null)
+				{
+					myEntries = next;
+					Company company = new Company(myEntries[0],myEntries[1],Double.valueOf(myEntries[2]),Integer.valueOf(myEntries[3]));
+					companies.add(company);
+					next = reader.readNext();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		catch (FileNotFoundException e){
 			e.printStackTrace();

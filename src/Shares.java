@@ -8,11 +8,8 @@ public class Shares{
 	private double currentPrice;
 	private double shareValue;
 	
-	private enum ShareType
-	{
-		FOOD, HARD, TECH, PROPERTY
-	}
-	private ShareType shareType;
+	
+	
 	
 	public Shares(int size, int number, Company company)
 	{
@@ -63,10 +60,6 @@ public class Shares{
 		return company.getName();
 	}
 	
-	public String getShareType()
-	{
-		return String.valueOf(shareType);
-	}
 	
 	public void updateShareValue()
 	{
