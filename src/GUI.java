@@ -304,7 +304,7 @@ public class GUI extends Application
     private Stage createNewOrder()
     {
     	Stage makeNewOrder = new Stage();
-		BorderPane orderPane = new BorderPane();
+    	BorderPane orderPane = new BorderPane();
 		orderPane.setPadding(new Insets(10, 30, 10, 30));
 		Label quantityLabel = new Label("Quantity:");
 		quantityLabel.setFont(new Font(20));
@@ -325,6 +325,7 @@ public class GUI extends Application
 		buyOrSell.setRight(sellButton);
 		orderPane.setBottom(buyOrSell);
 		Scene newOrderScene = new Scene(orderPane, 200, 200);
+		newOrderScene.getStylesheets().add("resources/com/guigarage/flatterfx/flatterfx.css");
 		makeNewOrder.setScene(newOrderScene);
 		
 		makeNewOrder.show();

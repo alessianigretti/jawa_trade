@@ -263,12 +263,12 @@
  *                                                                             *
  ******************************************************************************/
 .combo-box-base {
-    -fx-skin: "com.guigarage.flatterfx.skin.FlatterComboBoxSkin";
+    -fx-background-color: -dark;
 }
 
 .popup-overlay {
-    -fx-background-color: -flatter-red;
-    -fx-border-color: -flatter-red, rgb(255.0, 255.0, 255.0, 0.6);
+    -fx-background-color: -dark;
+    -fx-border-color: white;
     -fx-border-width: 8.0;
     -fx-background-radius:20.0;
     -fx-border-radius:15.5, 15.5;
@@ -296,7 +296,7 @@
 
 
 .content-background {
-    -fx-background-color: -flatter-red;
+    -fx-background-color: -dark;
     -fx-background-radius:0.0 0.0 11.0 11.0;
     -fx-padding: 0 10 10 10;
 }
@@ -309,7 +309,7 @@
  ******************************************************************************/
 .combo-box-base,
 .choice-box {
-    -fx-background-color: -flatter-red;
+    -fx-background-color: -dark;
     -fx-background-insets:  0.0;
     -fx-background-radius: 2.0;
     -fx-border-width: 0.0;
@@ -328,12 +328,12 @@
 
 .combo-box-base:focused,
 .choice-box:focused{
-    -fx-background-color: derive(-flatter-red, 50.0%);
+    -fx-background-color: derive(-dark, 50.0%);
 }
 
 .combo-box-base > .arrow-button > .arrow,
 .choice-box > .open-button > .arrow {
-    -fx-background-color: white;
+    -fx-background-color: -dark;
     -fx-padding: 0.2em;
     -fx-effect:dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.2), 0.0, 0.0, 0.0, 1.0);
 }
@@ -363,7 +363,7 @@
 }
 
 .menu-item:focused {
-    -fx-background-color: rgb(94.0, 203.0, 234.0);
+    -fx-background-color: -dark;
 }
 
 
