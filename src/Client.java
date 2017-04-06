@@ -5,7 +5,7 @@ public class Client
 	private double netWorth; // total cash value of portfolio plus left over investment
 	private Trader trader; // trader that client is connected to
 	private  double investment; // client investment value
-	private final double initialInvestment; // initial investment value;
+	private double initialInvestment; // initial investment value;
 	private double expectedReturn;// expected return on clients investments
 	private LinkedList<Shares> portfolio = new LinkedList(); // collection of shares that the client currently owns
 	private LinkedList<Order> orderList = new LinkedList();
@@ -38,6 +38,26 @@ public class Client
 	public String getLastName()
 	{
 		return lastName;
+	}
+	
+	public void setExpectedReturn(double expectedReturn)
+	{
+		this.expectedReturn = expectedReturn;
+	}
+	
+	public double getExpectedReturn()
+	{
+		return expectedReturn;
+	}
+	
+	public void setInitialInvestment(double initialInvestment)
+	{
+		this.initialInvestment = initialInvestment;
+	}
+	
+	public double getInitialInvestment()
+	{
+		return initialInvestment;
 	}
 	
 	public void setRiskAll(int risk)

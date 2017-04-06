@@ -13,6 +13,7 @@
 
     -flatter-red: rgb(237.0, 68.0, 37.0);
     -flatter-blue: rgb(0.0, 184.0, 222.0);
+    -light-dark: rgb(53.0, 58.0, 63.0);
 }
 
 .mnemonic-underline {
@@ -67,16 +68,16 @@
  ******************************************************************************/
 
 .toggle-button, .button{
-    -fx-background-image: url("custom.jpg");
-    -fx-background-repeat: round; 
-    -fx-background-insets:  0.0;
-    -fx-background-radius: 2.0;
-    -fx-border-width: 0.5;
-    -fx-border-color: white;
-    -fx-padding: 0.7em;
-    -fx-text-fill: white;
-    -fx-alignment: CENTER;
-    -fx-content-display: LEFT;
+   -fx-background-color: -dark;
+   -fx-background-repeat: no-repeat;
+   /*-fx-background-insets: 0.0;
+   -fx-background-radius: 2.0;*/
+   -fx-border-width: 0.5;
+   -fx-border-color: white;
+   -fx-padding: 0.7em;
+   -fx-text-fill: white;
+   -fx-alignment: CENTER;
+   -fx-content-display: LEFT;
 }
 
 .toggle-button:focused,
@@ -107,10 +108,61 @@
  ******************************************************************************/
 
 .scroll-pane {
-	-fx-background: rgb(53.0, 58.0, 63.0);
+	-fx-background: -light-dark;
     -fx-background-insets: 0;
     -fx-padding: 0;
+    -fx-border-color: #606060;
+    -fx-border-width: 0 3 3 3;
 }
+
+
+/*******************************************************************************
+ *                                                                             *
+ * Chart                                                        *
+ *                                                                             *
+ ******************************************************************************/
+
+.chart {
+    -fx-padding: 5px;
+}
+
+.chart-content {
+    -fx-padding: 20px;
+}
+
+.chart-legend-item-symbol {
+	-fx-background-color: grey;
+}
+ 
+.chart-legend-item {
+	-fx-background-color: transparent;
+    -fx-text-fill: black;
+}
+
+.chart-plot-background {
+    -fx-background-color: #e2ecfe;
+}
+
+.chart-vertical-grid-lines {
+    -fx-stroke: #c0c0c0;
+}
+
+.chart-horizontal-grid-lines {
+    -fx-stroke: #c0c0c0;
+}
+
+.chart-alternative-row-fill {
+    -fx-fill: white;
+    -fx-stroke: transparent;
+    -fx-stroke-width: 0;
+}
+
+.axis{
+  -fx-tick-label-font-color: white;
+}
+
+.default-color0.chart-series-line { -fx-stroke: grey; }
+.default-color0.chart-line-symbol { -fx-background-color: grey, white; }
 
 /*******************************************************************************
  *                                                                             *
@@ -128,6 +180,8 @@
 
 .table-view .column-header-background{
     -fx-background-color: -dark;
+    -fx-border-color: #606060;
+    -fx-border-width: 3 0 3 0;
 }
 
 .table-view .column-header-background .label{
@@ -141,7 +195,7 @@
 }
 
 .tab-pane>*.tab-header-area>*.tab-header-background {
-   -fx-background-image: url("custom.jpg");
+   -fx-background-color: -light-dark;
    -fx-background-repeat: round;
 }
 
@@ -149,6 +203,11 @@
 {
     -fx-background-color: -dark;
     -fx-text-fill: white;
+}
+
+.tab-pane {
+	-fx-border-color: #606060;
+    -fx-border-width: 3 0 3 0;
 }
 
 .tab:hover
@@ -172,7 +231,7 @@
 }
 
 .table-row-cell{
-    -fx-background-color: -fx-table-cell-border-color, rgb(53.0, 58.0, 63.0);
+    -fx-background-color: -fx-table-cell-border-color, -light-dark;
 }
 
 /*******************************************************************************
@@ -182,7 +241,7 @@
  ******************************************************************************/
 
 .menu-bar { 
-   -fx-background-image: url("custom.jpg");
+   -fx-background-color: -dark;
    -fx-background-repeat: round;
 }
 
