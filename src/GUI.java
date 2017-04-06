@@ -157,6 +157,8 @@ public class GUI extends Application
         scene.getStylesheets().add("/resources/com/guigarage/flatterfx/flatterfx.css");
         
         stage.setResizable(false);
+        stage.minWidthProperty().bind(scene.heightProperty().divide(4));
+        stage.minHeightProperty().bind(scene.widthProperty().divide(4));
         stage.setTitle("Stock Market Simulation by JAWA Trade");
         stage.setScene(scene);
         stage.show();
