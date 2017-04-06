@@ -1,6 +1,7 @@
 import java.awt.Dimension;
 import java.awt.Paint;
 import java.awt.Panel;
+import java.awt.Toolkit;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -52,6 +53,9 @@ public class GUI extends Application
     private String selectedClient = "No client selected.";
     private String selectedNetWorth = "No net worth.";
     private TradingExchange exchange = new TradingExchange();
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    double width = screenSize.getWidth();
+    double height = screenSize.getHeight();
 	
     @Override
     public void start(Stage stage) {
@@ -153,12 +157,12 @@ public class GUI extends Application
       	th.setDaemon(true);
       	th.start();
         
-        Scene scene = new Scene(root, 1200, 832);
+        Scene scene = new Scene(root, width, height);
         scene.getStylesheets().add("/resources/com/guigarage/flatterfx/flatterfx.css");
         
         stage.setResizable(false);
-        stage.minWidthProperty().bind(scene.heightProperty().divide(4));
-        stage.minHeightProperty().bind(scene.widthProperty().divide(4));
+        //stage.minWidthProperty().bind(scene.heightProperty().divide(4));
+        //stage.minHeightProperty().bind(scene.widthProperty().divide(4));
         stage.setTitle("Stock Market Simulation by JAWA Trade");
         stage.setScene(scene);
         stage.show();
