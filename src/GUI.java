@@ -57,8 +57,8 @@ public class GUI extends Application
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     double width = Screen.getPrimary().getBounds().getWidth();
     double height = Screen.getPrimary().getBounds().getHeight();
-	double scale = 1.2;
-	double scale2 = 1;
+	double scale = (832/Screen.getPrimary().getBounds().getHeight())*1.1;
+	double scale2 = (1200/Screen.getPrimary().getBounds().getWidth())*1.1;
     @Override
     public void start(Stage stage) {
     	System.out.println("width: " + width);
