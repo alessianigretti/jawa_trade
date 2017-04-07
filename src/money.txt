@@ -1,0 +1,15 @@
+change in share price  = (supply vs demand/num of shares) * share price
+
+if there is an over demand in stock 
+shares purchased = num available to sell * ( desired purchase amount/num wanted to buy)
+
+if there is an over supply in stock
+shares sold = num wanted to buy * (desired sale amount/num available to sell)
+
+start --- orders...update...new values....
+
+everyone either puts up buy orders or sells what they have
+
+go through each client list 
+
+orders / shares differentiation!!!
