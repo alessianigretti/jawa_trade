@@ -69,6 +69,8 @@ public class GUI extends Application
     	this.stage = stage;
     	
     	BorderPane centre = new BorderPane();
+    	centre.setMaxWidth(width/(width/(650/scale2)));
+    	centre.setMinWidth(width/(width/(650/scale2)));
     	// defining the axes
         final NumberAxis xAxis = new NumberAxis();
         final NumberAxis yAxis = new NumberAxis();
@@ -302,6 +304,7 @@ public class GUI extends Application
             public void handle(ActionEvent event) {
             	//exchange.getSmartTrader().buy(selectedClient, quantities, exchange.);
             	// need to test for no client selected
+            	makeNewOrder.hide();
             }
         });
 		
@@ -311,6 +314,7 @@ public class GUI extends Application
             public void handle(ActionEvent event) {
             	//exchange.getSmartTrader().buy(selectedClient, //quantities, company);
             	// need to test for no client selected
+            	makeNewOrder.hide();
             }
         });
 		
@@ -530,6 +534,7 @@ public class GUI extends Application
 	       	public void handle(ActionEvent event) {
 	       		exchange.setCurrentClient(new Client(fNameField.getText(), lNameField.getText(), Double.valueOf(expectedReturnField.getText()), Double.valueOf(initialInvestmentField.getText())));
 	       		selectedClient = exchange.getCurrentClient();
+	       		addCustomClient.hide();
 	       	}
 	    });
 		
