@@ -510,7 +510,7 @@ public class GUI extends Application
 		form.setCenter(clientPane);
 		form.setBottom(bottomPane);
 		
-		Scene addClientScene = new Scene(form, width/(width/(300/scale2)), height/(height/(250/scale)));
+		Scene addClientScene = new Scene(form);
 		addClientScene.getStylesheets().add("resources/com/guigarage/flatterfx/flatterfx.css");
 		
 		addCustomClient.sizeToScene();
