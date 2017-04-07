@@ -24,6 +24,11 @@ public class Company {
 		this.currentShareValue = currentShareValue/100;
 		shareValueList.add(currentShareValue);	
 	}
+	
+	public LinkedList getShareValueList()
+	{
+		return shareValueList;	// i assume that this is the list of possible quantities that you can get for a given company?
+	}
 
 	public void setName(String name) 
 	{
@@ -34,7 +39,6 @@ public class Company {
 	{
 		return name;
 	}
-	
 	
 	public void updateShareCount(int shareCount) 
 	{

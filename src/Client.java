@@ -20,6 +20,16 @@ public class Client
 		this.expectedReturn = expectedReturn;
 	}
 	
+	public Client(String firstName, String lastName, double expectedReturn, double initialInvestment)
+	{
+		// add error handling if one of the parameters is not passed in
+		
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.expectedReturn = expectedReturn;
+		this.initialInvestment = initialInvestment;
+	}
+	
 	public void setFirstName(String firstName)
 	{
 		this.firstName = firstName;
@@ -38,6 +48,16 @@ public class Client
 	public String getLastName()
 	{
 		return lastName;
+	}
+	
+	public String getFullName()
+	{
+		if (firstName == null && lastName == null)
+		{
+			return "No client selected.";
+		} else {
+			return firstName + " " + lastName;
+		}
 	}
 	
 	public void setExpectedReturn(double expectedReturn)
@@ -95,5 +115,10 @@ public class Client
 			netWorth = netWorth + portfolio.get(i).getShareValue();
 		}
 		netWorth = netWorth + investment;
+	}
+	
+	public double getNetWorth()
+	{
+		return netWorth;
 	}
 }

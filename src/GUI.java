@@ -9,6 +9,8 @@ import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.property.Property;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -50,22 +52,24 @@ import javafx.scene.control.MenuItem;
 public class GUI extends Application
 {
     private Stage stage;
-    private String selectedTrader = "No trader selected.";
-    private String selectedClient = "No client selected.";
-    private String selectedNetWorth = "No net worth.";
+    
     private TradingExchange exchange = new TradingExchange();
+    private String selectedTrader = "No trader selected.";	// to replace with type of trader when available
+    private Client selectedClient = new Client(null, null, 0, 0);
+    
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     double width = Screen.getPrimary().getBounds().getWidth() / 1.5;
     double height = Screen.getPrimary().getBounds().getHeight() / 1.3;
 	double scale = (832/height)*1.1;
 	double scale2 = (1200/width)*1.1;
+	
+	
     @Override
     public void start(Stage stage) {
-    	System.out.println("width: " + width);
-    	System.out.println("height: " + height);
     	this.stage = stage;
-    	stage.setTitle("Time Series Chart");
-        // defining the axes
+    	
+    	BorderPane centre = new BorderPane();
+    	// defining the axes
         final NumberAxis xAxis = new NumberAxis();
         final NumberAxis yAxis = new NumberAxis();
         xAxis.setLabel("Month");
@@ -94,16 +98,19 @@ public class GUI extends Application
         
         lineChart.getData().add(series);
         
+        centre.setTop(lineChart);
+        
         // newsfeed panel
         BorderPane rightPane = createRightPane();
         
         // commodities panel
         BorderPane leftPane = createLeftPane();
 		
-        // bottom of the chart
+        // orders panel
         TabPane bottomPane = createBottomPane();
+        centre.setBottom(bottomPane);
         
-        // top menu
+        // top menu and info panel
         BorderPane topPane = new BorderPane();
         MenuBar menuBar = createMenu();
         topPane.setTop(menuBar);
@@ -113,14 +120,14 @@ public class GUI extends Application
         traderLabel.setFont(new Font(20/((scale+scale2)/2)));
         Label clientLabel = new Label("Client: " + selectedClient);
         clientLabel.setFont(new Font(20/((scale+scale2)/2)));
-        Label netWorth = new Label("Net Worth: " + selectedNetWorth);
-        netWorth.setFont(new Font(20/((scale+scale2)/2)));
+        Label netWorthLabel = new Label("Net Worth: " + selectedClient.getNetWorth());
+        netWorthLabel.setFont(new Font(20/((scale+scale2)/2)));
         BorderPane topLeftPanel = new BorderPane();
         BorderPane infoPanel = new BorderPane();
         topLeftPanel.setMaxWidth(width/(width/(400/scale2)));
         topLeftPanel.setMinWidth(width/(width/(400/scale2)));
         topLeftPanel.setLeft(infoPanel);
-        topLeftPanel.setRight(netWorth);
+        topLeftPanel.setRight(netWorthLabel);
         topLeftPanel.setPadding(new Insets(0, 10, 0, 0));
         topLeftPanel.setAlignment(traderLabel, Pos.CENTER_RIGHT);
         topLeftPanel.setAlignment(clientLabel, Pos.CENTER_RIGHT);
@@ -131,18 +138,15 @@ public class GUI extends Application
         		+ "-fx-font-size: 16;");
         clientPane.setRight(topLeftPanel);
         topPane.setBottom(clientPane);
-        System.out.println(infoPanel.getHeight());
         
         // put together all elements
         BorderPane root = new BorderPane();
-        BorderPane centre = new BorderPane();
         root.setCenter(centre);
-        centre.setTop(lineChart);
-        centre.setBottom(bottomPane);
         root.setTop(topPane);
         root.setLeft(leftPane);
         root.setRight(rightPane);
         
+        // real-time updates
         Task task = new Task<Void>() {
       	  @Override
       	  public Void call() throws Exception {
@@ -153,7 +157,8 @@ public class GUI extends Application
       	        @Override
       	        public void run() {
       	        	traderLabel.setText("Trader: " + selectedTrader);
-      	        	clientLabel.setText("Client: " + selectedClient);
+      	        	clientLabel.setText("Client: " + selectedClient.getFullName());
+      	        	netWorthLabel.setText("Net Worth: " + selectedClient.getNetWorth());
       	        }
       	      });
       	      i++;
@@ -165,9 +170,11 @@ public class GUI extends Application
       	th.setDaemon(true);
       	th.start();
         
+      	// set up scene
         Scene scene = new Scene(root, width, height);
         scene.getStylesheets().add("/resources/com/guigarage/flatterfx/flatterfx.css");
         
+        // set up stage
         stage.setResizable(false);
         stage.sizeToScene();
         stage.setTitle("Stock Market Simulation by JAWA Trade");
@@ -249,7 +256,7 @@ public class GUI extends Application
 		newOrderButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-            	Stage newOrderStage = createNewOrder();
+            	Stage newOrderStage = createNewOrder(commodityName);
             }
         });
 		
@@ -270,25 +277,30 @@ public class GUI extends Application
 		return commodity;
     }
     
-    private Stage createNewOrder()
+    private Stage createNewOrder(String commodityName)
     {
     	Stage makeNewOrder = new Stage();
     	
     	BorderPane orderPane = new BorderPane();
 		orderPane.setPadding(new Insets(10, 30, 10, 30));
 		
-		Label quantityLabel = new Label("Quantity:");
+		Label quantityLabel = new Label("Quantity: ");
 		quantityLabel.setFont(new Font(20/((scale+scale2)/2)));
 		
 		ComboBox quantities = new ComboBox();
+		//for (int i = 0; i < exchange.getCompanies().get(index).getShareValueList().size(); i++)
+		//{
+		//		quantities.getItems().add(exchange.getCompanies().get(index).getShareValueList().get(i);
+		//}
 		
 		BorderPane buyOrSell = new BorderPane();
+		buyOrSell.setPadding(new Insets(20, 0, 0, 0));
 		
 		Button buyButton = new Button("Buy");
 		buyButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-            	//exchange.getSmartTrader().buy(selectedClient, //quantities, company);
+            	//exchange.getSmartTrader().buy(selectedClient, quantities, exchange.);
             	// need to test for no client selected
             }
         });
@@ -309,7 +321,7 @@ public class GUI extends Application
 		orderPane.setRight(quantities);
 		orderPane.setBottom(buyOrSell);
 		
-		Scene newOrderScene = new Scene(orderPane, width/(width/(200/scale2)), height/(height/(200/scale)));
+		Scene newOrderScene = new Scene(orderPane);
 		newOrderScene.getStylesheets().add("resources/com/guigarage/flatterfx/flatterfx.css");
 		
 		makeNewOrder.sizeToScene();
@@ -346,7 +358,8 @@ public class GUI extends Application
         client1.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-            	selectedClient = "Norbert DaVinci";
+            	exchange.setCurrentClient(new Client("Norbert", "DaVinci", 123, 123));
+            	selectedClient = exchange.getCurrentClient();
             }
         });
         
@@ -354,7 +367,8 @@ public class GUI extends Application
         client2.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-            	selectedClient = "Justine Thyme";
+            	exchange.setCurrentClient(new Client("Justine", "Thyme", 123, 123));
+            	selectedClient = exchange.getCurrentClient();
             }
         });
         
@@ -473,6 +487,7 @@ public class GUI extends Application
     	form.setPadding(new Insets(15));
     	
     	GridPane clientPane = new GridPane();
+    	clientPane.setPadding(new Insets(10, 5, 5, 5));
 		
 		// content of grid
 		Label fName = new Label("First Name: ");
@@ -499,7 +514,24 @@ public class GUI extends Application
 		bottomPane.setMinWidth(width/(width/(200/scale2)));
 		
 		Button clear = new Button("Clear");
+		clear.setOnAction(new EventHandler<ActionEvent>() {
+	       	@Override
+	       	public void handle(ActionEvent event) {
+	       		fNameField.setText("");
+	       		lNameField.setText("");
+	       		expectedReturnField.setText("");
+	       		initialInvestmentField.setText("");
+	       	}
+	    });
+		
 		Button confirm = new Button("Confirm");
+		confirm.setOnAction(new EventHandler<ActionEvent>() {
+	       	@Override
+	       	public void handle(ActionEvent event) {
+	       		exchange.setCurrentClient(new Client(fNameField.getText(), lNameField.getText(), Double.valueOf(expectedReturnField.getText()), Double.valueOf(initialInvestmentField.getText())));
+	       		selectedClient = exchange.getCurrentClient();
+	       	}
+	    });
 		
 		bottomPane.setAlignment(clear, Pos.CENTER);
 		bottomPane.setAlignment(confirm, Pos.CENTER);
