@@ -110,8 +110,11 @@ public class GUI extends Application
         BorderPane clientPane = new BorderPane();
         clientPane.setPadding(new Insets(15, 0, 15, 10));
         Label traderLabel = new Label("Trader: " + selectedTrader);
+        traderLabel.setFont(new Font(20/((scale+scale2)/2)));
         Label clientLabel = new Label("Client: " + selectedClient);
+        clientLabel.setFont(new Font(20/((scale+scale2)/2)));
         Label netWorth = new Label("Net Worth: " + selectedNetWorth);
+        netWorth.setFont(new Font(20/((scale+scale2)/2)));
         BorderPane topLeftPanel = new BorderPane();
         BorderPane infoPanel = new BorderPane();
         topLeftPanel.setMaxWidth(width/(width/(400/scale2)));
@@ -446,16 +449,16 @@ public class GUI extends Application
         table.setEditable(false);
         
         TableColumn instrumentsOrders = new TableColumn("Instruments");
-        instrumentsOrders.setMinWidth(100);
+        instrumentsOrders.setMinWidth(width/(width/(100/scale2)));
         
         TableColumn quantityOrders = new TableColumn("Quantity");
-        quantityOrders.setMinWidth(100);
+        quantityOrders.setMinWidth(width/(width/(100/scale2)));
         
         TableColumn buyOrSellOrders = new TableColumn("Buy/Sell");
-        buyOrSellOrders.setMinWidth(100);
+        buyOrSellOrders.setMinWidth(width/(width/(100/scale2)));
         
         TableColumn priceOrders = new TableColumn("Price");
-        priceOrders.setMinWidth(100);
+        priceOrders.setMinWidth(width/(width/(100/scale2)));
         
         table.getColumns().addAll(instrumentsOrders, quantityOrders, buyOrSellOrders, priceOrders);
         
@@ -492,8 +495,8 @@ public class GUI extends Application
 		clientPane.add(initialInvestmentField, 1, 3);
 
 		BorderPane bottomPane = new BorderPane();
-		bottomPane.setMaxWidth(200);
-		bottomPane.setMinWidth(200);
+		bottomPane.setMaxWidth(width/(width/(200/scale2)));
+		bottomPane.setMinWidth(width/(width/(200/scale2)));
 		
 		Button clear = new Button("Clear");
 		Button confirm = new Button("Confirm");
@@ -507,7 +510,7 @@ public class GUI extends Application
 		form.setCenter(clientPane);
 		form.setBottom(bottomPane);
 		
-		Scene newOrderScene = new Scene(form, 300, 230/scale);
+		Scene newOrderScene = new Scene(form, width/(width/(300/scale2)), height/(height/(230/scale)));
 		newOrderScene.getStylesheets().add("resources/com/guigarage/flatterfx/flatterfx.css");
 		
 		addCustomClient.setTitle("Add Custom Client");
