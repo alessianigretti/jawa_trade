@@ -198,7 +198,7 @@ public class GUI extends Application
     	
     	// create label for name of news
 		Label newsNameLabel = new Label(newsDate);
-		newsNameLabel.setFont(new Font(20));
+		newsNameLabel.setFont(new Font(20/((scale+scale2)/2)));
 		
 		// create label for content of news
 		Label newsContentLabel = new Label(newsContent);
@@ -240,7 +240,7 @@ public class GUI extends Application
     	
     	// create label for name of commodity
 		Label commodityNameLabel = new Label(commodityName);
-		commodityNameLabel.setFont(new Font(20));
+		commodityNameLabel.setFont(new Font(20/((scale+scale2)/2)));
 		
 		// create content for commodity cell
 		Button newOrderButton = new Button("New Order");
@@ -254,7 +254,7 @@ public class GUI extends Application
 		Label shareValueLabel = new Label(String.valueOf(shareValue));
 		
 		Label trendLabel = new Label(trend);
-		trendLabel.setFont(new Font(20));
+		trendLabel.setFont(new Font(20/((scale+scale2)/2)));
 		
 		// separate each commodity cell in left and right side
 		BorderPane leftPaneCommodity = new BorderPane();
@@ -276,7 +276,7 @@ public class GUI extends Application
 		orderPane.setPadding(new Insets(10, 30, 10, 30));
 		
 		Label quantityLabel = new Label("Quantity:");
-		quantityLabel.setFont(new Font(20));
+		quantityLabel.setFont(new Font(20/((scale+scale2)/2)));
 		
 		ComboBox quantities = new ComboBox();
 		
