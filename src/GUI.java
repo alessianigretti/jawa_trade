@@ -397,12 +397,12 @@ public class GUI extends Application
     private BorderPane createRightPane()
     {
     	BorderPane rightPane = new BorderPane();
-        rightPane.setMaxSize(width/(width/(250/scale2)), height/(height/(730/scale)));
-        rightPane.setMinSize(width/(width/(250/scale2)), height/(height/(730/scale)));
+        rightPane.setMaxSize(width/(width/(250/scale2)), height/(height/(787/scale)));
+        rightPane.setMinSize(width/(width/(250/scale2)), height/(height/(787/scale)));
         
         ScrollPane newsfeedScroll = new ScrollPane();
-        newsfeedScroll.setMaxSize(width/(width/(250/scale2)), height/(height/(730/scale)));
-        newsfeedScroll.setMinSize(width/(width/(250/scale2)), height/(height/(730/scale)));
+        newsfeedScroll.setMaxSize(width/(width/(250/scale2)), height/(height/(787/scale)));
+        newsfeedScroll.setMinSize(width/(width/(250/scale2)), height/(height/(787/scale)));
 	    
         GridPane allNews = displayAllNews();
         
@@ -416,12 +416,12 @@ public class GUI extends Application
     private BorderPane createLeftPane()
     {
     	BorderPane leftPane = new BorderPane();
-        leftPane.setMaxSize(width/(width/(250/scale2)), height/(height/(730/scale)));
-        leftPane.setMinSize(width/(width/(250/scale2)), height/(height/(730/scale)));
+        leftPane.setMaxSize(width/(width/(250/scale2)), height/(height/(787/scale)));
+        leftPane.setMinSize(width/(width/(250/scale2)), height/(height/(787/scale)));
         
         ScrollPane commoditiesScroll = new ScrollPane();
-        commoditiesScroll.setMaxSize(width/(width/(250/scale2)), height/(height/(730/scale)));
-        commoditiesScroll.setMinSize(width/(width/(250/scale2)), height/(height/(730/scale)));
+        commoditiesScroll.setMaxSize(width/(width/(250/scale2)), height/(height/(787/scale)));
+        commoditiesScroll.setMinSize(width/(width/(250/scale2)), height/(height/(787/scale)));
         
         GridPane allCommodities = displayAllCommodities();
 		commoditiesScroll.setContent(allCommodities);
@@ -434,8 +434,8 @@ public class GUI extends Application
     private TabPane createBottomPane()
     {
     	TabPane bottomPane = new TabPane();
-        bottomPane.setMaxHeight(height/(height/(150/scale)));
-        bottomPane.setMinHeight(height/(height/(130/scale)));
+        bottomPane.setMaxHeight(height/(height/(230/scale)));
+        bottomPane.setMinHeight(height/(height/(230/scale)));
         
         Tab ordersTab = new Tab();
         ordersTab.setText("Orders");
