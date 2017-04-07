@@ -55,10 +55,10 @@ public class GUI extends Application
     private String selectedNetWorth = "No net worth.";
     private TradingExchange exchange = new TradingExchange();
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    double width = Screen.getPrimary().getBounds().getWidth();
-    double height = Screen.getPrimary().getBounds().getHeight();
-	double scale = (832/Screen.getPrimary().getBounds().getHeight())*1.1;
-	double scale2 = (1200/Screen.getPrimary().getBounds().getWidth())*1.1;
+    double width = Screen.getPrimary().getBounds().getWidth() / 1.5;
+    double height = Screen.getPrimary().getBounds().getHeight() / 1.3;
+	double scale = (832/height)*1.1;
+	double scale2 = (1200/width)*1.1;
     @Override
     public void start(Stage stage) {
     	System.out.println("width: " + width);
@@ -165,7 +165,7 @@ public class GUI extends Application
         Scene scene = new Scene(root, width, height);
         scene.getStylesheets().add("/resources/com/guigarage/flatterfx/flatterfx.css");
         
-        stage.setResizable(false);
+        //stage.setResizable(false);
         //stage.minWidthProperty().bind(scene.heightProperty().divide(4));
         //stage.minHeightProperty().bind(scene.widthProperty().divide(4));
         stage.setTitle("Stock Market Simulation by JAWA Trade");
