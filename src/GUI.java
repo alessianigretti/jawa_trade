@@ -171,7 +171,7 @@ public class GUI extends Application
       	th.start();
         
       	// set up scene
-        Scene scene = new Scene(root, width, height);
+        Scene scene = new Scene(root);
         scene.getStylesheets().add("/resources/com/guigarage/flatterfx/flatterfx.css");
         
         // set up stage
