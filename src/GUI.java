@@ -168,9 +168,8 @@ public class GUI extends Application
         Scene scene = new Scene(root, width, height);
         scene.getStylesheets().add("/resources/com/guigarage/flatterfx/flatterfx.css");
         
-        //stage.setResizable(false);
-        //stage.minWidthProperty().bind(scene.heightProperty().divide(4));
-        //stage.minHeightProperty().bind(scene.widthProperty().divide(4));
+        stage.setResizable(false);
+        stage.sizeToScene();
         stage.setTitle("Stock Market Simulation by JAWA Trade");
         stage.setScene(scene);
         stage.show();
@@ -313,6 +312,7 @@ public class GUI extends Application
 		Scene newOrderScene = new Scene(orderPane, width/(width/(200/scale2)), height/(height/(200/scale)));
 		newOrderScene.getStylesheets().add("resources/com/guigarage/flatterfx/flatterfx.css");
 		
+		makeNewOrder.sizeToScene();
 		makeNewOrder.setTitle("New Order");
 		makeNewOrder.setScene(newOrderScene);
 		makeNewOrder.show();
@@ -470,10 +470,9 @@ public class GUI extends Application
     	Stage addCustomClient = new Stage();
     	
     	BorderPane form = new BorderPane();
-    	form.setPadding(new Insets(10));
+    	form.setPadding(new Insets(15));
     	
     	GridPane clientPane = new GridPane();
-		clientPane.setPadding(new Insets(10, 30, 10, 30));
 		
 		// content of grid
 		Label fName = new Label("First Name: ");
@@ -495,6 +494,7 @@ public class GUI extends Application
 		clientPane.add(initialInvestmentField, 1, 3);
 
 		BorderPane bottomPane = new BorderPane();
+		bottomPane.setPadding(new Insets(5));
 		bottomPane.setMaxWidth(width/(width/(200/scale2)));
 		bottomPane.setMinWidth(width/(width/(200/scale2)));
 		
@@ -510,11 +510,12 @@ public class GUI extends Application
 		form.setCenter(clientPane);
 		form.setBottom(bottomPane);
 		
-		Scene newOrderScene = new Scene(form, width/(width/(300/scale2)), height/(height/(230/scale)));
-		newOrderScene.getStylesheets().add("resources/com/guigarage/flatterfx/flatterfx.css");
+		Scene addClientScene = new Scene(form, width/(width/(300/scale2)), height/(height/(250/scale)));
+		addClientScene.getStylesheets().add("resources/com/guigarage/flatterfx/flatterfx.css");
 		
-		addCustomClient.setTitle("Add Custom Client");
-		addCustomClient.setScene(newOrderScene);
+		addCustomClient.sizeToScene();
+		addCustomClient.setTitle("New Custom Client");
+		addCustomClient.setScene(addClientScene);
 		addCustomClient.show();
     }
 
