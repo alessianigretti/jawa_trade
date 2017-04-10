@@ -70,6 +70,11 @@ public class TradingExchange {
 		return companies;
 	}
 	
+	public LinkedList<Trader> getTraders()
+	{
+		return traders;
+	}
+	
 	public void tradeSim()
 	{
 		
@@ -79,6 +84,8 @@ public class TradingExchange {
 	{
 		setUpCompanies();
 		setUpEvents();
+		setUpRandomTraders();
+		setUpClients();
 	}
 	
 	private void setUpCompanies()
@@ -106,12 +113,59 @@ public class TradingExchange {
 	
 	private void setUpClients()
 	{
-		
+		String[] myEntries;
+		int i = 0;
+		try{
+			 CSVReader reader = new CSVReader(new FileReader("ClientNames.csv"));
+		     try {
+				String[] next = reader.readNext();
+				while(next != null)
+				{
+					myEntries = next;
+					Client client = new Client(myEntries[0],Double.valueOf(myEntries[1]));
+					String[] myEntries2;
+					try{
+						 CSVReader reader2 = new CSVReader(new FileReader("ClientShares.csv"));
+					     try {
+							String[] next2 = reader2.readNext();
+							int j = 0;
+							while(next2 != null)
+							{
+								myEntries2 = next2;
+								client.initialShare(Integer.valueOf(myEntries2[i]), getCompanies().get(j));
+								j++;
+								next2 = reader2.readNext();
+							}
+							
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					}
+					catch (FileNotFoundException e){
+						e.printStackTrace();
+					}
+					client.calculateNetWorth();
+					System.out.println(client.getName() + " " + client.getNetWorth());
+					traders.get(0).addClient(client);
+					i++;
+					next = reader.readNext();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		catch (FileNotFoundException e){
+			e.printStackTrace();
+		}
 	}
 	
 	private void setUpRandomTraders()
 	{
-		
+		for(int i = 0; i<4; i++)
+		{
+			RandomTrader randomTrader = new RandomTrader(RandomTrader.Mode.BALANCED, i);
+			traders.add(randomTrader);
+		}
 	}
 	
 	public void setUpEvents()
