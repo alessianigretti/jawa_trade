@@ -10,6 +10,7 @@ import java.util.*;
 public class Trader {
 	
 	private LinkedList<Client> clientList;
+	private String name;
 	
 	
 	public Trader()
@@ -17,6 +18,16 @@ public class Trader {
 		this.clientList = new LinkedList();
 	}
 	
+	public void setTraderName(String name)
+	{
+		this.name = name;
+	}
+	
+	public String getTraderName()
+	{
+		return name;
+	}
+
 	public void buy(Client client, int quantity, Company company)
 	{
 		client.newOrder(quantity, company);
@@ -32,11 +43,16 @@ public class Trader {
 		clientList.add(client);
 	}
 	
-	public void setRiskAll(int risk, String firstname)
+	public LinkedList<Client> getClients()
+	{
+		return clientList;
+	}
+	
+	public void setRiskAll(int risk, String name)
 	{
 		for(int i = 0; i<clientList.size(); i++)
 		{
-			if(clientList.get(i).getFirstName().equals(firstname))
+			if(clientList.get(i).getName().equals(name))
 			{
 				clientList.get(i).setRiskAll(risk);
 			}

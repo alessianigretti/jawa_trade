@@ -10,6 +10,8 @@ public class RandomTrader extends Trader {
 	
 	private double buyRate, sellRate;
 	
+	
+	
 	public enum Mode
 	{
 		BALANCED, AGGRESSIVE_BUY, AGGRESSIVE_SELL
@@ -19,10 +21,12 @@ public class RandomTrader extends Trader {
 	
 	private Mode mode;
 	
-	private RandomTrader(Mode mode)
+	RandomTrader(Mode mode, int i)
 	{
 		setMode(mode);
+		setTraderName("Random Trader " + String.valueOf(i));
 	}
+	
 	
 	public void setMode(Mode mode)
 	{

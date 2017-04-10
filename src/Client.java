@@ -1,7 +1,7 @@
 import java.util.LinkedList;
 public class Client
 {
-	private String firstName, lastName; // basic client details
+	private String name; // basic client details
 	private double netWorth; // total cash value of portfolio plus left over investment
 	private Trader trader; // trader that client is connected to
 	private  double investment; // client investment value
@@ -10,53 +10,34 @@ public class Client
 	private LinkedList<Shares> portfolio = new LinkedList(); // collection of shares that the client currently owns
 	private LinkedList<Order> orderList = new LinkedList();
 	
-	private Client(String firstName, String lastName, int sharesOwned, Trader trader, double investment, double expectedReturn)
-	{
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.trader = trader;
-		this.investment = investment;
-		this.initialInvestment = investment;
-		this.expectedReturn = expectedReturn;
-	}
-	
-	public Client(String firstName, String lastName, double expectedReturn, double initialInvestment)
+	public Client(String name, double expectedReturn, double initialInvestment)
 	{
 		// add error handling if one of the parameters is not passed in
 		
-		this.firstName = firstName;
-		this.lastName = lastName;
+		this.name = name;
 		this.expectedReturn = expectedReturn;
 		this.initialInvestment = initialInvestment;
+		this.investment = initialInvestment;
 	}
 	
-	public void setFirstName(String firstName)
+	public Client(String name, double investment)
 	{
-		this.firstName = firstName;
+		this(name, 0, 0);
+		this.investment = investment;
 	}
 	
-	public String getFirstName()
+	public void setName(String name)
 	{
-		return firstName;
+		this.name = name;
 	}
 	
-	public void setLastName(String lastName)
+	public String getName()
 	{
-		this.lastName = lastName;
-	}
-	
-	public String getLastName()
-	{
-		return lastName;
-	}
-	
-	public String getFullName()
-	{
-		if (firstName == null && lastName == null)
+		if (name == null)
 		{
 			return "No client selected.";
 		} else {
-			return firstName + " " + lastName;
+			return name;
 		}
 	}
 	
@@ -101,10 +82,15 @@ public class Client
 			}
 			else
 			{
-				portfolio.add(new Shares(quantity,portfolio.size()+1,company));
+				portfolio.add(new Shares(quantity,company));
 				//company.updateShareCount(quantity);
 			}
 		}
+	}
+	
+	public void initialShare(int quantity, Company company) 
+	{
+		portfolio.add(new Shares(quantity, company));
 	}
 
 	public void calculateNetWorth()
@@ -119,6 +105,6 @@ public class Client
 	
 	public double getNetWorth()
 	{
-		return netWorth;
+		return Math.round(netWorth);
 	}
 }

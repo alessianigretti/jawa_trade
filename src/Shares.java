@@ -11,12 +11,11 @@ public class Shares{
 	
 	
 	
-	public Shares(int size, int number, Company company)
+	public Shares(int size,  Company company)
 	{
 		this.size = size;
 		this.risk = 1;
 		this.currentPrice = company.getCurrentShareValue() ;
-		this.number = number;
 		this.company = company;
 		this.shareValue = currentPrice * size;
 	}
