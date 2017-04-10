@@ -6,6 +6,10 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.AbstractAction;
+
+import com.sun.glass.events.MouseEvent;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.property.Property;
@@ -54,8 +58,8 @@ public class GUI extends Application
     private Stage stage;
     
     private TradingExchange exchange = new TradingExchange();
-    private String selectedTrader = "No trader selected.";	// to replace with type of trader when available
-    private Client selectedClient = new Client(null, null, 0, 0);
+    private Trader selectedTrader = new Trader();	// to replace with type of trader when available
+    private Client selectedClient = new Client( null,0);
     
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     double width = Screen.getPrimary().getBounds().getWidth() / 1.5;
@@ -158,8 +162,8 @@ public class GUI extends Application
       	      Platform.runLater(new Runnable() {
       	        @Override
       	        public void run() {
-      	        	traderLabel.setText("Trader: " + selectedTrader);
-      	        	clientLabel.setText("Client: " + selectedClient.getFullName());
+      	        	traderLabel.setText("Trader: " + selectedTrader.getTraderName());
+      	        	clientLabel.setText("Client: " + selectedClient.getName());
       	        	netWorthLabel.setText("Net Worth: " + selectedClient.getNetWorth());
       	        }
       	      });
@@ -338,31 +342,30 @@ public class GUI extends Application
     
     private MenuBar createMenu()
     {
-		Menu traderMenu = new Menu("Traders");
 		
-		MenuItem trader1 = new MenuItem("Random Trader");
+	/*	MenuItem trader1 = new MenuItem("Random Trader");
 		trader1.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
             	selectedTrader = "Random Trader";
             }
-        });
+        });*/
 		
-		MenuItem trader2 = new MenuItem("Intelligent Trader");
+		/*MenuItem trader2 = new MenuItem("Intelligent Trader");
 		trader2.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
             	selectedTrader = "Intelligent Trader";
             }
-        });
+        });*/
 		
 		Menu clientMenu = new Menu("Clients");
 		
-		MenuItem client1 = new MenuItem("Norbert DaVinci");
+		/*MenuItem client1 = new MenuItem("Norbert DaVinci");
         client1.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-            	exchange.setCurrentClient(new Client("Norbert", "DaVinci", 123, 123));
+            	exchange.setCurrentClient(new Client("Norbert DaVinci", 123, 123));
             	selectedClient = exchange.getCurrentClient();
             }
         });
@@ -371,25 +374,54 @@ public class GUI extends Application
         client2.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-            	exchange.setCurrentClient(new Client("Justine", "Thyme", 123, 123));
+            	exchange.setCurrentClient(new Client("Justine Thyme", 123, 123));
             	selectedClient = exchange.getCurrentClient();
             }
-        });
+        });*/
+		Menu traderMenu = new Menu("Traders");
+		
+		
+		for(int i = 0; i<exchange.getTraders().size(); i++)
+		{
+			final int index = i;
+			MenuItem trader = new MenuItem(exchange.getTraders().get(i).getTraderName());
+			trader.setOnAction(new EventHandler<ActionEvent>() {
+	            @Override
+	            public void handle(ActionEvent event) {
+	            	
+	            	clientMenu.getItems().clear();
+	            	selectedTrader = exchange.getTraders().get(index);;
+	            	for(int i = 0; i<selectedTrader.getClients().size(); i++)
+	        		{
+	        			final int index = i;
+	        			MenuItem client = new MenuItem(selectedTrader.getClients().get(i).getName());
+	        			client.setOnAction(new EventHandler<ActionEvent>() {
+	        	            @Override
+	        	            public void handle(ActionEvent event) {
+	        	            	selectedClient =  selectedTrader.getClients().get(index);
+	        	            }
+	        	        });
+	        			clientMenu.getItems().add(client);
+	        		}
+	            	MenuItem addClient = new MenuItem("Add Client...");
+        	        addClient.setOnAction(new EventHandler<ActionEvent>() {
+        	        	@Override
+        	        	public void handle(ActionEvent event) {
+        	        		addCustomClient();
+        	        	}
+        	        });
+        	        clientMenu.getItems().add(addClient);
+	            }
+	        });
+			traderMenu.getItems().add(trader);
+		}
         
-        MenuItem addClient = new MenuItem("Add Client...");
-        addClient.setOnAction(new EventHandler<ActionEvent>() {
-        	@Override
-        	public void handle(ActionEvent event) {
-        		addCustomClient();
-        	}
-        });
         
-        traderMenu.getItems().add(trader1);
-        traderMenu.getItems().add(trader2);
         
-        clientMenu.getItems().add(client1);
-        clientMenu.getItems().add(client2);
-        clientMenu.getItems().add(addClient);
+      
+        
+        
+        
         
         MenuBar menuBar = new MenuBar();
         menuBar.getMenus().add(traderMenu);
@@ -532,7 +564,10 @@ public class GUI extends Application
 		confirm.setOnAction(new EventHandler<ActionEvent>() {
 	       	@Override
 	       	public void handle(ActionEvent event) {
-	       		exchange.setCurrentClient(new Client(fNameField.getText(), lNameField.getText(), Double.valueOf(expectedReturnField.getText()), Double.valueOf(initialInvestmentField.getText())));
+	       		Client client = new Client(fNameField.getText() + " " + lNameField.getText(), Double.valueOf(expectedReturnField.getText()), Double.valueOf(initialInvestmentField.getText()));
+	       		client.calculateNetWorth();
+	       		selectedTrader.addClient(client);
+	       		exchange.setCurrentClient(client);
 	       		selectedClient = exchange.getCurrentClient();
 	       		addCustomClient.hide();
 	       	}
