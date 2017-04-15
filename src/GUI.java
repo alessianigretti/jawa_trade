@@ -294,10 +294,13 @@ public class GUI extends Application
 		quantityLabel.setFont(new Font(20/((scale+scale2)/2)));
 		
 		ComboBox quantities = new ComboBox();
-		//for (int i = 0; i < exchange.getCompanies().get(index).getShareValueList().size(); i++)
-		//{
-		//		quantities.getItems().add(exchange.getCompanies().get(index).getShareValueList().get(i);
-		//}
+		for(int i = 0; i<6; i++)
+		{
+			if(i == 0)
+				quantities.getItems().add(50);
+			else
+				quantities.getItems().add(100*i);
+		}
 		
 		BorderPane buyOrSell = new BorderPane();
 		buyOrSell.setPadding(new Insets(20, 0, 0, 0));
@@ -390,7 +393,7 @@ public class GUI extends Application
 	            public void handle(ActionEvent event) {
 	            	
 	            	clientMenu.getItems().clear();
-	            	selectedTrader = exchange.getTraders().get(index);;
+	            	selectedTrader = exchange.getTraders().get(index);
 	            	for(int i = 0; i<selectedTrader.getClients().size(); i++)
 	        		{
 	        			final int index = i;
@@ -498,7 +501,7 @@ public class GUI extends Application
         table.setMaxHeight(height/(height/(150/scale)));
         table.setEditable(false);
         
-        TableColumn instrumentsOrders = new TableColumn("Instruments");
+        TableColumn instrumentsOrders = new TableColumn("Instrument");
         instrumentsOrders.setMinWidth(width/(width/(100/scale2)));
         
         TableColumn quantityOrders = new TableColumn("Quantity");
@@ -510,7 +513,10 @@ public class GUI extends Application
         TableColumn priceOrders = new TableColumn("Price");
         priceOrders.setMinWidth(width/(width/(100/scale2)));
         
-        table.getColumns().addAll(instrumentsOrders, quantityOrders, buyOrSellOrders, priceOrders);
+        TableColumn clientOrders = new TableColumn("Client");
+        priceOrders.setMinWidth(width/(width/(100/scale2)));
+        
+        table.getColumns().addAll(instrumentsOrders, quantityOrders, buyOrSellOrders, priceOrders,clientOrders);
         
         return table;
     }

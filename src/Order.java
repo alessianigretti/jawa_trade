@@ -5,17 +5,16 @@ public class Order
 	private boolean pending;
 	private double openingPrice, closingPrice;
 	private int quantity;
-	private enum OrderType
-	{
-		BUY, SELL
-	}
-	private OrderType orderType;
+	private String clientName;
+	private boolean orderType = true; //true == buy; false == sell;
 	
-	public Order(int quantity,Company company)
+	public Order(int quantity,Company company,String clientName, boolean orderType)
 	{
 		this.company = company;
 		this.openingPrice = company.getCurrentShareValue();
 		this.quantity = quantity;
+		this.clientName = clientName;
+		this.orderType = orderType;
 	}
 	
 	public void switchPending()
@@ -52,5 +51,11 @@ public class Order
 	{
 		return company.getName();
 	}
+	
+	public void updateQuantity(int extra)
+	{
+		quantity = quantity + extra;
+	}
+	
 	
 }

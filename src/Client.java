@@ -2,28 +2,26 @@ import java.util.LinkedList;
 public class Client
 {
 	private String name; // basic client details
-	private double netWorth; // total cash value of portfolio plus left over investment
+	private double netWorth; // total  value of portfolio plus left over cash
 	private Trader trader; // trader that client is connected to
-	private  double investment; // client investment value
-	private double initialInvestment; // initial investment value;
+	private  double cashHolding;// client investment value
+	private double investment;
+	private double deposit; // initial deposit value;
 	private double expectedReturn;// expected return on clients investments
 	private LinkedList<Shares> portfolio = new LinkedList(); // collection of shares that the client currently owns
-	private LinkedList<Order> orderList = new LinkedList();
 	
-	public Client(String name, double expectedReturn, double initialInvestment)
+	public Client(String name, double expectedReturn, double deposit)
 	{
-		// add error handling if one of the parameters is not passed in
-		
 		this.name = name;
 		this.expectedReturn = expectedReturn;
-		this.initialInvestment = initialInvestment;
-		this.investment = initialInvestment;
+		this.deposit = deposit;
+		this.cashHolding = deposit;
 	}
 	
-	public Client(String name, double investment)
+	public Client(String name, double cashHolding)
 	{
 		this(name, 0, 0);
-		this.investment = investment;
+		this.cashHolding = cashHolding;
 	}
 	
 	public void setName(String name)
@@ -51,14 +49,9 @@ public class Client
 		return expectedReturn;
 	}
 	
-	public void setInitialInvestment(double initialInvestment)
+	public double getDeposit()
 	{
-		this.initialInvestment = initialInvestment;
-	}
-	
-	public double getInitialInvestment()
-	{
-		return initialInvestment;
+		return deposit;
 	}
 	
 	public void setRiskAll(int risk)
@@ -69,7 +62,7 @@ public class Client
 		}
 	}
 	
-	public void newOrder(int quantity, Company company) //buying
+	/*public void newOrder(int quantity, Company company) //buying
 	{
 		Order order = new Order(quantity,company);
 		orderList.add(order);
@@ -86,21 +79,42 @@ public class Client
 				//company.updateShareCount(quantity);
 			}
 		}
+	}*/
+	
+	public LinkedList<Shares> getPortfolio()
+	{
+		return portfolio;
 	}
 	
 	public void initialShare(int quantity, Company company) 
 	{
 		portfolio.add(new Shares(quantity, company));
 	}
-
-	public void calculateNetWorth()
+	
+	public void calculateInvestment()
 	{
-		netWorth = 0;
+		investment = 0;
 		for(int i = 0; i <portfolio.size(); i++)
 		{
-			netWorth = netWorth + portfolio.get(i).getShareValue();
+			investment = investment + portfolio.get(i).getShareValue();
 		}
-		netWorth = netWorth + investment;
+		
+	}
+	
+	public double getInvestment()
+	{
+		return investment;
+	}
+	
+	public double getCashHolding()
+	{
+		return cashHolding;
+	}
+	
+	public void calculateNetWorth()
+	{
+		calculateInvestment();
+		netWorth = getInvestment() + getCashHolding();
 	}
 	
 	public double getNetWorth()

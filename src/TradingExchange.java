@@ -22,7 +22,9 @@ public class TradingExchange {
 	private SmartTrader smartTrader;
 	private double shareIndex;
 	private Client currentClient;
-	public LinkedList<Events> events;
+	private LinkedList shareIndexList;
+	private LinkedList<Events> events;
+	
 	
 	public TradingExchange()
 	{
@@ -30,9 +32,13 @@ public class TradingExchange {
 		//upForSell = new LinkedList();
 		traders = new LinkedList();
 		smartTrader = new SmartTrader();
+		smartTrader.setTraderName("W&G Trader");
+		traders.add(smartTrader);
+		shareIndexList = new LinkedList();
 		events = new LinkedList();
 		setUpSim();
 		updateShareIndex();
+		System.out.println(getShareIndex());
 	}
 	
 	public SmartTrader getSmartTrader()
@@ -48,6 +54,11 @@ public class TradingExchange {
 			shareIndex =  shareIndex + companies.get(i).getCurrentShareValue();
 		}
 		shareIndex = shareIndex/companies.size();	
+	}
+	
+	public double getShareIndex()
+	{
+		return shareIndex;
 	}
 	
 	public void setCurrentClient(Client client)
@@ -146,7 +157,10 @@ public class TradingExchange {
 					}
 					client.calculateNetWorth();
 					System.out.println(client.getName() + " " + client.getNetWorth());
-					traders.get(0).addClient(client);
+					if(client.getName().equals("Norbert DaVinci") || client.getName().equals("Justine Thyme") )
+						smartTrader.addClient(client);
+					else
+						traders.get(1).addClient(client);
 					i++;
 					next = reader.readNext();
 				}

@@ -24,7 +24,7 @@ public class RandomTrader extends Trader {
 	RandomTrader(Mode mode, int i)
 	{
 		this.mode = Mode.BALANCED;
-		setTraderName("Random Trader " + String.valueOf(i));
+		setTraderName("RanTrader " + String.valueOf(i));
 	}
 	
 	

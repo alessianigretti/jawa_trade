@@ -10,6 +10,7 @@ import java.util.*;
 public class Trader {
 	
 	private LinkedList<Client> clientList;
+	private LinkedList<Order> orderList = new LinkedList();
 	private String name;
 	
 	
@@ -28,14 +29,25 @@ public class Trader {
 		return name;
 	}
 
-	public void buy(Client client, int quantity, Company company)
+	/*public void buy(Client client, int quantity, Company company)
 	{
-		client.newOrder(quantity, company);
+		Order order = new Order(quantity,company,client.getName());
+		orderList.add(order);
 	}
 	
 	public void sell(Client client, int quantity, Company company)
 	{
-		client.newOrder(-quantity, company);
+		Order order = new Order(quantity,company,client.getName());
+		orderList.add(order);
+		//client.newOrder(-quantity, company);
+	}
+	*/
+	public void newOrder(Client client, int quantity, Company company, boolean orderType)
+	{
+		if(orderType == false)
+			quantity = -quantity;
+		Order order = new Order(quantity,company,client.getName(),orderType);
+		orderList.add(order);
 	}
 	
 	public void addClient(Client client)
