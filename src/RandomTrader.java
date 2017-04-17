@@ -89,10 +89,10 @@ public class RandomTrader extends Trader {
 	{
 		for(int i = 0; i<6; i++)
 		{
-			if(i == 0)
-				quantities.getItems().add(50);
-			else
-				quantities.getItems().add(100*i);
+			if(i == 0) {}
+				//quantities.getItems().add(50);
+			else {}
+				//quantities.getItems().add(100*i);
 		}
 	}
 

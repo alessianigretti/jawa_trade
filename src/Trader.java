@@ -26,7 +26,12 @@ public class Trader {
 	
 	public String getTraderName()
 	{
-		return name;
+		if (name == null)
+		{
+			return "No trader selected.";
+		} else {
+			return name;
+		}
 	}
 
 	/*public void buy(Client client, int quantity, Company company)

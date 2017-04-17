@@ -59,7 +59,8 @@ public class GUI extends Application
     
     private TradingExchange exchange = new TradingExchange();
     private Trader selectedTrader = new Trader();	// to replace with type of trader when available
-    private Client selectedClient = new Client( null,0);
+    private Client selectedClient = new Client(null, 0);
+    private XYChart.Series series = new XYChart.Series();
     
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     double width = Screen.getPrimary().getBounds().getWidth() / 1.5;
@@ -86,21 +87,7 @@ public class GUI extends Application
                 
         lineChart.setTitle("Stock Monitoring");
         // defining a series
-        XYChart.Series series = new XYChart.Series();
         series.setName("My portfolio");
-        // populating the series with data
-        series.getData().add(new XYChart.Data(1, 23));
-        series.getData().add(new XYChart.Data(2, 14));
-        series.getData().add(new XYChart.Data(3, 15));
-        series.getData().add(new XYChart.Data(4, 24));
-        series.getData().add(new XYChart.Data(5, 34));
-        series.getData().add(new XYChart.Data(6, 36));
-        series.getData().add(new XYChart.Data(7, 22));
-        series.getData().add(new XYChart.Data(8, 45));
-        series.getData().add(new XYChart.Data(9, 43));
-        series.getData().add(new XYChart.Data(10, 17));
-        series.getData().add(new XYChart.Data(11, 29));
-        series.getData().add(new XYChart.Data(12, 25));
         
         lineChart.getData().add(series);
         
@@ -239,7 +226,7 @@ public class GUI extends Application
 		for (int i = 0; i < exchange.getCompanies().size(); i++)
 		{
 			// create new cells and add them to main grid
-			BorderPane commodity = createCommodityCell(exchange.getCompanies().get(i).getName(), exchange.getCompanies().get(i).getCurrentShareValue(), "^");
+			Button commodity = createCommodityCell(exchange.getCompanies().get(i), exchange.getCompanies().get(i).getCurrentShareValue(), "^");
 	        allCommodities.add(commodity, 0, i * 2 + 1);
 	        allCommodities.add(new Label(), 0, i * 2);
 		}
@@ -247,14 +234,27 @@ public class GUI extends Application
         return allCommodities;
     }
     
-    private BorderPane createCommodityCell(String commodityName, double shareValue, String trend)
+    private Button createCommodityCell(Company company, double shareValue, String trend)
     {
     	// create cell in commodities grid
     	BorderPane commodity = new BorderPane();
     	commodity.setMaxWidth(width/(width/(230/scale2)));
     	
+    	// create button for cell
+    	Button commodityButton = new Button(null, commodity);
+    	commodityButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+            	series.getData().setAll(new XYChart.Data(0, 0));
+            	for (int i = 0; i < company.getShareValueList().size(); i++)
+            	{
+            		series.getData().add(new XYChart.Data(exchange.getXChart().get(i), company.getShareValueList().get(i)));
+            	}
+            }
+        });
+    	
     	// create label for name of commodity
-		Label commodityNameLabel = new Label(commodityName);
+		Label commodityNameLabel = new Label(company.getName());
 		commodityNameLabel.setFont(new Font(20/((scale+scale2)/2)));
 		
 		// create content for commodity cell
@@ -262,7 +262,7 @@ public class GUI extends Application
 		newOrderButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-            	Stage newOrderStage = createNewOrder(commodityName);
+            	Stage newOrderStage = createNewOrder(company.getName());
             }
         });
 		
@@ -280,7 +280,7 @@ public class GUI extends Application
 		commodity.setRight(trendLabel);
 		commodity.setCenter(leftPaneCommodity);
 		
-		return commodity;
+		return commodityButton;
     }
     
     private Stage createNewOrder(String commodityName)

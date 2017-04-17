@@ -41,6 +41,25 @@ public class TradingExchange {
 		System.out.println(getShareIndex());
 	}
 	
+	public LinkedList getXChart()
+	{
+		//placeholder
+		LinkedList x = new LinkedList();
+		x.add(1);
+		x.add(2);
+		x.add(3);
+		x.add(4);
+		x.add(5);
+		x.add(6);
+		x.add(7);
+		x.add(8);
+		x.add(9);
+		x.add(10);
+		x.add(11);
+		x.add(12);
+		return x;
+	}
+	
 	public SmartTrader getSmartTrader()
 	{
 		return smartTrader;
@@ -98,7 +117,7 @@ public class TradingExchange {
 				double buyAmount = 0;
 				while(sellAmount < sellAmountMax && buyAmount < buyAmountMax)
 				{
-							traders.get(i).newOrder(traders.get(i).getClients().get(j), quantity, company, orderType);
+							//traders.get(i).newOrder(traders.get(i).getClients().get(j), quantity, company, orderType);
 				}
 			}
 		}

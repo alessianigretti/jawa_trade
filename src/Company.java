@@ -6,7 +6,7 @@ import java.util.LinkedList;
 public class Company {
 	
 	private String name;
-	private int  shareCount;
+	private int shareCount;
 	private double netWorth, currentShareValue; 
 	private LinkedList shareValueList = new LinkedList();
 	/*private enum ShareType
@@ -15,7 +15,7 @@ public class Company {
 	}*/
 	private String shareType;
 	
-	public Company(String name,String shareType,double currentShareValue,int shareCount) 
+	public Company(String name, String shareType, double currentShareValue, int shareCount) 
 	{
 		this.name = name;
 		this.shareCount = shareCount;
