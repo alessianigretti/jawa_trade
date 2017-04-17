@@ -88,7 +88,20 @@ public class TradingExchange {
 	
 	public void tradeSim()
 	{
-		
+		for(int i = 0; i<traders.size(); i++)
+		{
+			for(int j = 0; j<traders.get(i).getClients().size(); j++)
+			{
+				double sellAmountMax =  ((RandomTrader) traders.get(i)).getSellRate() * traders.get(i).getClients().get(j).getNetWorth();
+				double buyAmountMax  =  ((RandomTrader) traders.get(i)).getBuyRate() * traders.get(i).getClients().get(j).getNetWorth();
+				double sellAmount = 0;
+				double buyAmount = 0;
+				while(sellAmount < sellAmountMax && buyAmount < buyAmountMax)
+				{
+							traders.get(i).newOrder(traders.get(i).getClients().get(j), quantity, company, orderType);
+				}
+			}
+		}
 	}
 	
 	public void setUpSim()

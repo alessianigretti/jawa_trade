@@ -23,10 +23,19 @@ public class RandomTrader extends Trader {
 	
 	RandomTrader(Mode mode, int i)
 	{
-		this.mode = Mode.BALANCED;
+		setMode(Mode.BALANCED);
 		setTraderName("RanTrader " + String.valueOf(i));
 	}
 	
+	public double getBuyRate()
+	{
+		return buyRate;
+	}
+	
+	public double getSellRate()
+	{
+		return sellRate;
+	}
 	
 	public void setMode(Mode mode)
 	{
@@ -73,6 +82,17 @@ public class RandomTrader extends Trader {
 						setMode(Mode.BALANCED);
 					break;
 			default: 
+		}
+	}
+	
+	public void randomQuantity()
+	{
+		for(int i = 0; i<6; i++)
+		{
+			if(i == 0)
+				quantities.getItems().add(50);
+			else
+				quantities.getItems().add(100*i);
 		}
 	}
 
