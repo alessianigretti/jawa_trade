@@ -5,15 +5,15 @@ public class Order
 	private boolean pending;
 	private double openingPrice, closingPrice;
 	private int quantity;
-	private String clientName;
-	private boolean orderType = true; //true == buy; false == sell;
+	private Client client;
+	private boolean orderType; //true == buy; false == sell; turn into enum pls
 	
-	public Order(int quantity,Company company,String clientName, boolean orderType)
+	public Order(int quantity,Company company,Client client, boolean orderType)
 	{
 		this.company = company;
 		this.openingPrice = company.getCurrentShareValue();
 		this.quantity = quantity;
-		this.clientName = clientName;
+		this.client = client;
 		this.orderType = orderType;
 	}
 	

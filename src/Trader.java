@@ -51,7 +51,7 @@ public class Trader {
 	{
 		if(orderType == false)
 			quantity = -quantity;
-		Order order = new Order(quantity,company,client.getName(),orderType);
+		Order order = new Order(quantity,company,client,orderType);
 		orderList.add(order);
 	}
 	

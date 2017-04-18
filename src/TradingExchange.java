@@ -38,7 +38,6 @@ public class TradingExchange {
 		events = new LinkedList();
 		setUpSim();
 		updateShareIndex();
-		System.out.println(getShareIndex());
 	}
 	
 	public LinkedList getXChart()
@@ -188,7 +187,7 @@ public class TradingExchange {
 						e.printStackTrace();
 					}
 					client.calculateNetWorth();
-					System.out.println(client.getName() + " " + client.getNetWorth());
+					//System.out.println(client.getName() + " " + client.getNetWorth());
 					if(client.getName().equals("Norbert DaVinci") || client.getName().equals("Justine Thyme") )
 						smartTrader.addClient(client);
 					else

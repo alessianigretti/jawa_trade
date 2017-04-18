@@ -3,6 +3,7 @@ import java.awt.Paint;
 import java.awt.Panel;
 import java.awt.Toolkit;
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -13,6 +14,7 @@ import com.sun.glass.events.MouseEvent;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.property.Property;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -46,6 +48,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
@@ -61,6 +64,7 @@ public class GUI extends Application
     private Trader selectedTrader = new Trader();	// to replace with type of trader when available
     private Client selectedClient = new Client(null, 0);
     private XYChart.Series series = new XYChart.Series();
+    private final ObservableList<OrderTable> orders = FXCollections.observableArrayList();   
     
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     double width = Screen.getPrimary().getBounds().getWidth() / 1.5;
@@ -115,21 +119,16 @@ public class GUI extends Application
         clientLabel.setFont(new Font(20/((scale+scale2)/2)));
         Label netWorthLabel = new Label("Net Worth: " + selectedClient.getNetWorth());
         netWorthLabel.setFont(new Font(20/((scale+scale2)/2)));
-        BorderPane topLeftPanel = new BorderPane();
-        BorderPane infoPanel = new BorderPane();
-        topLeftPanel.setMaxWidth(width/(width/(400/scale2)));
-        topLeftPanel.setMinWidth(width/(width/(400/scale2)));
-        topLeftPanel.setLeft(infoPanel);
-        topLeftPanel.setRight(netWorthLabel);
-        topLeftPanel.setPadding(new Insets(0, 10, 0, 0));
-        topLeftPanel.setAlignment(traderLabel, Pos.CENTER_RIGHT);
-        topLeftPanel.setAlignment(clientLabel, Pos.CENTER_RIGHT);
-        infoPanel.setTop(traderLabel);
-        infoPanel.setBottom(clientLabel);
+        GridPane info = new GridPane();
+        info.add(traderLabel, 0, 0);
+        info.add(clientLabel, 0, 1);
+        info.add(new Label("          "), 1, 0);
+        info.add(netWorthLabel, 2, 0);
+        info.add(new Label("          "), 3, 0);
         clientPane.setStyle("-fx-border-color: #606060;"
         		+ "-fx-border-width: 3 3 3 3;"
         		+ "-fx-font-size: 16;");
-        clientPane.setRight(topLeftPanel);
+        clientPane.setRight(info);
         topPane.setBottom(clientPane);
         
         // put together all elements
@@ -221,7 +220,7 @@ public class GUI extends Application
     	GridPane allCommodities = new GridPane();
 		allCommodities.setMinWidth(width/(width/(215/scale2)));
 		allCommodities.setMaxWidth(width/(width/(215/scale2)));
-		allCommodities.setPadding(new Insets(0, 0, 0, 20));
+		allCommodities.setPadding(new Insets(0, 20, 20, 20));
 	
 		for (int i = 0; i < exchange.getCompanies().size(); i++)
 		{
@@ -238,7 +237,8 @@ public class GUI extends Application
     {
     	// create cell in commodities grid
     	BorderPane commodity = new BorderPane();
-    	commodity.setMaxWidth(width/(width/(230/scale2)));
+    	commodity.setMinWidth(width/(width/(165/scale2)));
+    	commodity.setMaxWidth(width/(width/(165/scale2)));
     	
     	// create button for cell
     	Button commodityButton = new Button(null, commodity);
@@ -246,8 +246,10 @@ public class GUI extends Application
             @Override
             public void handle(ActionEvent event) {
             	series.getData().setAll(new XYChart.Data(0, 0));
+            	System.out.println(company.getShareValueList().size());
             	for (int i = 0; i < company.getShareValueList().size(); i++)
             	{
+            		exchange.getXChart().get(i);
             		series.getData().add(new XYChart.Data(exchange.getXChart().get(i), company.getShareValueList().get(i)));
             	}
             }
@@ -262,7 +264,7 @@ public class GUI extends Application
 		newOrderButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-            	Stage newOrderStage = createNewOrder(company.getName());
+            	Stage newOrderStage = createNewOrder(company);
             }
         });
 		
@@ -283,7 +285,7 @@ public class GUI extends Application
 		return commodityButton;
     }
     
-    private Stage createNewOrder(String commodityName)
+    private Stage createNewOrder(Company company)
     {
     	Stage makeNewOrder = new Stage();
     	
@@ -309,8 +311,8 @@ public class GUI extends Application
 		buyButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-            	//exchange.getSmartTrader().buy(selectedClient, quantities, exchange.);
-            	// need to test for no client selected
+            	orders.add(new OrderTable(quantities.getSelectionModel().getSelectedItem().toString(), company.getName(), selectedClient.getName(), "true"));              		
+            	// need to test for no client selected and no quantity
             	makeNewOrder.hide();
             }
         });
@@ -319,8 +321,8 @@ public class GUI extends Application
 		sellButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-            	//exchange.getSmartTrader().buy(selectedClient, //quantities, company);
-            	// need to test for no client selected
+            	orders.add(new OrderTable(quantities.getSelectionModel().getSelectedItem().toString(), company.getName(), selectedClient.getName(), "true"));
+            	// need to test for no client selected and no quantity
             	makeNewOrder.hide();
             }
         });
@@ -345,90 +347,51 @@ public class GUI extends Application
     
     private MenuBar createMenu()
     {
-		
-	/*	MenuItem trader1 = new MenuItem("Random Trader");
-		trader1.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-            	selectedTrader = "Random Trader";
-            }
-        });*/
-		
-		/*MenuItem trader2 = new MenuItem("Intelligent Trader");
-		trader2.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-            	selectedTrader = "Intelligent Trader";
-            }
-        });*/
-		
-		Menu clientMenu = new Menu("Clients");
-		
-		/*MenuItem client1 = new MenuItem("Norbert DaVinci");
-        client1.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-            	exchange.setCurrentClient(new Client("Norbert DaVinci", 123, 123));
-            	selectedClient = exchange.getCurrentClient();
-            }
-        });
-        
-        MenuItem client2 = new MenuItem("Justine Thyme");
-        client2.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-            	exchange.setCurrentClient(new Client("Justine Thyme", 123, 123));
-            	selectedClient = exchange.getCurrentClient();
-            }
-        });*/
 		Menu traderMenu = new Menu("Traders");
 		
-		
-		for(int i = 0; i<exchange.getTraders().size(); i++)
+		for(int i = 0; i < exchange.getTraders().size(); i++)
 		{
-			final int index = i;
-			MenuItem trader = new MenuItem(exchange.getTraders().get(i).getTraderName());
-			trader.setOnAction(new EventHandler<ActionEvent>() {
-	            @Override
-	            public void handle(ActionEvent event) {
-	            	
-	            	clientMenu.getItems().clear();
-	            	selectedTrader = exchange.getTraders().get(index);
-	            	for(int i = 0; i<selectedTrader.getClients().size(); i++)
-	        		{
-	        			final int index = i;
-	        			MenuItem client = new MenuItem(selectedTrader.getClients().get(i).getName());
-	        			client.setOnAction(new EventHandler<ActionEvent>() {
-	        	            @Override
-	        	            public void handle(ActionEvent event) {
-	        	            	selectedClient =  selectedTrader.getClients().get(index);
-	        	            }
-	        	        });
-	        			clientMenu.getItems().add(client);
-	        		}
-	            	MenuItem addClient = new MenuItem("Add Client...");
-        	        addClient.setOnAction(new EventHandler<ActionEvent>() {
-        	        	@Override
-        	        	public void handle(ActionEvent event) {
-        	        		addCustomClient();
-        	        	}
-        	        });
-        	        clientMenu.getItems().add(addClient);
-	            }
+			final int traderIndex = i;
+			Menu trader = new Menu(exchange.getTraders().get(i).getTraderName());
+			for (int j = 0; j < exchange.getTraders().get(i).getClients().size(); j++)
+			{
+				final int clientIndex = j;
+				MenuItem client = new MenuItem(exchange.getTraders().get(i).getClients().get(j).getName());
+				client.setOnAction(new EventHandler<ActionEvent>() {
+    	            @Override
+    	            public void handle(ActionEvent event) {
+    	            	selectedTrader = exchange.getTraders().get(traderIndex);
+    	            	selectedClient = selectedTrader.getClients().get(clientIndex);
+    	            }
+    	        });
+				trader.getItems().add(client);
+			}
+			
+			MenuItem addClient = new MenuItem("Add Client...");
+	        addClient.setOnAction(new EventHandler<ActionEvent>() {
+	        	@Override
+	        	public void handle(ActionEvent event) {
+	        		selectedTrader = exchange.getTraders().get(traderIndex);
+	        		addCustomClient();
+	        	}
 	        });
+	        trader.getItems().add(addClient);
 			traderMenu.getItems().add(trader);
 		}
-        
-        
-        
-      
-        
-        
-        
+		
+		Menu ordersMenu = new Menu("Orders");
+		MenuItem clearOrders = new MenuItem("Clear Orders");
+		clearOrders.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				orders.removeAll(orders);
+			}
+		});
+		ordersMenu.getItems().add(clearOrders);
         
         MenuBar menuBar = new MenuBar();
         menuBar.getMenus().add(traderMenu);
-        menuBar.getMenus().add(clientMenu);
+        menuBar.getMenus().add(ordersMenu);
         
         return menuBar;
     }
@@ -479,47 +442,101 @@ public class GUI extends Application
         Tab ordersTab = new Tab();
         ordersTab.setText("Orders");
         ordersTab.setClosable(false);
-        Tab pendingTab = new Tab();
-        pendingTab.setText("Pending");
-        pendingTab.setClosable(false);
         
-        bottomPane.getTabs().addAll(ordersTab, pendingTab);
+        bottomPane.getTabs().addAll(ordersTab);
         
         // orders and pending tabs (extending bottom of the chart)
         TableView ordersTable = createTableView();
         ordersTab.setContent(ordersTable);
-        
-        TableView pendingTable = createTableView();
-        pendingTab.setContent(pendingTable);
         
         return bottomPane;
     }
     
     private TableView createTableView()
     {
-    	TableView table = new TableView();
-        table.setMaxHeight(height/(height/(150/scale)));
+    	TableView<OrderTable> table = new TableView<OrderTable>();
+        table.setMaxHeight(height/(height/(190/scale)));
         table.setEditable(false);
         
         TableColumn instrumentsOrders = new TableColumn("Instrument");
         instrumentsOrders.setMinWidth(width/(width/(100/scale2)));
+        instrumentsOrders.setCellValueFactory(
+		    new PropertyValueFactory<OrderTable,String>("quantity")
+		);
         
         TableColumn quantityOrders = new TableColumn("Quantity");
         quantityOrders.setMinWidth(width/(width/(100/scale2)));
+        quantityOrders.setCellValueFactory(
+		    new PropertyValueFactory<OrderTable,String>("quantity")
+		);
         
         TableColumn buyOrSellOrders = new TableColumn("Buy/Sell");
         buyOrSellOrders.setMinWidth(width/(width/(100/scale2)));
+        buyOrSellOrders.setCellValueFactory(
+		    new PropertyValueFactory<OrderTable,String>("orderType")
+		);
         
         TableColumn priceOrders = new TableColumn("Price");
         priceOrders.setMinWidth(width/(width/(100/scale2)));
+        priceOrders.setCellValueFactory(
+    		    new PropertyValueFactory<OrderTable,String>("quantity")
+    	);
         
         TableColumn clientOrders = new TableColumn("Client");
-        priceOrders.setMinWidth(width/(width/(100/scale2)));
+        clientOrders.setMinWidth(width/(width/(100/scale2)));
+        clientOrders.setCellValueFactory(
+    		    new PropertyValueFactory<OrderTable,String>("client")
+    	);
         
+        table.setItems(orders);
         table.getColumns().addAll(instrumentsOrders, quantityOrders, buyOrSellOrders, priceOrders,clientOrders);
-        
+
         return table;
     }
+    
+    public static class OrderTable {
+    	 
+        private final SimpleStringProperty quantity, company, client, orderType;
+ 
+        private OrderTable(String quantity, String company, String client, String orderType) {
+            this.quantity = new SimpleStringProperty(quantity);
+            this.company = new SimpleStringProperty(company);
+            this.client = new SimpleStringProperty(client);
+            this.orderType = new SimpleStringProperty(orderType);
+        }
+ 
+        public String getQuantity() {
+            return quantity.get();
+        }
+ 
+        public void setQuantity(String quantity) {
+            this.quantity.set(quantity);
+        }
+ 
+        public String getCompany() {
+            return company.get();
+        }
+ 
+        public void setLastName(String company) {
+            this.company.set(company);
+        }
+ 
+        public String getClient() {
+            return client.get();
+        }
+ 
+        public void setClient(String client) {
+            this.client.set(client);
+        }
+        
+        public String getOrderType() {
+        	return orderType.get();
+        }
+        
+        public void setOrderType(String orderType) {
+        	this.orderType.set(orderType);
+        }
+    } 
     
     private void addCustomClient()
     {
