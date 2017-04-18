@@ -6,9 +6,13 @@ public class Order
 	private double openingPrice, closingPrice;
 	private int quantity;
 	private Client client;
-	private boolean orderType; //true == buy; false == sell; turn into enum pls
+	public enum OrderType
+	{
+		BUY, SELL
+	}
+	private OrderType orderType;
 	
-	public Order(int quantity,Company company,Client client, boolean orderType)
+	public Order(int quantity,Company company,Client client, OrderType orderType)
 	{
 		this.company = company;
 		this.openingPrice = company.getCurrentShareValue();
@@ -57,5 +61,9 @@ public class Order
 		quantity = quantity + extra;
 	}
 	
+	public OrderType getOrderType()
+	{
+		return orderType;
+	}
 	
 }

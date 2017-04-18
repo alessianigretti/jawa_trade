@@ -14,6 +14,9 @@ import com.sun.glass.events.MouseEvent;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.property.Property;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -311,7 +314,7 @@ public class GUI extends Application
 		buyButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-            	orders.add(new OrderTable(quantities.getSelectionModel().getSelectedItem().toString(), company.getName(), selectedClient.getName(), "true"));              		
+            	orders.add(new OrderTable(company, Integer.valueOf(quantities.getSelectionModel().getSelectedItem().toString()), selectedClient, "Buy"));              		
             	// need to test for no client selected and no quantity
             	makeNewOrder.hide();
             }
@@ -321,7 +324,7 @@ public class GUI extends Application
 		sellButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-            	orders.add(new OrderTable(quantities.getSelectionModel().getSelectedItem().toString(), company.getName(), selectedClient.getName(), "true"));
+            	orders.add(new OrderTable(company, Integer.valueOf(quantities.getSelectionModel().getSelectedItem().toString()), selectedClient, "Sell"));
             	// need to test for no client selected and no quantity
             	makeNewOrder.hide();
             }
@@ -461,7 +464,7 @@ public class GUI extends Application
         TableColumn instrumentsOrders = new TableColumn("Instrument");
         instrumentsOrders.setMinWidth(width/(width/(100/scale2)));
         instrumentsOrders.setCellValueFactory(
-		    new PropertyValueFactory<OrderTable,String>("quantity")
+		    new PropertyValueFactory<OrderTable,String>("company")
 		);
         
         TableColumn quantityOrders = new TableColumn("Quantity");
@@ -479,11 +482,11 @@ public class GUI extends Application
         TableColumn priceOrders = new TableColumn("Price");
         priceOrders.setMinWidth(width/(width/(100/scale2)));
         priceOrders.setCellValueFactory(
-    		    new PropertyValueFactory<OrderTable,String>("quantity")
+    		    new PropertyValueFactory<OrderTable,String>("price")
     	);
         
         TableColumn clientOrders = new TableColumn("Client");
-        clientOrders.setMinWidth(width/(width/(100/scale2)));
+        clientOrders.setMinWidth(width/(width/(110/scale2)));
         clientOrders.setCellValueFactory(
     		    new PropertyValueFactory<OrderTable,String>("client")
     	);
@@ -496,20 +499,25 @@ public class GUI extends Application
     
     public static class OrderTable {
     	 
-        private final SimpleStringProperty quantity, company, client, orderType;
+        private final SimpleStringProperty company;
+        private final SimpleIntegerProperty quantity;
+        private final SimpleStringProperty client;
+        private final SimpleDoubleProperty price;
+        private final SimpleStringProperty orderType;
  
-        private OrderTable(String quantity, String company, String client, String orderType) {
-            this.quantity = new SimpleStringProperty(quantity);
-            this.company = new SimpleStringProperty(company);
-            this.client = new SimpleStringProperty(client);
+        private OrderTable(Company company, int quantity, Client client, String orderType) {
+            this.company = new SimpleStringProperty(company.getName());
+            this.quantity = new SimpleIntegerProperty(quantity);
+            this.client = new SimpleStringProperty(client.getName());
+            price = new SimpleDoubleProperty(quantity * company.getCurrentShareValue());
             this.orderType = new SimpleStringProperty(orderType);
         }
  
-        public String getQuantity() {
+        public int getQuantity() {
             return quantity.get();
         }
  
-        public void setQuantity(String quantity) {
+        public void setQuantity(int quantity) {
             this.quantity.set(quantity);
         }
  
@@ -517,7 +525,7 @@ public class GUI extends Application
             return company.get();
         }
  
-        public void setLastName(String company) {
+        public void setCompany(String company) {
             this.company.set(company);
         }
  
@@ -527,6 +535,14 @@ public class GUI extends Application
  
         public void setClient(String client) {
             this.client.set(client);
+        }
+        
+        public double getPrice() {
+        	return price.get();
+        }
+        
+        public void setPrice(double price) {
+        	this.price.set(price);
         }
         
         public String getOrderType() {
