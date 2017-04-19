@@ -39,8 +39,11 @@ public class TradingExchange {
 		events = new LinkedList();
 		setUpSim();
 		updateShareIndex();
+<<<<<<< HEAD
 		System.out.println(getShareIndex());
 		tradeSim();
+=======
+>>>>>>> 37f585622f4368e0082fde0394cedd8b7332e2f1
 	}
 	
 	public LinkedList getXChart()

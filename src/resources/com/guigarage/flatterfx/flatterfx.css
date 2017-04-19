@@ -189,6 +189,10 @@
     -fx-text-fill: white;
 }
 
+.table-view .table-cell{
+    -fx-text-fill: white;
+}
+
 .table-view .filler {
 	-fx-background-color: transparent;
     -fx-text-fill: white;

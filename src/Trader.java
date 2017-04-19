@@ -54,7 +54,13 @@ public class Trader {
 	*/
 	public double newOrder(Client client, int quantity, Company company, boolean orderType)
 	{
+<<<<<<< HEAD
 		Order order = new Order(quantity,company,client.getName(),orderType);
+=======
+		if(orderType == false)
+			quantity = -quantity;
+		Order order = new Order(quantity,company,client,orderType);
+>>>>>>> 37f585622f4368e0082fde0394cedd8b7332e2f1
 		orderList.add(order);
 		return Math.abs(quantity*company.getCurrentShareValue());
 	}

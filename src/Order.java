@@ -5,15 +5,24 @@ public class Order
 	private boolean pending;
 	private double openingPrice, closingPrice;
 	private int quantity;
+<<<<<<< HEAD
 	private String clientName;
 	private boolean orderType; //true == buy; false == sell;
+=======
+	private Client client;
+	public enum OrderType
+	{
+		BUY, SELL
+	}
+	private OrderType orderType;
+>>>>>>> 37f585622f4368e0082fde0394cedd8b7332e2f1
 	
-	public Order(int quantity,Company company,String clientName, boolean orderType)
+	public Order(int quantity,Company company,Client client, OrderType orderType)
 	{
 		this.company = company;
 		this.openingPrice = company.getCurrentShareValue();
 		this.quantity = quantity;
-		this.clientName = clientName;
+		this.client = client;
 		this.orderType = orderType;
 	}
 	
@@ -57,6 +66,7 @@ public class Order
 		quantity = quantity + extra;
 	}
 	
+<<<<<<< HEAD
 	public boolean getOrderType()
 	{
 		return orderType;
@@ -77,5 +87,11 @@ public class Order
 		return company;
 	}
 	
+=======
+	public OrderType getOrderType()
+	{
+		return orderType;
+	}
+>>>>>>> 37f585622f4368e0082fde0394cedd8b7332e2f1
 	
 }
