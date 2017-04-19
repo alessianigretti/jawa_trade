@@ -17,7 +17,6 @@ import com.opencsv.CSVReader;
 public class TradingExchange {
 	
 	private LinkedList<Company> companies;
-	private LinkedList<Order> allOrders = new LinkedList();
 	private LinkedList<Trader> traders;
 	private SmartTrader smartTrader;
 	private double shareIndex;
@@ -39,11 +38,8 @@ public class TradingExchange {
 		events = new LinkedList();
 		setUpSim();
 		updateShareIndex();
-<<<<<<< HEAD
 		System.out.println(getShareIndex());
 		tradeSim();
-=======
->>>>>>> 37f585622f4368e0082fde0394cedd8b7332e2f1
 	}
 	
 	public LinkedList getXChart()
@@ -122,7 +118,7 @@ public class TradingExchange {
 				double buyAmount = 0;
 				while(sellAmount <= sellAmountMax && buyAmount <= buyAmountMax)
 				{
-						double amount = ((RandomTrader)traders.get(i)).newOrder(traders.get(i).getClients().get(j), companies.get(rand .nextInt(companies.size())));
+						double amount = ((RandomTrader)traders.get(i)).newOrder(traders.get(i).getClients().get(j), companies.get(rand.nextInt(companies.size())));
 						if(amount < 0)
 							sellAmount = sellAmount + Math.abs(amount);
 						else
