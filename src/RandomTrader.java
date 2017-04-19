@@ -1,3 +1,6 @@
+import java.util.LinkedList;
+import java.util.Random;
+
 /**
  * 
  */
@@ -9,6 +12,7 @@
 public class RandomTrader extends Trader {
 	
 	private double buyRate, sellRate;
+	Random rand  = new Random();
 	
 	
 	
@@ -85,15 +89,65 @@ public class RandomTrader extends Trader {
 		}
 	}
 	
-	public void randomQuantity()
+	public double newOrder(Client client, Company company)
 	{
+		int quantity = randomQuantity();
+		//System.out.println(quantity);
+		boolean orderType = true;
+		for(Order o : getOrderList())
+		{
+			if(o.getCompanyName().equals(company.getName()))
+				orderType = o.getOrderType();
+			else
+				orderType = rand.nextBoolean();
+		}
+		if(orderType == false)
+			quantity = -quantity;
+		Order order = new Order(quantity,company,client.getName(),orderType);
+		getOrderList().add(order);
+		return quantity*company.getCurrentShareValue();
+	}
+	
+	public void completeOrder(Order o)
+	{
+		for(Client c: getClients())
+		{
+			if(o.getClientName().equals(c.getName()))
+			{
+				if(o.getOrderType() == true)
+				{
+					System.out.println(c.getName());
+					System.out.println(o.getCompanyName());
+					System.out.println(o.getCompany().getBuyCount() + " BUYCOUNT");
+					System.out.println(o.getQuanitity() + " Quantity");
+					System.out.println(o.getCompany().getSellCount() + " SELLCOUNT");
+					c.newShare((o.getQuanitity()/o.getCompany().getBuyCount())*Math.abs(o.getCompany().getSellCount()), o.getCompany());
+				}
+				else
+				{
+					System.out.println(c.getName());
+					System.out.println(o.getCompanyName());
+					System.out.println(o.getCompany().getBuyCount() + " SELLCOUNT");
+					System.out.println(o.getQuanitity() + " Quantity");
+					System.out.println(o.getCompany().getSellCount() + " BUYCOUNT");
+					c.newShare(-((o.getQuanitity()/o.getCompany().getSellCount())*o.getCompany().getBuyCount()), o.getCompany());
+				}
+					
+			}
+		}
+	}
+	
+	public int randomQuantity()
+	{
+		LinkedList temp = new LinkedList();
 		for(int i = 0; i<6; i++)
 		{
-			if(i == 0) {}
-				//quantities.getItems().add(50);
-			else {}
-				//quantities.getItems().add(100*i);
+			if(i == 0) 
+				temp.add(50);
+			else
+				temp.add(100*i);
 		}
+		return (int) temp.get(rand.nextInt(6));
 	}
 
 }

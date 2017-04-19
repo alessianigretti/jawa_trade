@@ -4,14 +4,15 @@
  */
 public class Shares{
 	private Company company;
-	private int size, risk, number;
+	private int risk, number;
 	private double currentPrice;
 	private double shareValue;
+	private double size;
 	
 	
 	
 	
-	public Shares(int size,  Company company)
+	public Shares(double size,  Company company)
 	{
 		this.size = size;
 		this.risk = 1;
@@ -20,11 +21,12 @@ public class Shares{
 		this.shareValue = currentPrice * size;
 	}
 	
-	public void updateSize(int num)
+	public void updateSize(double num)
 	{
 		size = size + num;
+		//updateShareValue();
 	}
-	public int getSize()
+	public double getSize()
 	{
 		return size;
 	}

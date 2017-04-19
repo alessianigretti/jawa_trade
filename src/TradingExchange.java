@@ -17,13 +17,14 @@ import com.opencsv.CSVReader;
 public class TradingExchange {
 	
 	private LinkedList<Company> companies;
-	//private LinkedList<Shares> upForSell; not needed as all shares are occupied by a client
+	private LinkedList<Order> allOrders = new LinkedList();
 	private LinkedList<Trader> traders;
 	private SmartTrader smartTrader;
 	private double shareIndex;
 	private Client currentClient;
 	private LinkedList shareIndexList;
 	private LinkedList<Events> events;
+	private Random rand = new Random();
 	
 	
 	public TradingExchange()
@@ -39,6 +40,7 @@ public class TradingExchange {
 		setUpSim();
 		updateShareIndex();
 		System.out.println(getShareIndex());
+		tradeSim();
 	}
 	
 	public LinkedList getXChart()
@@ -107,7 +109,7 @@ public class TradingExchange {
 	
 	public void tradeSim()
 	{
-		for(int i = 0; i<traders.size(); i++)
+		for(int i = 1; i<traders.size(); i++)
 		{
 			for(int j = 0; j<traders.get(i).getClients().size(); j++)
 			{
@@ -115,12 +117,50 @@ public class TradingExchange {
 				double buyAmountMax  =  ((RandomTrader) traders.get(i)).getBuyRate() * traders.get(i).getClients().get(j).getNetWorth();
 				double sellAmount = 0;
 				double buyAmount = 0;
-				while(sellAmount < sellAmountMax && buyAmount < buyAmountMax)
+				while(sellAmount <= sellAmountMax && buyAmount <= buyAmountMax)
 				{
-							//traders.get(i).newOrder(traders.get(i).getClients().get(j), quantity, company, orderType);
+						double amount = ((RandomTrader)traders.get(i)).newOrder(traders.get(i).getClients().get(j), companies.get(rand .nextInt(companies.size())));
+						if(amount < 0)
+							sellAmount = sellAmount + Math.abs(amount);
+						else
+							buyAmount = buyAmount + amount;
 				}
 			}
 		}
+		
+		for(int i = 1; i<traders.size(); i++)
+		{
+			for(int j = 0; j<traders.get(i).getOrderList().size(); j++)
+			{
+				for(int k = 0; k<companies.size(); k++)
+				{
+					if(traders.get(i).getOrderList().get(j).getCompanyName().equals(companies.get(k).getName()))
+					{
+						if(traders.get(i).getOrderList().get(j).getQuanitity() < 0)
+							companies.get(k).setSellCount(traders.get(i).getOrderList().get(j).getQuanitity());
+						else
+							companies.get(k).setBuyCount(traders.get(i).getOrderList().get(j).getQuanitity());
+					}
+				}
+				
+			}
+		}
+		
+		for(int i = 0; i<companies.size(); i++)
+		{
+			System.out.println(companies.get(i).getName() + " " + companies.get(i).getCurrentShareValue());
+			companies.get(i).updateShareValue(companies.get(i).getBuyCount()+companies.get(i).getSellCount());
+			System.out.println(companies.get(i).getName() + " " + companies.get(i).getCurrentShareValue());
+		}
+		
+		for(int i = 1; i<traders.size(); i++)
+		{
+			for(int j = 0; j<traders.get(i).getOrderList().size(); j++)
+			{
+				((RandomTrader) traders.get(i)).completeOrder(traders.get(i).getOrderList().get(j));	
+			}
+		}
+		
 	}
 	
 	public void setUpSim()
@@ -158,6 +198,7 @@ public class TradingExchange {
 	{
 		String[] myEntries;
 		int i = 0;
+		int index = 1;
 		try{
 			 CSVReader reader = new CSVReader(new FileReader("ClientNames.csv"));
 		     try {
@@ -188,11 +229,17 @@ public class TradingExchange {
 						e.printStackTrace();
 					}
 					client.calculateNetWorth();
-					System.out.println(client.getName() + " " + client.getNetWorth());
+					//System.out.println(client.getName() + " " + client.getNetWorth());
 					if(client.getName().equals("Norbert DaVinci") || client.getName().equals("Justine Thyme") )
 						smartTrader.addClient(client);
 					else
-						traders.get(1).addClient(client);
+					{
+						traders.get(index).addClient(client);
+						index++;
+						if(index > 4)
+							index = 1;
+					}
+						
 					i++;
 					next = reader.readNext();
 				}

@@ -62,24 +62,22 @@ public class Client
 		}
 	}
 	
-	/*public void newOrder(int quantity, Company company) //buying
+	public void newShare(double quantity, Company company) 
 	{
-		Order order = new Order(quantity,company);
-		orderList.add(order);
+		quantity = Math.floor(quantity);
 		for(int i = 0; i<portfolio.size(); i++)
 		{
 			if(portfolio.get(i).getCompanyName().equals(company.getName()))
 			{
-				portfolio.get(i).updateSize(quantity);	
-				//company.updateShareCount(quantity); not needed as each company has a set number of shares!
+				portfolio.get(i).updateSize(quantity);
+				//System.out.println(quantity);
 			}
 			else
 			{
 				portfolio.add(new Shares(quantity,company));
-				//company.updateShareCount(quantity);
 			}
 		}
-	}*/
+	}
 	
 	public LinkedList<Shares> getPortfolio()
 	{

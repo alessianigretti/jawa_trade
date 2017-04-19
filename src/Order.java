@@ -6,7 +6,7 @@ public class Order
 	private double openingPrice, closingPrice;
 	private int quantity;
 	private String clientName;
-	private boolean orderType = true; //true == buy; false == sell;
+	private boolean orderType; //true == buy; false == sell;
 	
 	public Order(int quantity,Company company,String clientName, boolean orderType)
 	{
@@ -55,6 +55,26 @@ public class Order
 	public void updateQuantity(int extra)
 	{
 		quantity = quantity + extra;
+	}
+	
+	public boolean getOrderType()
+	{
+		return orderType;
+	}
+	
+	public int getQuanitity()
+	{
+		return quantity;
+	}
+	
+	public String getClientName()
+	{
+		return clientName;
+	}
+	
+	public Company getCompany()
+	{
+		return company;
 	}
 	
 	

@@ -33,6 +33,11 @@ public class Trader {
 			return name;
 		}
 	}
+	
+	public LinkedList<Order> getOrderList()
+	{
+		return orderList;
+	}
 
 	/*public void buy(Client client, int quantity, Company company)
 	{
@@ -47,12 +52,11 @@ public class Trader {
 		//client.newOrder(-quantity, company);
 	}
 	*/
-	public void newOrder(Client client, int quantity, Company company, boolean orderType)
+	public double newOrder(Client client, int quantity, Company company, boolean orderType)
 	{
-		if(orderType == false)
-			quantity = -quantity;
 		Order order = new Order(quantity,company,client.getName(),orderType);
 		orderList.add(order);
+		return Math.abs(quantity*company.getCurrentShareValue());
 	}
 	
 	public void addClient(Client client)
