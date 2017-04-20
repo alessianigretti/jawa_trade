@@ -39,19 +39,6 @@ public class Trader {
 		return orderList;
 	}
 
-	/*public void buy(Client client, int quantity, Company company)
-	{
-		Order order = new Order(quantity,company,client.getName());
-		orderList.add(order);
-	}
-	
-	public void sell(Client client, int quantity, Company company)
-	{
-		Order order = new Order(quantity,company,client.getName());
-		orderList.add(order);
-		//client.newOrder(-quantity, company);
-	}
-	*/
 	public void newOrder()
 	{
 		//tbc
@@ -81,5 +68,10 @@ public class Trader {
 	public void setRisk(int risk, String firstname)
 	{
 		
+	}
+	
+	public void clearOrders()
+	{
+		orderList.clear();
 	}
 }

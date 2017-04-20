@@ -65,18 +65,26 @@ public class Client
 	public void newShare(double quantity, Company company) 
 	{
 		quantity = Math.floor(quantity);
-		for(int i = 0; i<portfolio.size(); i++)
+		int iter = 0;
+		while(iter<portfolio.size())
+		{
+			if(portfolio.get(iter).getCompanyName().equals(company.getName()))
+				portfolio.get(iter).updateSize(quantity);
+			iter++;
+		}
+		/*for(int i = 0; i<portfolio.size(); i++)
 		{
 			if(portfolio.get(i).getCompanyName().equals(company.getName()))
 			{
 				portfolio.get(i).updateSize(quantity);
-				//System.out.println(quantity);
+				// System.out.println(quantity);
 			}
 			else
 			{
 				portfolio.add(new Shares(quantity,company));
+				System.out.println("dont run " + getName());
 			}
-		}
+		}*/
 	}
 	
 	public LinkedList<Shares> getPortfolio()

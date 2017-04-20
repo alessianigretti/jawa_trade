@@ -116,20 +116,20 @@ public class RandomTrader extends Trader {
 			{
 				if(o.getOrderType() == true)
 				{
-					System.out.println(c.getName());
+					/*System.out.println(c.getName());
 					System.out.println(o.getCompanyName());
 					System.out.println(o.getCompany().getBuyCount() + " BUYCOUNT");
 					System.out.println(o.getQuanitity() + " Quantity");
-					System.out.println(o.getCompany().getSellCount() + " SELLCOUNT");
+					System.out.println(o.getCompany().getSellCount() + " SELLCOUNT");*/
 					c.newShare((o.getQuanitity()/o.getCompany().getBuyCount())*Math.abs(o.getCompany().getSellCount()), o.getCompany());
 				}
 				else
 				{
-					System.out.println(c.getName());
+				/*	System.out.println(c.getName());
 					System.out.println(o.getCompanyName());
 					System.out.println(o.getCompany().getBuyCount() + " SELLCOUNT");
 					System.out.println(o.getQuanitity() + " Quantity");
-					System.out.println(o.getCompany().getSellCount() + " BUYCOUNT");
+					System.out.println(o.getCompany().getSellCount() + " BUYCOUNT");*/
 					c.newShare(-((o.getQuanitity()/o.getCompany().getSellCount())*o.getCompany().getBuyCount()), o.getCompany());
 				}
 					

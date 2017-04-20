@@ -22,3 +22,6 @@ help screens
 for each company trader should either or sell in a given trading cycle
 
 if you fail to sell it, it remains yours.
+
+order time graph
+47 orders 

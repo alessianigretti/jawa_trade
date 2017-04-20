@@ -24,7 +24,7 @@ public class Company {
 		setNetWorth();
 		this.netWorth = getNetWorth();
 		this.currentShareValue = currentShareValue/100;
-		shareValueList.add(currentShareValue);	
+		shareValueList.add(getCurrentShareValue());	
 	}
 	
 	public LinkedList getShareValueList()
@@ -65,6 +65,7 @@ public class Company {
 	public void setCurrentShareValue(double currentShareValue) 
 	{
 		this.currentShareValue = currentShareValue;
+		shareValueList.add(getCurrentShareValue());
 	}
 	
 	public double getCurrentShareValue() 

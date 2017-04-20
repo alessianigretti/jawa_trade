@@ -39,7 +39,11 @@ public class TradingExchange {
 		setUpSim();
 		updateShareIndex();
 		System.out.println(getShareIndex());
-		tradeSim();
+		for(int i = 0; i<28; i++)
+		{
+			tradeSim();
+		}
+		
 	}
 	
 	public LinkedList getXChart()
@@ -147,18 +151,18 @@ public class TradingExchange {
 		
 		for(int i = 0; i<companies.size(); i++)
 		{
-			System.out.println(companies.get(i).getName() + " " + companies.get(i).getCurrentShareValue());
 			companies.get(i).updateShareValue(companies.get(i).getBuyCount()+companies.get(i).getSellCount());
-			System.out.println(companies.get(i).getName() + " " + companies.get(i).getCurrentShareValue());
 		}
 		
 		for(int i = 1; i<traders.size(); i++)
 		{
 			for(int j = 0; j<traders.get(i).getOrderList().size(); j++)
 			{
-				((RandomTrader) traders.get(i)).completeOrder(traders.get(i).getOrderList().get(j));	
+				((RandomTrader) traders.get(i)).completeOrder(traders.get(i).getOrderList().get(j));
 			}
+			traders.get(i).clearOrders();
 		}
+
 		
 	}
 	
