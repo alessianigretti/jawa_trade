@@ -43,6 +43,7 @@ public class TradingExchange {
 		{
 			tradeSim();
 		}
+		checkShareNum();
 		
 	}
 	
@@ -162,6 +163,12 @@ public class TradingExchange {
 			}
 			traders.get(i).clearOrders();
 		}
+		
+		for(int i = 0; i<companies.size(); i++)
+		{
+			companies.get(i).clearCount();
+		}
+		
 
 		
 	}
@@ -285,6 +292,23 @@ public class TradingExchange {
 		catch (FileNotFoundException e){
 			e.printStackTrace();
 		}
+	}
+	
+	public void checkShareNum()
+	{
+		double count = 0;
+		for(int i = 0; i<traders.size(); i++)
+		{
+			for(int j = 0; j<traders.get(i).getClients().size(); j++)
+			{
+				for(int k = 0; k<traders.get(i).getClients().get(j).getPortfolio().size(); k++)
+				{
+					if(companies.get(0).getName().equals(traders.get(i).getClients().get(j).getPortfolio().get(k).getCompanyName()))
+						count = count + traders.get(i).getClients().get(j).getPortfolio().get(k).getSize();
+				}
+			}
+		}
+		System.out.println(count);
 	}
 	
 	

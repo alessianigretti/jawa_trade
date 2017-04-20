@@ -103,6 +103,12 @@ public class Company {
 		return buyCount;
 	}
 	
+	public void clearCount()
+	{
+		sellCount = 0;
+		buyCount = 0;
+	}
+	
 	
 	
 }
