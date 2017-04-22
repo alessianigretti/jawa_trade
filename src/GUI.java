@@ -48,6 +48,7 @@ public class GUI extends Application
     private Company selectedCompany = null;
     private XYChart.Series series = new XYChart.Series();
     private final ObservableList<OrderTable> orders = FXCollections.observableArrayList();   
+    
     // declaring labels to update in real-time
     private Label traderLabel = new Label("Trader: " + selectedTrader);
     private Label clientLabel = new Label("Client: " + selectedClient);
@@ -228,37 +229,37 @@ public class GUI extends Application
         startSim.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-            	  Task<Void> task = new Task<Void>()
-            		        {
-            		      	  @Override
-            		      	  public Void call() throws Exception
-            		      	  {
-            		      	    while (true)
-            		      	    {
-            		      	      Platform.runLater(new Runnable()
-            		      	      {
-            		      	        @Override
-            		      	        public void run() {
-            		      	        	exchange.tradeSim();
-            		      	        	netWorthLabel.setText("Net Worth: " + selectedClient.getNetWorth());
-            		      	        	currentDateTimeLabel.setText("Current: " + exchange.getDate() + ", " + exchange.getTime());
-            		      	        	series.getData().setAll(new XYChart.Data(0, 0));
-            		                	for (int i = 0; i < selectedCompany.getShareValueList().size(); i++)
-            		                	{
-            		                		// updating chart depending on selected commodity
-            		                		selectedCompany = exchange.getCompanies().get(i);
-            		                		exchange.getXChart().get(i);
-            		                		series.getData().add(new XYChart.Data(exchange.getXChart().get(i), selectedCompany.getShareValueList().get(i)));
-            		                	}
-            		      	        }
-            		      	      });
-            		      	      Thread.sleep(5000);
-            		      	    }
-            		      	  }
-            		      	};
-            		      	Thread th = new Thread(task);
-            		      	th.setDaemon(true);
-            		      	th.start();
+            	startSim.setDisable(true);  
+            	Task<Void> task = new Task<Void>()
+		        {
+		      	  @Override
+		      	  public Void call() throws Exception
+		      	  {
+		      	    while (true)
+		      	    {
+		      	      Platform.runLater(new Runnable()
+		      	      {
+		      	        @Override
+		      	        public void run() {
+		      	        	exchange.tradeSim();
+		      	        	netWorthLabel.setText("Net Worth: " + selectedClient.getNetWorth());
+		      	        	currentDateTimeLabel.setText("Current: " + exchange.getDate() + ", " + exchange.getTime());
+		      	        	series.getData().setAll(new XYChart.Data(0, 0));
+		      	        	for (int i = 0; i < selectedCompany.getShareValueList().size(); i++)
+		                	{
+		                		// updating chart depending on selected commodity
+		                		exchange.getXChart().get(i);
+		                		series.getData().add(new XYChart.Data(exchange.getXChart().get(i), selectedCompany.getShareValueList().get(i)));
+		                	}
+		      	        }
+		      	      });
+		      	      Thread.sleep(5000);
+		      	    }
+		      	  }
+		      	};
+		      	Thread th = new Thread(task);
+		      	th.setDaemon(true);
+		      	th.start();
             }
         });
         toolbar.setLeft(startSim);
@@ -393,7 +394,7 @@ public class GUI extends Application
     	BorderPane commodity = new BorderPane();
     	commodity.setMinWidth(165/scaleWidth);
     	commodity.setMaxWidth(165/scaleWidth);
-    	
+
     	// creating button for cell
     	Button commodityButton = new Button(null, commodity);
     	commodityButton.setOnAction(new EventHandler<ActionEvent>() {
