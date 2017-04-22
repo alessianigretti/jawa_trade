@@ -8,8 +8,9 @@ import java.util.*;
 
 import com.opencsv.CSVReader;
 
+// TODO: Auto-generated Javadoc
 /**
- * 
+ * The Class TradingExchange.
  */
 
 /**
@@ -33,6 +34,9 @@ public class TradingExchange {
 	private DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("H:m");
 	
 	
+	/**
+	 * Instantiates a new trading exchange.
+	 */
 	public TradingExchange()
 	{
 		currentDate = LocalDate.parse("Jan 1 2017", dateFormatter);
@@ -58,6 +62,11 @@ public class TradingExchange {
 		
 	}
 	
+	/**
+	 * Gets the x chart.
+	 *
+	 * @return the x chart
+	 */
 	public LinkedList getXChart()
 	{
 		//placeholder
@@ -69,11 +78,19 @@ public class TradingExchange {
 		return x;
 	}
 	
+	/**
+	 * Gets the smart trader.
+	 *
+	 * @return the smart trader
+	 */
 	public SmartTrader getSmartTrader()
 	{
 		return smartTrader;
 	}
 	
+	/**
+	 * Update share index.
+	 */
 	public void updateShareIndex()
 	{
 		shareIndex = 0;
@@ -84,46 +101,89 @@ public class TradingExchange {
 		shareIndex = shareIndex/companies.size();	
 	}
 	
+	/**
+	 * Gets the share index.
+	 *
+	 * @return the share index
+	 */
 	public double getShareIndex()
 	{
 		return shareIndex;
 	}
 	
+	/**
+	 * Sets the current client.
+	 *
+	 * @param client the new current client
+	 */
 	public void setCurrentClient(Client client)
 	{
 		currentClient = client;
 	}
 	
+	/**
+	 * Gets the current client.
+	 *
+	 * @return the current client
+	 */
 	public Client getCurrentClient()
 	{
 		return currentClient;
 	}
 	
+	/**
+	 * Gets the events.
+	 *
+	 * @return the events
+	 */
 	public LinkedList<Events> getEvents()
 	{
 		return events;
 	}
 	
+	/**
+	 * Gets the companies.
+	 *
+	 * @return the companies
+	 */
 	public LinkedList<Company> getCompanies()
 	{
 		return companies;
 	}
 	
+	/**
+	 * Gets the traders.
+	 *
+	 * @return the traders
+	 */
 	public LinkedList<Trader> getTraders()
 	{
 		return traders;
 	}
 	
+	/**
+	 * Gets the time.
+	 *
+	 * @return the time
+	 */
 	public String getTime()
 	{
 		return String.valueOf(currentTime);
 	}
 	
+	/**
+	 * Gets the date.
+	 *
+	 * @return the date
+	 */
 	public String getDate()
 	{
 		return String.valueOf(currentDate);
 	}
 	
+	/**
+	 * Update date time.
+	 */
 	public void updateDateTime()
 	{
 		currentTime = currentTime.plusMinutes(15);
@@ -131,6 +191,9 @@ public class TradingExchange {
 			currentDate = currentDate.plusDays(1);
 	}
 	
+	/**
+	 * Trade sim.
+	 */
 	public void tradeSim()
 	{
 		for(int i = 1; i<traders.size(); i++)
@@ -193,6 +256,9 @@ public class TradingExchange {
 		
 	}
 	
+	/**
+	 * Sets the up sim.
+	 */
 	public void setUpSim()
 	{
 		setUpCompanies();
@@ -201,6 +267,9 @@ public class TradingExchange {
 		setUpClients();
 	}
 	
+	/**
+	 * Sets the up companies.
+	 */
 	private void setUpCompanies()
 	{
 		String[] myEntries;
@@ -224,6 +293,9 @@ public class TradingExchange {
 		}
 	}
 	
+	/**
+	 * Sets the up clients.
+	 */
 	private void setUpClients()
 	{
 		String[] myEntries;
@@ -282,6 +354,9 @@ public class TradingExchange {
 		}
 	}
 	
+	/**
+	 * Sets the up random traders.
+	 */
 	private void setUpRandomTraders()
 	{
 		for(int i = 0; i<4; i++)
@@ -291,6 +366,9 @@ public class TradingExchange {
 		}
 	}
 	
+	/**
+	 * Sets the up events.
+	 */
 	public void setUpEvents()
 	{
 		String[] myEntries;
@@ -314,6 +392,9 @@ public class TradingExchange {
 		}
 	}
 	
+	/**
+	 * Check share num.
+	 */
 	public void checkShareNum()
 	{
 		double count = 0;

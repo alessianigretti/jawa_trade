@@ -1,8 +1,9 @@
 import java.util.LinkedList;
 import java.util.Random;
 
+// TODO: Auto-generated Javadoc
 /**
- * 
+ * The Class RandomTrader.
  */
 
 /**
@@ -16,6 +17,9 @@ public class RandomTrader extends Trader {
 	
 	
 	
+	/**
+	 * The Enum Mode.
+	 */
 	public enum Mode
 	{
 		BALANCED, AGGRESSIVE_BUY, AGGRESSIVE_SELL
@@ -25,22 +29,43 @@ public class RandomTrader extends Trader {
 	
 	private Mode mode;
 	
+	/**
+	 * Instantiates a new random trader.
+	 *
+	 * @param mode the mode
+	 * @param i the i
+	 */
 	RandomTrader(Mode mode, int i)
 	{
 		setMode(Mode.BALANCED);
 		setTraderName("RanTrader " + String.valueOf(i));
 	}
 	
+	/**
+	 * Gets the buy rate.
+	 *
+	 * @return the buy rate
+	 */
 	public double getBuyRate()
 	{
 		return buyRate;
 	}
 	
+	/**
+	 * Gets the sell rate.
+	 *
+	 * @return the sell rate
+	 */
 	public double getSellRate()
 	{
 		return sellRate;
 	}
 	
+	/**
+	 * Sets the mode.
+	 *
+	 * @param mode the new mode
+	 */
 	public void setMode(Mode mode)
 	{
 		this.mode = mode;
@@ -62,11 +87,21 @@ public class RandomTrader extends Trader {
 		}
 	}
 	
+	/**
+	 * Gets the mode.
+	 *
+	 * @return the mode
+	 */
 	public Mode getMode()
 	{
 		return mode;
 	}
 	
+	/**
+	 * Switch mode.
+	 *
+	 * @param ranNum the ran num
+	 */
 	public void switchMode(int ranNum)
 	{
 		switch (getMode())
@@ -89,6 +124,13 @@ public class RandomTrader extends Trader {
 		}
 	}
 	
+	/**
+	 * New order.
+	 *
+	 * @param client the client
+	 * @param company the company
+	 * @return the double
+	 */
 	public double newOrder(Client client, Company company)
 	{
 		int quantity = randomQuantity();
@@ -108,6 +150,11 @@ public class RandomTrader extends Trader {
 		return quantity*company.getCurrentShareValue();
 	}
 	
+	/**
+	 * Complete order.
+	 *
+	 * @param o the o
+	 */
 	public void completeOrder(Order o)
 	{
 		for(Client c: getClients())
@@ -137,6 +184,11 @@ public class RandomTrader extends Trader {
 		}
 	}
 	
+	/**
+	 * Random quantity.
+	 *
+	 * @return the int
+	 */
 	public int randomQuantity()
 	{
 		LinkedList temp = new LinkedList();

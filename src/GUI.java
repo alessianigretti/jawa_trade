@@ -47,7 +47,6 @@ public class GUI extends Application
     private Client selectedClient = new Client(null, 0);
     private XYChart.Series series = new XYChart.Series();
     private final ObservableList<OrderTable> orders = FXCollections.observableArrayList();   
-    
     // declaring labels to update in real-time
     private Label traderLabel = new Label("Trader: " + selectedTrader);
     private Label clientLabel = new Label("Client: " + selectedClient);
@@ -61,10 +60,8 @@ public class GUI extends Application
 	double scaleHeight = (832/height)*1.1;
 	double scaleWidth = (1200/width)*1.1;
 	
-    /*
+    /* 
      * The start function sets up the stage.
-     * 
-     * 
      */
     @Override
     public void start(Stage stage)
@@ -126,8 +123,10 @@ public class GUI extends Application
         stage.show();
     }
     
-    /*
-     * The createCentrePane function.
+    /**
+     * Creates the centre pane.
+     *
+     * @return the border pane
      */
     private BorderPane createCentrePane()
     {
@@ -158,8 +157,10 @@ public class GUI extends Application
         return centre;
     }
     
-    /*
-     * The main function launches the program.
+    /**
+     * Creates the right pane.
+     *
+     * @return the scroll pane
      */
     private ScrollPane createRightPane()
     {
@@ -175,8 +176,10 @@ public class GUI extends Application
         return newsfeedScroll;
     }
     
-    /*
-     * The main function launches the program.
+    /**
+     * Creates the left pane.
+     *
+     * @return the scroll pane
      */
     private ScrollPane createLeftPane()
     {
@@ -192,6 +195,11 @@ public class GUI extends Application
 		return commoditiesScroll;
     }
     
+    /**
+     * Creates the top pane.
+     *
+     * @return the border pane
+     */
     private BorderPane createTopPane()
     {
     	// top borderpane (frame for menubar and toolbar)
@@ -228,6 +236,11 @@ public class GUI extends Application
         return topPane;
     }
     
+    /**
+     * Creates the bottom pane.
+     *
+     * @return the tab pane
+     */
     private TabPane createBottomPane()
     {
     	// tab pane for orders table
@@ -249,6 +262,11 @@ public class GUI extends Application
         return bottomPane;
     }
 
+    /**
+     * Display all news.
+     *
+     * @return the grid pane
+     */
     private GridPane displayAllNews()
     {
     	// gridpane containing all news
@@ -269,6 +287,14 @@ public class GUI extends Application
 	    return allNews;
     }
     
+    /**
+     * Creates the news cell.
+     *
+     * @param newsDate the news date
+     * @param newsTime the news time
+     * @param newsContent the news content
+     * @return the border pane
+     */
     private BorderPane createNewsCell(String newsDate, String newsTime, String newsContent)
     {
     	// creating cell in news grid
@@ -289,6 +315,11 @@ public class GUI extends Application
 	    return news;
     }
     
+    /**
+     * Display all commodities.
+     *
+     * @return the grid pane
+     */
     private GridPane displayAllCommodities()
     {
     	// gridpane containing all commodities
@@ -308,6 +339,14 @@ public class GUI extends Application
         return allCommodities;
     }
     
+    /**
+     * Creates the commodity cell.
+     *
+     * @param company the company
+     * @param shareValue the share value
+     * @param trend the trend
+     * @return the button
+     */
     private Button createCommodityCell(Company company, double shareValue, String trend)
     {
     	// creating cell in commodities grid
@@ -362,6 +401,11 @@ public class GUI extends Application
 		return commodityButton;
     }
     
+    /**
+     * Creates the new order.
+     *
+     * @param company the company
+     */
     private void createNewOrder(Company company)
     {
     	// creating new window for new order
@@ -428,6 +472,11 @@ public class GUI extends Application
 		makeNewOrder.show();
     }
     
+    /**
+     * Creates the menu.
+     *
+     * @return the menu bar
+     */
     private MenuBar createMenu()
     {
 		// creating menu for traders
@@ -492,6 +541,11 @@ public class GUI extends Application
         return menuBar;
     }
 
+    /**
+     * Creates the table view.
+     *
+     * @return the table view
+     */
     private TableView<OrderTable> createTableView()
     {
     	// setting up tableview to fill table up with data
@@ -540,6 +594,9 @@ public class GUI extends Application
         return table;
     }
     
+    /**
+     * The Class OrderTable.
+     */
     public static class OrderTable
     {
         // fields for filling table up with data
@@ -549,6 +606,14 @@ public class GUI extends Application
         private final SimpleDoubleProperty price;
         private final SimpleStringProperty orderType;
  
+        /**
+         * Instantiates a new order table.
+         *
+         * @param company the company
+         * @param quantity the quantity
+         * @param client the client
+         * @param orderType the order type
+         */
         private OrderTable(Company company, int quantity, Client client, String orderType)
         {
             this.company = new SimpleStringProperty(company.getName());
@@ -558,57 +623,110 @@ public class GUI extends Application
             this.orderType = new SimpleStringProperty(orderType);
         }
  
+        /**
+         * Gets the quantity.
+         *
+         * @return the quantity
+         */
         public int getQuantity()
         {
             return quantity.get();
         }
  
+        /**
+         * Sets the quantity.
+         *
+         * @param quantity the new quantity
+         */
         public void setQuantity(int quantity)
         {
             this.quantity.set(quantity);
         }
  
+        /**
+         * Gets the company.
+         *
+         * @return the company
+         */
         public String getCompany()
         {
             return company.get();
         }
  
+        /**
+         * Sets the company.
+         *
+         * @param company the new company
+         */
         public void setCompany(String company)
         {
             this.company.set(company);
         }
  
+        /**
+         * Gets the client.
+         *
+         * @return the client
+         */
         public String getClient()
         {
             return client.get();
         }
  
+        /**
+         * Sets the client.
+         *
+         * @param client the new client
+         */
         public void setClient(String client)
         {
             this.client.set(client);
         }
         
+        /**
+         * Gets the price.
+         *
+         * @return the price
+         */
         public double getPrice()
         {
         	return price.get();
         }
         
+        /**
+         * Sets the price.
+         *
+         * @param price the new price
+         */
         public void setPrice(double price)
         {
         	this.price.set(price);
         }
         
+        /**
+         * Gets the order type.
+         *
+         * @return the order type
+         */
         public String getOrderType()
         {
         	return orderType.get();
         }
         
+        /**
+         * Sets the order type.
+         *
+         * @param orderType the new order type
+         */
         public void setOrderType(String orderType)
         {
         	this.orderType.set(orderType);
         }
     } 
     
+    /**
+     * Adds the custom client.
+     */
     private void addCustomClient()
     {
     	// creating new stage for creating custom client
@@ -688,8 +806,10 @@ public class GUI extends Application
 		addCustomClient.show();
     }
 
-    /*
-     * The main function launches the program.
+    /**
+     * The main method.
+     *
+     * @param args the arguments
      */
     public static void main(String[] args)
     {
