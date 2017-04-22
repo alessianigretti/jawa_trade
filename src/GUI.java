@@ -61,7 +61,7 @@ public class GUI extends Application
 	double scaleWidth = (1200/width)*1.1;
 	
     /* 
-     * The start function sets up the stage.
+     * Sets up the stage.
      */
     @Override
     public void start(Stage stage)
@@ -124,9 +124,9 @@ public class GUI extends Application
     }
     
     /**
-     * Creates the centre pane.
+     * Creates the centre pane containing chart and orders table.
      *
-     * @return the border pane
+     * @return the border pane to be placed as centre pane
      */
     private BorderPane createCentrePane()
     {
@@ -158,9 +158,9 @@ public class GUI extends Application
     }
     
     /**
-     * Creates the right pane.
+     * Creates the right pane containing the newsfeed.
      *
-     * @return the scroll pane
+     * @return the scroll pane to be placed as right pane
      */
     private ScrollPane createRightPane()
     {
@@ -177,9 +177,9 @@ public class GUI extends Application
     }
     
     /**
-     * Creates the left pane.
+     * Creates the left pane containing the commodities.
      *
-     * @return the scroll pane
+     * @return the scroll pane to be placed as left pane
      */
     private ScrollPane createLeftPane()
     {
@@ -196,9 +196,9 @@ public class GUI extends Application
     }
     
     /**
-     * Creates the top pane.
+     * Creates the top pane containing the menu bar and the toolbar.
      *
-     * @return the border pane
+     * @return the border pane to be placed as top pane
      */
     private BorderPane createTopPane()
     {
@@ -209,7 +209,7 @@ public class GUI extends Application
         MenuBar menuBar = createMenu();
         topPane.setTop(menuBar);
         
-        // bottom toolbar for info panel
+        // bottom toolbar for info panel and simulation button
         BorderPane toolbar = new BorderPane();
         toolbar.setPadding(new Insets(15, 0, 15, 10));
 
@@ -221,6 +221,16 @@ public class GUI extends Application
         info.add(netWorthLabel, 2, 0);
         info.add(currentDateTimeLabel, 2, 1);
         info.add(new Label("          "), 3, 0);
+        toolbar.setRight(info);
+        
+        // button for starting simulation
+        Button startSim = new Button("Start Simulation");
+        startSim.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+            	//exchange.tradeSim();
+            }
+        });
         
         // setting up style and position for labels and toolbar
         traderLabel.setFont(new Font(20/((scaleHeight+scaleWidth)/2)));
@@ -230,16 +240,15 @@ public class GUI extends Application
         toolbar.setStyle("-fx-border-color: #606060;"
         		+ "-fx-border-width: 3 3 3 3;"
         		+ "-fx-font-size: 16;");
-        toolbar.setRight(info);
         topPane.setBottom(toolbar);
         
         return topPane;
     }
     
     /**
-     * Creates the bottom pane.
+     * Creates the bottom pane containing the orders table.
      *
-     * @return the tab pane
+     * @return the tab pane to be placed as bottom pane
      */
     private TabPane createBottomPane()
     {
@@ -265,7 +274,7 @@ public class GUI extends Application
     /**
      * Display all news.
      *
-     * @return the grid pane
+     * @return the grid pane containing one news per cell
      */
     private GridPane displayAllNews()
     {
@@ -290,10 +299,10 @@ public class GUI extends Application
     /**
      * Creates the news cell.
      *
-     * @param newsDate the news date
-     * @param newsTime the news time
-     * @param newsContent the news content
-     * @return the border pane
+     * @param newsDate the date of the news to be displayed
+     * @param newsTime the time of the news to be displayed
+     * @param newsContent the content of the news
+     * @return the border pane to be placed in each cell
      */
     private BorderPane createNewsCell(String newsDate, String newsTime, String newsContent)
     {
@@ -318,7 +327,7 @@ public class GUI extends Application
     /**
      * Display all commodities.
      *
-     * @return the grid pane
+     * @return the grid pane containing one commodity per cell
      */
     private GridPane displayAllCommodities()
     {
@@ -342,10 +351,10 @@ public class GUI extends Application
     /**
      * Creates the commodity cell.
      *
-     * @param company the company
-     * @param shareValue the share value
-     * @param trend the trend
-     * @return the button
+     * @param company the company to be displayed
+     * @param shareValue the share value to be displayed
+     * @param trend the trend of the company
+     * @return the button to be placed as a cell of the commodities pane
      */
     private Button createCommodityCell(Company company, double shareValue, String trend)
     {
@@ -402,9 +411,9 @@ public class GUI extends Application
     }
     
     /**
-     * Creates the new order.
+     * Creates the stage to allow the user to make a new order.
      *
-     * @param company the company
+     * @param company the company for which the user is making a new order
      */
     private void createNewOrder(Company company)
     {
@@ -473,7 +482,7 @@ public class GUI extends Application
     }
     
     /**
-     * Creates the menu.
+     * Creates the menu bar at the top of the stage
      *
      * @return the menu bar
      */
@@ -542,7 +551,7 @@ public class GUI extends Application
     }
 
     /**
-     * Creates the table view.
+     * Creates the table view containing all orders.
      *
      * @return the table view
      */
@@ -725,7 +734,7 @@ public class GUI extends Application
     } 
     
     /**
-     * Adds the custom client.
+     * Allows the user to add a custom client.
      */
     private void addCustomClient()
     {
@@ -807,7 +816,7 @@ public class GUI extends Application
     }
 
     /**
-     * The main method.
+     * Launches the program.
      *
      * @param args the arguments
      */
