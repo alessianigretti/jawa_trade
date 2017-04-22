@@ -45,6 +45,7 @@ public class GUI extends Application
     private TradingExchange exchange = new TradingExchange();
     private Trader selectedTrader = new Trader();
     private Client selectedClient = new Client(null, 0);
+    private Company selectedCompany = null;
     private XYChart.Series series = new XYChart.Series();
     private final ObservableList<OrderTable> orders = FXCollections.observableArrayList();   
     // declaring labels to update in real-time
@@ -240,8 +241,15 @@ public class GUI extends Application
             		      	        public void run() {
             		      	        	exchange.tradeSim();
             		      	        	netWorthLabel.setText("Net Worth: " + selectedClient.getNetWorth());
-            		      	        	//leftPane = createLeftPane();
             		      	        	currentDateTimeLabel.setText("Current: " + exchange.getDate() + ", " + exchange.getTime());
+            		      	        	series.getData().setAll(new XYChart.Data(0, 0));
+            		                	for (int i = 0; i < selectedCompany.getShareValueList().size(); i++)
+            		                	{
+            		                		// updating chart depending on selected commodity
+            		                		selectedCompany = exchange.getCompanies().get(i);
+            		                		exchange.getXChart().get(i);
+            		                		series.getData().add(new XYChart.Data(exchange.getXChart().get(i), selectedCompany.getShareValueList().get(i)));
+            		                	}
             		      	        }
             		      	      });
             		      	      Thread.sleep(5000);
@@ -395,6 +403,7 @@ public class GUI extends Application
             	for (int i = 0; i < company.getShareValueList().size(); i++)
             	{
             		// updating chart depending on selected commodity
+            		selectedCompany = exchange.getCompanies().get(i);
             		exchange.getXChart().get(i);
             		series.getData().add(new XYChart.Data(exchange.getXChart().get(i), company.getShareValueList().get(i)));
             	}
