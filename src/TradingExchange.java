@@ -52,12 +52,6 @@ public class TradingExchange {
 		setUpSim();
 		updateShareIndex();
 		System.out.println(getShareIndex());
-		System.out.println(getDate() + " " + getTime());
-		for(int i = 0; i<28; i++)
-		{
-			tradeSim();
-		}
-		System.out.println(getDate() + " " + getTime());
 		checkShareNum();
 		
 	}

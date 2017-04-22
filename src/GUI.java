@@ -228,7 +228,11 @@ public class GUI extends Application
         startSim.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-            	//exchange.tradeSim();
+            	for(int i = 0; i<28; i++)
+            	{
+            		exchange.tradeSim();
+            	}
+            	
             }
         });
         toolbar.setLeft(startSim);
