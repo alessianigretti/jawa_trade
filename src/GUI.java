@@ -1,32 +1,17 @@
 import java.awt.Dimension;
-import java.awt.Paint;
-import java.awt.Panel;
 import java.awt.Toolkit;
-import java.io.IOException;
-import java.util.LinkedList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.swing.AbstractAction;
-
-import com.sun.glass.events.MouseEvent;
 
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.beans.property.Property;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
-import javafx.geometry.NodeOrientation;
 import javafx.geometry.Pos;
 import javafx.scene.*;
 import javafx.scene.chart.LineChart;
@@ -34,11 +19,8 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Screen;
@@ -49,10 +31,8 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 
@@ -81,10 +61,76 @@ public class GUI extends Application
 	double scaleHeight = (832/height)*1.1;
 	double scaleWidth = (1200/width)*1.1;
 	
-	
+    /*
+     * The start function sets up the stage.
+     * 
+     * 
+     */
     @Override
     public void start(Stage stage)
     {    	
+    	// creating chart/orders pane (centre of root)
+    	BorderPane centre = createCentrePane();
+        
+        // creating newsfeed pane (right of root)
+        ScrollPane rightPane = createRightPane();
+        
+        // creating commodities pane (left of root)
+        ScrollPane leftPane = createLeftPane();
+        
+        // creating toolbar pane (top of root)
+        BorderPane topPane = createTopPane();
+        
+        // creating root to put together all elements
+        BorderPane root = new BorderPane();
+        root.setCenter(centre);
+        root.setTop(topPane);
+        root.setLeft(leftPane);
+        root.setRight(rightPane);
+        
+        // real-time updates
+        Task<Void> task = new Task<Void>()
+        {
+      	  @Override
+      	  public Void call() throws Exception
+      	  {
+      	    while (true)
+      	    {
+      	      Platform.runLater(new Runnable()
+      	      {
+      	        @Override
+      	        public void run() {
+      	        	traderLabel.setText("Trader: " + selectedTrader.getTraderName());
+      	        	clientLabel.setText("Client: " + selectedClient.getName());
+      	        	netWorthLabel.setText("Net Worth: " + selectedClient.getNetWorth());
+      	        	currentDateTimeLabel = new Label("Current: " + exchange.getDate() + ", " + exchange.getTime());
+      	        }
+      	      });
+      	      Thread.sleep(1000);
+      	    }
+      	  }
+      	};
+      	Thread th = new Thread(task);
+      	th.setDaemon(true);
+      	th.start();
+        
+      	// setting up scene and stylesheets
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add("/resources/com/guigarage/flatterfx/flatterfx.css");
+        
+        // setting up stage
+        stage.setResizable(false);
+        stage.sizeToScene();
+        stage.setTitle("Stock Market Simulation by JAWA Trade");
+        stage.setScene(scene);
+        stage.show();
+    }
+    
+    /*
+     * The createCentrePane function.
+     */
+    private BorderPane createCentrePane()
+    {
     	// defining the axes
         final NumberAxis xAxis = new NumberAxis("X label (temporary)", 1, 28, 1);
         final NumberAxis yAxis = new NumberAxis();
@@ -102,72 +148,110 @@ public class GUI extends Application
         // orders panel (bottom of BorderPane centre)
         TabPane bottomPane = createBottomPane();
         
-        // centre panel (containing chart and orders)
+        // centre panel (centre of root)
     	BorderPane centre = new BorderPane();
     	centre.setMaxWidth(650/scaleWidth);
     	centre.setMinWidth(650/scaleWidth);
         centre.setTop(lineChart);
         centre.setBottom(bottomPane);
         
-        
-        // newsfeed panel (right of root
-        ScrollPane rightPane = createRightPane();
-        
-        // commodities panel
-        ScrollPane leftPane = createLeftPane();
-		
-
-        
-        // top menu and info panel
-        BorderPane topPane = createTopPane();
-        
-        // put together all elements
-        BorderPane root = new BorderPane();
-        root.setCenter(centre);
-        root.setTop(topPane);
-        root.setLeft(leftPane);
-        root.setRight(rightPane);
-        
-        // real-time updates
-        Task task = new Task<Void>() {
-      	  @Override
-      	  public Void call() throws Exception {
-      	    int i = 0;
-      	    while (true) {
-      	      final int finalI = i;
-      	      Platform.runLater(new Runnable() {
-      	        @Override
-      	        public void run() {
-      	        	traderLabel.setText("Trader: " + selectedTrader.getTraderName());
-      	        	clientLabel.setText("Client: " + selectedClient.getName());
-      	        	netWorthLabel.setText("Net Worth: " + selectedClient.getNetWorth());
-      	        	currentDateTimeLabel = new Label("Current: " + exchange.getDate() + ", " + exchange.getTime());
-      	        }
-      	      });
-      	      i++;
-      	      Thread.sleep(1000);
-      	    }
-      	  }
-      	};
-      	Thread th = new Thread(task);
-      	th.setDaemon(true);
-      	th.start();
-        
-      	// set up scene
-        Scene scene = new Scene(root);
-        scene.getStylesheets().add("/resources/com/guigarage/flatterfx/flatterfx.css");
-        
-        // set up stage
-        stage.setResizable(false);
-        stage.sizeToScene();
-        stage.setTitle("Stock Market Simulation by JAWA Trade");
-        stage.setScene(scene);
-        stage.show();
+        return centre;
     }
     
+    /*
+     * The main function launches the program.
+     */
+    private ScrollPane createRightPane()
+    {
+    	// right scrollpane (frame for gridpane)
+    	ScrollPane newsfeedScroll = new ScrollPane();
+        newsfeedScroll.setMaxSize(250/scaleWidth, 787/scaleHeight);
+        newsfeedScroll.setMinSize(250/scaleWidth, 787/scaleHeight);
+	    
+        // gridpane containing all news
+        GridPane allNews = displayAllNews();
+        newsfeedScroll.setContent(allNews);
+        
+        return newsfeedScroll;
+    }
+    
+    /*
+     * The main function launches the program.
+     */
+    private ScrollPane createLeftPane()
+    {
+    	// left scrollpane (frame for gridpane)
+    	ScrollPane commoditiesScroll = new ScrollPane();
+        commoditiesScroll.setMaxSize(250/scaleWidth, 787/scaleHeight);
+        commoditiesScroll.setMinSize(250/scaleWidth, 787/scaleHeight);
+        
+        // gridpane containing all commodities
+        GridPane allCommodities = displayAllCommodities();
+		commoditiesScroll.setContent(allCommodities);
+        
+		return commoditiesScroll;
+    }
+    
+    private BorderPane createTopPane()
+    {
+    	// top borderpane (frame for menubar and toolbar)
+    	BorderPane topPane = new BorderPane();
+    	
+    	// top menu bar for traders and orders
+        MenuBar menuBar = createMenu();
+        topPane.setTop(menuBar);
+        
+        // bottom toolbar for info panel
+        BorderPane toolbar = new BorderPane();
+        toolbar.setPadding(new Insets(15, 0, 15, 10));
+
+        // gridpane for info panel
+        GridPane info = new GridPane();
+        info.add(traderLabel, 0, 0);
+        info.add(clientLabel, 0, 1);
+        info.add(new Label("          "), 1, 0);
+        info.add(netWorthLabel, 2, 0);
+        info.add(currentDateTimeLabel, 2, 1);
+        info.add(new Label("          "), 3, 0);
+        
+        // setting up style and position for labels and toolbar
+        traderLabel.setFont(new Font(20/((scaleHeight+scaleWidth)/2)));
+        clientLabel.setFont(new Font(20/((scaleHeight+scaleWidth)/2)));
+        netWorthLabel.setFont(new Font(20/((scaleHeight+scaleWidth)/2)));
+        currentDateTimeLabel.setFont(new Font(20/((scaleHeight+scaleWidth)/2)));
+        toolbar.setStyle("-fx-border-color: #606060;"
+        		+ "-fx-border-width: 3 3 3 3;"
+        		+ "-fx-font-size: 16;");
+        toolbar.setRight(info);
+        topPane.setBottom(toolbar);
+        
+        return topPane;
+    }
+    
+    private TabPane createBottomPane()
+    {
+    	// tab pane for orders table
+    	TabPane bottomPane = new TabPane();
+        bottomPane.setMaxHeight(230/scaleHeight);
+        bottomPane.setMinHeight(230/scaleHeight);
+        
+        // tab for orders
+        Tab ordersTab = new Tab();
+        ordersTab.setText("Orders");
+        ordersTab.setClosable(false);
+        
+        bottomPane.getTabs().addAll(ordersTab);
+        
+        // table view for holding data in table
+        TableView<OrderTable> ordersTable = createTableView();
+        ordersTab.setContent(ordersTable);
+        
+        return bottomPane;
+    }
+
     private GridPane displayAllNews()
     {
-    	// insert main grid for all news
+    	// gridpane containing all news
     	GridPane allNews = new GridPane();
 		allNews.setMaxWidth(215/scaleWidth);
 		allNews.setMinWidth(215/scaleWidth);
@@ -175,11 +259,11 @@ public class GUI extends Application
 	
 		for (int i = 0; i < exchange.getEvents().size(); i++)
 		{
-			// create new cells and add them to main grid
+			// creating new cells + filler cells and adding them to gridpane
 			BorderPane news = createNewsCell(exchange.getEvents().get(i).getDate().toString() + " - ", exchange.getEvents().get(i).getTime().toString(), exchange.getEvents().get(i).getEventText());
 		    allNews.add(news, 0, (i * 2 + 1));
-		    BorderPane empty = createNewsCell(" ", " ", " ");
-		    allNews.add(empty, 0, (i * 2 + 2));
+		    BorderPane filler = createNewsCell(" ", " ", " ");
+		    allNews.add(filler, 0, (i * 2 + 2));
 		}
 	    
 	    return allNews;
@@ -187,20 +271,17 @@ public class GUI extends Application
     
     private BorderPane createNewsCell(String newsDate, String newsTime, String newsContent)
     {
-    	// create cell in news grid
+    	// creating cell in news grid
     	BorderPane news = new BorderPane();
     	
-    	// create label for name of news
+    	// creating label for name of news
 		Label newsNameLabel = new Label(newsDate + newsTime);
 		newsNameLabel.setFont(new Font(20/((scaleHeight+scaleWidth)/2)));
 		
-		// create label for content of news
+		// creating label for content of news
 		Label newsContentLabel = new Label(newsContent);
 		newsContentLabel.setTextAlignment(TextAlignment.LEFT);
 		newsContentLabel.setWrapText(true);
-		
-		news.setAlignment(newsNameLabel, Pos.TOP_LEFT);
-		news.setAlignment(newsContentLabel, Pos.TOP_LEFT);
     	
 		news.setTop(newsNameLabel);
 	    news.setCenter(newsContentLabel);
@@ -210,7 +291,7 @@ public class GUI extends Application
     
     private GridPane displayAllCommodities()
     {
-    	// insert main grid for all commodities
+    	// gridpane containing all commodities
     	GridPane allCommodities = new GridPane();
 		allCommodities.setMinWidth(215/scaleWidth);
 		allCommodities.setMaxWidth(215/scaleWidth);
@@ -218,7 +299,7 @@ public class GUI extends Application
 	
 		for (int i = 0; i < exchange.getCompanies().size(); i++)
 		{
-			// create new cells and add them to main grid
+			// creating new cells and adding them to main grid
 			Button commodity = createCommodityCell(exchange.getCompanies().get(i), exchange.getCompanies().get(i).getCurrentShareValue(), "^");
 	        allCommodities.add(commodity, 0, i * 2 + 1);
 	        allCommodities.add(new Label(), 0, i * 2);
@@ -229,45 +310,47 @@ public class GUI extends Application
     
     private Button createCommodityCell(Company company, double shareValue, String trend)
     {
-    	// create cell in commodities grid
+    	// creating cell in commodities grid
     	BorderPane commodity = new BorderPane();
     	commodity.setMinWidth(165/scaleWidth);
     	commodity.setMaxWidth(165/scaleWidth);
     	
-    	// create button for cell
+    	// creating button for cell
     	Button commodityButton = new Button(null, commodity);
     	commodityButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
             	series.getData().setAll(new XYChart.Data(0, 0));
-            	System.out.println(company.getShareValueList().size());
             	for (int i = 0; i < company.getShareValueList().size(); i++)
             	{
+            		// updating chart depending on selected commodity
             		exchange.getXChart().get(i);
             		series.getData().add(new XYChart.Data(exchange.getXChart().get(i), company.getShareValueList().get(i)));
             	}
             }
         });
     	
-    	// create label for name of commodity
+    	// creating label for name of commodity
 		Label commodityNameLabel = new Label(company.getName());
 		commodityNameLabel.setFont(new Font(20/((scaleHeight+scaleWidth)/2)));
 		
-		// create content for commodity cell
+		// creating button for new order
 		Button newOrderButton = new Button("New Order");
 		newOrderButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-            	Stage newOrderStage = createNewOrder(company);
+            	createNewOrder(company);
             }
         });
 		
+		// creating label for share value
 		Label shareValueLabel = new Label(String.valueOf(shareValue));
 		
+		// creating label for trend of commodity
 		Label trendLabel = new Label(trend);
 		trendLabel.setFont(new Font(20/((scaleHeight+scaleWidth)/2)));
 		
-		// separate each commodity cell in left and right side
+		// separating each commodity cell in left and right side
 		BorderPane leftPaneCommodity = new BorderPane();
 		leftPaneCommodity.setTop(newOrderButton);
 		leftPaneCommodity.setBottom(shareValueLabel);
@@ -279,44 +362,51 @@ public class GUI extends Application
 		return commodityButton;
     }
     
-    private Stage createNewOrder(Company company)
+    private void createNewOrder(Company company)
     {
+    	// creating new window for new order
     	Stage makeNewOrder = new Stage();
     	
+    	// borderpane containing options to make new order
     	BorderPane orderPane = new BorderPane();
 		orderPane.setPadding(new Insets(10, 30, 10, 30));
 		
+		// label describing following combobox
 		Label quantityLabel = new Label("Quantity: ");
 		quantityLabel.setFont(new Font(20/((scaleHeight+scaleWidth)/2)));
 		
+		// combobox allowing to choose quantities
 		ComboBox quantities = new ComboBox();
-		for(int i = 0; i<6; i++)
+		for (int i = 0; i < 6; i++)
 		{
 			if(i == 0)
+			{
 				quantities.getItems().add(50);
-			else
+			} else {
 				quantities.getItems().add(100*i);
+			}
 		}
 		
+		// borderpane for buy and sell buttons
 		BorderPane buyOrSell = new BorderPane();
 		buyOrSell.setPadding(new Insets(20, 0, 0, 0));
 		
+		// buy button and event handler
 		Button buyButton = new Button("Buy");
 		buyButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
             	orders.add(new OrderTable(company, Integer.valueOf(quantities.getSelectionModel().getSelectedItem().toString()), selectedClient, "Buy"));              		
-            	// need to test for no client selected and no quantity
             	makeNewOrder.hide();
             }
         });
 		
+		// sell button and event handler
 		Button sellButton = new Button("Sell");
 		sellButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
             	orders.add(new OrderTable(company, Integer.valueOf(quantities.getSelectionModel().getSelectedItem().toString()), selectedClient, "Sell"));
-            	// need to test for no client selected and no quantity
             	makeNewOrder.hide();
             }
         });
@@ -328,6 +418,7 @@ public class GUI extends Application
 		orderPane.setRight(quantities);
 		orderPane.setBottom(buyOrSell);
 		
+		// setting up and styling scene for new order
 		Scene newOrderScene = new Scene(orderPane);
 		newOrderScene.getStylesheets().add("resources/com/guigarage/flatterfx/flatterfx.css");
 		
@@ -335,22 +426,27 @@ public class GUI extends Application
 		makeNewOrder.setTitle("New Order");
 		makeNewOrder.setScene(newOrderScene);
 		makeNewOrder.show();
-		
-		return makeNewOrder;
     }
     
     private MenuBar createMenu()
     {
-		Menu traderMenu = new Menu("Traders");
+		// creating menu for traders
+    	Menu traderMenu = new Menu("Traders");
 		
+    	// looping through all traders
 		for(int i = 0; i < exchange.getTraders().size(); i++)
 		{
 			final int traderIndex = i;
+			// filling menu up with all trader's names
 			Menu trader = new Menu(exchange.getTraders().get(i).getTraderName());
+			
+			// looping through all clients for each trader
 			for (int j = 0; j < exchange.getTraders().get(i).getClients().size(); j++)
 			{
 				final int clientIndex = j;
+				// filling menuitems up with all trader's clients' names
 				MenuItem client = new MenuItem(exchange.getTraders().get(i).getClients().get(j).getName());
+				// setting up event handler for each client
 				client.setOnAction(new EventHandler<ActionEvent>() {
     	            @Override
     	            public void handle(ActionEvent event) {
@@ -361,6 +457,7 @@ public class GUI extends Application
 				trader.getItems().add(client);
 			}
 			
+			// menuitem for adding a custom client
 			MenuItem addClient = new MenuItem("Add Client...");
 	        addClient.setOnAction(new EventHandler<ActionEvent>() {
 	        	@Override
@@ -370,11 +467,15 @@ public class GUI extends Application
 	        	}
 	        });
 	        trader.getItems().add(addClient);
+	        
+	        // adding each trader to trader menu
 			traderMenu.getItems().add(trader);
 		}
 		
+		// creating menu for orders
 		Menu ordersMenu = new Menu("Orders");
-		MenuItem clearOrders = new MenuItem("Clear Orders");
+		// menuitem for clearing all orders table
+		MenuItem clearOrders = new MenuItem("Clear Orders Table");
 		clearOrders.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
@@ -383,92 +484,22 @@ public class GUI extends Application
 		});
 		ordersMenu.getItems().add(clearOrders);
         
+		// creating menu bar to show on top of stage
         MenuBar menuBar = new MenuBar();
         menuBar.getMenus().add(traderMenu);
         menuBar.getMenus().add(ordersMenu);
         
         return menuBar;
     }
-    
-    private ScrollPane createRightPane()
+
+    private TableView<OrderTable> createTableView()
     {
-    	ScrollPane newsfeedScroll = new ScrollPane();
-        newsfeedScroll.setMaxSize(250/scaleWidth, 787/scaleHeight);
-        newsfeedScroll.setMinSize(250/scaleWidth, 787/scaleHeight);
-	    
-        GridPane allNews = displayAllNews();
-        
-        newsfeedScroll.setContent(allNews);
-        
-        return newsfeedScroll;
-    }
-    
-    private ScrollPane createLeftPane()
-    {
-    	ScrollPane commoditiesScroll = new ScrollPane();
-        commoditiesScroll.setMaxSize(250/scaleWidth, 787/scaleHeight);
-        commoditiesScroll.setMinSize(250/scaleWidth, 787/scaleHeight);
-        
-        GridPane allCommodities = displayAllCommodities();
-		commoditiesScroll.setContent(allCommodities);
-        
-		return commoditiesScroll;
-    }
-    
-    private BorderPane createTopPane()
-    {
-    	BorderPane topPane = new BorderPane();
-    	
-        MenuBar menuBar = createMenu();
-        topPane.setTop(menuBar);
-        
-        BorderPane clientPane = new BorderPane();
-        clientPane.setPadding(new Insets(15, 0, 15, 10));
-        
-        traderLabel.setFont(new Font(20/((scaleHeight+scaleWidth)/2)));
-        clientLabel.setFont(new Font(20/((scaleHeight+scaleWidth)/2)));
-        netWorthLabel.setFont(new Font(20/((scaleHeight+scaleWidth)/2)));
-        currentDateTimeLabel.setFont(new Font(20/((scaleHeight+scaleWidth)/2)));
-        GridPane info = new GridPane();
-        info.add(traderLabel, 0, 0);
-        info.add(clientLabel, 0, 1);
-        info.add(new Label("          "), 1, 0);
-        info.add(netWorthLabel, 2, 0);
-        info.add(currentDateTimeLabel, 2, 1);
-        info.add(new Label("          "), 3, 0);
-        clientPane.setStyle("-fx-border-color: #606060;"
-        		+ "-fx-border-width: 3 3 3 3;"
-        		+ "-fx-font-size: 16;");
-        clientPane.setRight(info);
-        topPane.setBottom(clientPane);
-        
-        return topPane;
-    }
-    
-    private TabPane createBottomPane()
-    {
-    	TabPane bottomPane = new TabPane();
-        bottomPane.setMaxHeight(230/scaleHeight);
-        bottomPane.setMinHeight(230/scaleHeight);
-        
-        Tab ordersTab = new Tab();
-        ordersTab.setText("Orders");
-        ordersTab.setClosable(false);
-        
-        bottomPane.getTabs().addAll(ordersTab);
-        
-        // orders and pending tabs (extending bottom of the chart)
-        TableView ordersTable = createTableView();
-        ordersTab.setContent(ordersTable);
-        
-        return bottomPane;
-    }
-    
-    private TableView createTableView()
-    {
+    	// setting up tableview to fill table up with data
     	TableView<OrderTable> table = new TableView<OrderTable>();
         table.setMaxHeight(190/scaleHeight);
         table.setEditable(false);
+        
+        // setting up all columns and location of data in OrderTable class
         
         TableColumn instrumentsOrders = new TableColumn("Instrument");
         instrumentsOrders.setMinWidth(100/scaleWidth);
@@ -504,20 +535,22 @@ public class GUI extends Application
     	);
         
         table.setItems(orders);
-        table.getColumns().addAll(instrumentsOrders, quantityOrders, buyOrSellOrders, priceOrders,clientOrders);
+        table.getColumns().addAll(instrumentsOrders, quantityOrders, buyOrSellOrders, priceOrders, typeOrders, clientOrders);
 
         return table;
     }
     
-    public static class OrderTable {
-    	 
-        private final SimpleStringProperty company;
+    public static class OrderTable
+    {
+        // fields for filling table up with data
+    	private final SimpleStringProperty company;
         private final SimpleIntegerProperty quantity;
         private final SimpleStringProperty client;
         private final SimpleDoubleProperty price;
         private final SimpleStringProperty orderType;
  
-        private OrderTable(Company company, int quantity, Client client, String orderType) {
+        private OrderTable(Company company, int quantity, Client client, String orderType)
+        {
             this.company = new SimpleStringProperty(company.getName());
             this.quantity = new SimpleIntegerProperty(quantity);
             this.client = new SimpleStringProperty(client.getName());
@@ -525,58 +558,71 @@ public class GUI extends Application
             this.orderType = new SimpleStringProperty(orderType);
         }
  
-        public int getQuantity() {
+        public int getQuantity()
+        {
             return quantity.get();
         }
  
-        public void setQuantity(int quantity) {
+        public void setQuantity(int quantity)
+        {
             this.quantity.set(quantity);
         }
  
-        public String getCompany() {
+        public String getCompany()
+        {
             return company.get();
         }
  
-        public void setCompany(String company) {
+        public void setCompany(String company)
+        {
             this.company.set(company);
         }
  
-        public String getClient() {
+        public String getClient()
+        {
             return client.get();
         }
  
-        public void setClient(String client) {
+        public void setClient(String client)
+        {
             this.client.set(client);
         }
         
-        public double getPrice() {
+        public double getPrice()
+        {
         	return price.get();
         }
         
-        public void setPrice(double price) {
+        public void setPrice(double price)
+        {
         	this.price.set(price);
         }
         
-        public String getOrderType() {
+        public String getOrderType()
+        {
         	return orderType.get();
         }
         
-        public void setOrderType(String orderType) {
+        public void setOrderType(String orderType)
+        {
         	this.orderType.set(orderType);
         }
     } 
     
     private void addCustomClient()
     {
+    	// creating new stage for creating custom client
     	Stage addCustomClient = new Stage();
     	
+    	// borderpane for form to fill (frame for clientPane)
     	BorderPane form = new BorderPane();
     	form.setPadding(new Insets(15));
     	
+    	// gridpane for client labels and textfields
     	GridPane clientPane = new GridPane();
     	clientPane.setPadding(new Insets(10, 5, 5, 5));
 		
-		// content of grid
+		// creating and adding labels and textfields to gridpane
 		Label fName = new Label("First Name: ");
 		Label lName = new Label("Last Name: ");
 		Label expectedReturn = new Label("Expected Return: ");
@@ -585,7 +631,6 @@ public class GUI extends Application
 		TextField lNameField = new TextField();
 		TextField expectedReturnField = new TextField();
 		TextField initialInvestmentField = new TextField();
-		
 		clientPane.add(fName, 0, 0);
 		clientPane.add(fNameField, 1, 0);
 		clientPane.add(lName, 0, 1);
@@ -595,11 +640,13 @@ public class GUI extends Application
 		clientPane.add(initialInvestment, 0, 3);
 		clientPane.add(initialInvestmentField, 1, 3);
 
+		// borderpane for clear and confirm buttons
 		BorderPane bottomPane = new BorderPane();
 		bottomPane.setPadding(new Insets(5));
 		bottomPane.setMaxWidth(200/scaleWidth);
 		bottomPane.setMinWidth(200/scaleWidth);
 		
+		// button for clearing form and event handler
 		Button clear = new Button("Clear");
 		clear.setOnAction(new EventHandler<ActionEvent>() {
 	       	@Override
@@ -611,6 +658,7 @@ public class GUI extends Application
 	       	}
 	    });
 		
+		// button for confirming form and event handler
 		Button confirm = new Button("Confirm");
 		confirm.setOnAction(new EventHandler<ActionEvent>() {
 	       	@Override
@@ -624,15 +672,13 @@ public class GUI extends Application
 	       	}
 	    });
 		
-		bottomPane.setAlignment(clear, Pos.CENTER);
-		bottomPane.setAlignment(confirm, Pos.CENTER);
 		bottomPane.setLeft(clear);
 		bottomPane.setRight(confirm);
 		
-    	form.setAlignment(bottomPane, Pos.CENTER);
-		form.setCenter(clientPane);
+    	form.setCenter(clientPane);
 		form.setBottom(bottomPane);
 		
+		// creating scene for new client
 		Scene addClientScene = new Scene(form);
 		addClientScene.getStylesheets().add("resources/com/guigarage/flatterfx/flatterfx.css");
 		
@@ -642,6 +688,9 @@ public class GUI extends Application
 		addCustomClient.show();
     }
 
+    /*
+     * The main function launches the program.
+     */
     public static void main(String[] args)
     {
         launch(args);
