@@ -57,82 +57,68 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 
 /**
- *
+ *	The class GUI is used to visually represent the software.
  */
 public class GUI extends Application
 {
-    private Stage stage;
-    
+	// declaring objects from external classes that will be referenced by the UI
     private TradingExchange exchange = new TradingExchange();
-    private Trader selectedTrader = new Trader();	// to replace with type of trader when available
+    private Trader selectedTrader = new Trader();
     private Client selectedClient = new Client(null, 0);
     private XYChart.Series series = new XYChart.Series();
     private final ObservableList<OrderTable> orders = FXCollections.observableArrayList();   
     
+    // declaring labels to update in real-time
+    private Label traderLabel = new Label("Trader: " + selectedTrader);
+    private Label clientLabel = new Label("Client: " + selectedClient);
+    private Label netWorthLabel = new Label("Net Worth: " + selectedClient.getNetWorth());
+    
+    // hard-coded ideal window sizes
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     double width = Screen.getPrimary().getBounds().getWidth() / 1.5;
     double height = Screen.getPrimary().getBounds().getHeight() / 1.3;
-	double scale = (832/height)*1.1;
-	double scale2 = (1200/width)*1.1;
+	double scaleHeight = (832/height)*1.1;
+	double scaleWidth = (1200/width)*1.1;
 	
 	
     @Override
-    public void start(Stage stage) {
-    	this.stage = stage;
-    	
-    	BorderPane centre = new BorderPane();
-    	centre.setMaxWidth(width/(width/(650/scale2)));
-    	centre.setMinWidth(width/(width/(650/scale2)));
+    public void start(Stage stage)
+    {    	
     	// defining the axes
-        final NumberAxis xAxis = new NumberAxis();
+        final NumberAxis xAxis = new NumberAxis("X label (temporary)", 1, 28, 1);
         final NumberAxis yAxis = new NumberAxis();
-        xAxis.setLabel("Month");
-        // creating the chart
+        yAxis.setLabel("Value");
+        // creating and setting up chart (centre of BorderPane centre)
         final LineChart<Number,Number> lineChart = new LineChart<Number,Number>(xAxis,yAxis);
-        lineChart.setMaxHeight(height/(height/(550/scale)));
-        lineChart.setMinHeight(height/(height/(550/scale)));
-                
+        lineChart.setMaxHeight(height/(height/(550/scaleHeight)));
+        lineChart.setMinHeight(height/(height/(550/scaleHeight)));
         lineChart.setTitle("Stock Monitoring");
-        // defining a series
+        // defining name of series
         series.setName("My portfolio");
-        
+        // adding data to chart
         lineChart.getData().add(series);
         
-        centre.setTop(lineChart);
-        
-        // newsfeed panel
-        BorderPane rightPane = createRightPane();
-        
-        // commodities panel
-        BorderPane leftPane = createLeftPane();
-		
-        // orders panel
+        // orders panel (bottom of BorderPane centre)
         TabPane bottomPane = createBottomPane();
+        
+        // centre panel (containing chart and orders)
+    	BorderPane centre = new BorderPane();
+    	centre.setMaxWidth(width/(width/(650/scaleWidth)));
+    	centre.setMinWidth(width/(width/(650/scaleWidth)));
+        centre.setTop(lineChart);
         centre.setBottom(bottomPane);
         
+        
+        // newsfeed panel (right of root
+        ScrollPane rightPane = createRightPane();
+        
+        // commodities panel
+        ScrollPane leftPane = createLeftPane();
+		
+
+        
         // top menu and info panel
-        BorderPane topPane = new BorderPane();
-        MenuBar menuBar = createMenu();
-        topPane.setTop(menuBar);
-        BorderPane clientPane = new BorderPane();
-        clientPane.setPadding(new Insets(15, 0, 15, 10));
-        Label traderLabel = new Label("Trader: " + selectedTrader);
-        traderLabel.setFont(new Font(20/((scale+scale2)/2)));
-        Label clientLabel = new Label("Client: " + selectedClient);
-        clientLabel.setFont(new Font(20/((scale+scale2)/2)));
-        Label netWorthLabel = new Label("Net Worth: " + selectedClient.getNetWorth());
-        netWorthLabel.setFont(new Font(20/((scale+scale2)/2)));
-        GridPane info = new GridPane();
-        info.add(traderLabel, 0, 0);
-        info.add(clientLabel, 0, 1);
-        info.add(new Label("          "), 1, 0);
-        info.add(netWorthLabel, 2, 0);
-        info.add(new Label("          "), 3, 0);
-        clientPane.setStyle("-fx-border-color: #606060;"
-        		+ "-fx-border-width: 3 3 3 3;"
-        		+ "-fx-font-size: 16;");
-        clientPane.setRight(info);
-        topPane.setBottom(clientPane);
+        BorderPane topPane = createTopPane();
         
         // put together all elements
         BorderPane root = new BorderPane();
@@ -181,14 +167,14 @@ public class GUI extends Application
     {
     	// insert main grid for all news
     	GridPane allNews = new GridPane();
-		allNews.setMaxWidth(width/(width/(215/scale2)));
-		allNews.setMinWidth(width/(width/(215/scale2)));
+		allNews.setMaxWidth(width/(width/(215/scaleWidth)));
+		allNews.setMinWidth(width/(width/(215/scaleWidth)));
 		allNews.setPadding(new Insets(20, 0, 0, 20));
 	
 		for (int i = 0; i < exchange.getEvents().size(); i++)
 		{
 			// create new cells and add them to main grid
-			BorderPane news = createNewsCell(exchange.getEvents().get(i).getDateTime().toString(), exchange.getEvents().get(i).getEventText());
+			BorderPane news = createNewsCell(exchange.getEvents().get(i).getDate().toString(), exchange.getEvents().get(i).getEventText());
 		    allNews.add(news, 0, (i * 2 + 1));
 		}
 	    
@@ -202,13 +188,12 @@ public class GUI extends Application
     	
     	// create label for name of news
 		Label newsNameLabel = new Label(newsDate);
-		newsNameLabel.setFont(new Font(20/((scale+scale2)/2)));
+		newsNameLabel.setFont(new Font(20/((scaleHeight+scaleWidth)/2)));
 		
 		// create label for content of news
 		Label newsContentLabel = new Label(newsContent);
-		newsContentLabel.setMinSize(width/(width/(190/scale2)), height/(height/(75/scale)));
-		newsContentLabel.setMaxSize(width/(width/(190/scale2)), height/(height/(90/scale)));
-		newsContentLabel.setTextAlignment(TextAlignment.JUSTIFY);
+		newsContentLabel.setMinSize(width/(width/(190/scaleWidth)), height/(height/(75/scaleHeight)));
+		newsContentLabel.setTextAlignment(TextAlignment.LEFT);
 		newsContentLabel.setWrapText(true);
 		
 		news.setTop(newsNameLabel);
@@ -221,8 +206,8 @@ public class GUI extends Application
     {
     	// insert main grid for all commodities
     	GridPane allCommodities = new GridPane();
-		allCommodities.setMinWidth(width/(width/(215/scale2)));
-		allCommodities.setMaxWidth(width/(width/(215/scale2)));
+		allCommodities.setMinWidth(width/(width/(215/scaleWidth)));
+		allCommodities.setMaxWidth(width/(width/(215/scaleWidth)));
 		allCommodities.setPadding(new Insets(0, 20, 20, 20));
 	
 		for (int i = 0; i < exchange.getCompanies().size(); i++)
@@ -240,8 +225,8 @@ public class GUI extends Application
     {
     	// create cell in commodities grid
     	BorderPane commodity = new BorderPane();
-    	commodity.setMinWidth(width/(width/(165/scale2)));
-    	commodity.setMaxWidth(width/(width/(165/scale2)));
+    	commodity.setMinWidth(width/(width/(165/scaleWidth)));
+    	commodity.setMaxWidth(width/(width/(165/scaleWidth)));
     	
     	// create button for cell
     	Button commodityButton = new Button(null, commodity);
@@ -260,7 +245,7 @@ public class GUI extends Application
     	
     	// create label for name of commodity
 		Label commodityNameLabel = new Label(company.getName());
-		commodityNameLabel.setFont(new Font(20/((scale+scale2)/2)));
+		commodityNameLabel.setFont(new Font(20/((scaleHeight+scaleWidth)/2)));
 		
 		// create content for commodity cell
 		Button newOrderButton = new Button("New Order");
@@ -274,7 +259,7 @@ public class GUI extends Application
 		Label shareValueLabel = new Label(String.valueOf(shareValue));
 		
 		Label trendLabel = new Label(trend);
-		trendLabel.setFont(new Font(20/((scale+scale2)/2)));
+		trendLabel.setFont(new Font(20/((scaleHeight+scaleWidth)/2)));
 		
 		// separate each commodity cell in left and right side
 		BorderPane leftPaneCommodity = new BorderPane();
@@ -296,7 +281,7 @@ public class GUI extends Application
 		orderPane.setPadding(new Insets(10, 30, 10, 30));
 		
 		Label quantityLabel = new Label("Quantity: ");
-		quantityLabel.setFont(new Font(20/((scale+scale2)/2)));
+		quantityLabel.setFont(new Font(20/((scaleHeight+scaleWidth)/2)));
 		
 		ComboBox quantities = new ComboBox();
 		for(int i = 0; i<6; i++)
@@ -399,48 +384,64 @@ public class GUI extends Application
         return menuBar;
     }
     
-    private BorderPane createRightPane()
+    private ScrollPane createRightPane()
     {
-    	BorderPane rightPane = new BorderPane();
-        rightPane.setMaxSize(width/(width/(250/scale2)), height/(height/(787/scale)));
-        rightPane.setMinSize(width/(width/(250/scale2)), height/(height/(787/scale)));
-        
-        ScrollPane newsfeedScroll = new ScrollPane();
-        newsfeedScroll.setMaxSize(width/(width/(250/scale2)), height/(height/(787/scale)));
-        newsfeedScroll.setMinSize(width/(width/(250/scale2)), height/(height/(787/scale)));
+    	ScrollPane newsfeedScroll = new ScrollPane();
+        newsfeedScroll.setMaxSize(width/(width/(250/scaleWidth)), height/(height/(787/scaleHeight)));
+        newsfeedScroll.setMinSize(width/(width/(250/scaleWidth)), height/(height/(787/scaleHeight)));
 	    
         GridPane allNews = displayAllNews();
         
         newsfeedScroll.setContent(allNews);
         
-        rightPane.setCenter(newsfeedScroll);
-        
-        return rightPane;
+        return newsfeedScroll;
     }
     
-    private BorderPane createLeftPane()
+    private ScrollPane createLeftPane()
     {
-    	BorderPane leftPane = new BorderPane();
-        leftPane.setMaxSize(width/(width/(250/scale2)), height/(height/(787/scale)));
-        leftPane.setMinSize(width/(width/(250/scale2)), height/(height/(787/scale)));
-        
-        ScrollPane commoditiesScroll = new ScrollPane();
-        commoditiesScroll.setMaxSize(width/(width/(250/scale2)), height/(height/(787/scale)));
-        commoditiesScroll.setMinSize(width/(width/(250/scale2)), height/(height/(787/scale)));
+    	ScrollPane commoditiesScroll = new ScrollPane();
+        commoditiesScroll.setMaxSize(width/(width/(250/scaleWidth)), height/(height/(787/scaleHeight)));
+        commoditiesScroll.setMinSize(width/(width/(250/scaleWidth)), height/(height/(787/scaleHeight)));
         
         GridPane allCommodities = displayAllCommodities();
 		commoditiesScroll.setContent(allCommodities);
         
-		leftPane.setCenter(commoditiesScroll);
+		return commoditiesScroll;
+    }
+    
+    private BorderPane createTopPane()
+    {
+    	BorderPane topPane = new BorderPane();
+    	
+        MenuBar menuBar = createMenu();
+        topPane.setTop(menuBar);
         
-		return leftPane;
+        BorderPane clientPane = new BorderPane();
+        clientPane.setPadding(new Insets(15, 0, 15, 10));
+        
+        traderLabel.setFont(new Font(20/((scaleHeight+scaleWidth)/2)));
+        clientLabel.setFont(new Font(20/((scaleHeight+scaleWidth)/2)));
+        netWorthLabel.setFont(new Font(20/((scaleHeight+scaleWidth)/2)));
+        GridPane info = new GridPane();
+        info.add(traderLabel, 0, 0);
+        info.add(clientLabel, 0, 1);
+        info.add(new Label("          "), 1, 0);
+        info.add(netWorthLabel, 2, 0);
+        info.add(new Label("          "), 3, 0);
+        clientPane.setStyle("-fx-border-color: #606060;"
+        		+ "-fx-border-width: 3 3 3 3;"
+        		+ "-fx-font-size: 16;");
+        clientPane.setRight(info);
+        topPane.setBottom(clientPane);
+        
+        return topPane;
     }
     
     private TabPane createBottomPane()
     {
     	TabPane bottomPane = new TabPane();
-        bottomPane.setMaxHeight(height/(height/(230/scale)));
-        bottomPane.setMinHeight(height/(height/(230/scale)));
+        bottomPane.setMaxHeight(height/(height/(230/scaleHeight)));
+        bottomPane.setMinHeight(height/(height/(230/scaleHeight)));
         
         Tab ordersTab = new Tab();
         ordersTab.setText("Orders");
@@ -458,35 +459,35 @@ public class GUI extends Application
     private TableView createTableView()
     {
     	TableView<OrderTable> table = new TableView<OrderTable>();
-        table.setMaxHeight(height/(height/(190/scale)));
+        table.setMaxHeight(height/(height/(190/scaleHeight)));
         table.setEditable(false);
         
         TableColumn instrumentsOrders = new TableColumn("Instrument");
-        instrumentsOrders.setMinWidth(width/(width/(100/scale2)));
+        instrumentsOrders.setMinWidth(width/(width/(100/scaleWidth)));
         instrumentsOrders.setCellValueFactory(
 		    new PropertyValueFactory<OrderTable,String>("company")
 		);
         
         TableColumn quantityOrders = new TableColumn("Quantity");
-        quantityOrders.setMinWidth(width/(width/(100/scale2)));
+        quantityOrders.setMinWidth(width/(width/(100/scaleWidth)));
         quantityOrders.setCellValueFactory(
 		    new PropertyValueFactory<OrderTable,String>("quantity")
 		);
         
         TableColumn buyOrSellOrders = new TableColumn("Buy/Sell");
-        buyOrSellOrders.setMinWidth(width/(width/(100/scale2)));
+        buyOrSellOrders.setMinWidth(width/(width/(100/scaleWidth)));
         buyOrSellOrders.setCellValueFactory(
 		    new PropertyValueFactory<OrderTable,String>("orderType")
 		);
         
         TableColumn priceOrders = new TableColumn("Price");
-        priceOrders.setMinWidth(width/(width/(100/scale2)));
+        priceOrders.setMinWidth(width/(width/(100/scaleWidth)));
         priceOrders.setCellValueFactory(
     		    new PropertyValueFactory<OrderTable,String>("price")
     	);
         
         TableColumn clientOrders = new TableColumn("Client");
-        clientOrders.setMinWidth(width/(width/(110/scale2)));
+        clientOrders.setMinWidth(width/(width/(110/scaleWidth)));
         clientOrders.setCellValueFactory(
     		    new PropertyValueFactory<OrderTable,String>("client")
     	);
@@ -585,8 +586,8 @@ public class GUI extends Application
 
 		BorderPane bottomPane = new BorderPane();
 		bottomPane.setPadding(new Insets(5));
-		bottomPane.setMaxWidth(width/(width/(200/scale2)));
-		bottomPane.setMinWidth(width/(width/(200/scale2)));
+		bottomPane.setMaxWidth(width/(width/(200/scaleWidth)));
+		bottomPane.setMinWidth(width/(width/(200/scaleWidth)));
 		
 		Button clear = new Button("Clear");
 		clear.setOnAction(new EventHandler<ActionEvent>() {

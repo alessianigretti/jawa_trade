@@ -38,7 +38,7 @@ public class TradingExchange {
 		events = new LinkedList();
 		setUpSim();
 		updateShareIndex();
-		System.out.println(getShareIndex());
+		//System.out.println(getShareIndex());
 		for(int i = 0; i<28; i++)
 		{
 			tradeSim();
@@ -308,7 +308,7 @@ public class TradingExchange {
 				}
 			}
 		}
-		System.out.println(count);
+		//System.out.println(count);
 	}
 	
 	

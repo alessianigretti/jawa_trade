@@ -4,7 +4,7 @@ public class Client
 	private String name; // basic client details
 	private double netWorth; // total  value of portfolio plus left over cash
 	private Trader trader; // trader that client is connected to
-	private  double cashHolding;// client investment value
+	private double cashHolding;// client investment value
 	private double investment;
 	private double deposit; // initial deposit value;
 	private double expectedReturn;// expected return on clients investments
