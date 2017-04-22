@@ -281,7 +281,7 @@ public class TradingExchange {
 				while(next != null)
 				{
 					myEntries = next;
-					Events event = new Events(myEntries[1],myEntries[0]);
+					Events event = new Events(myEntries[1],myEntries[0],myEntries[2]);
 					events.add(event);
 					next = reader.readNext();
 				}

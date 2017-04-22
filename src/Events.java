@@ -1,5 +1,6 @@
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
@@ -14,13 +15,17 @@ import java.util.Locale;
 public class Events {
 	
 	private String eventText;
-	private LocalDate dateTime;
-	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM d yyyy", Locale.ENGLISH);
+	private LocalDate date;
+	private LocalTime time;
+	private DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMM d yyyy", Locale.ENGLISH);
+	private DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("H:m");
 	
-	public Events(String eventText, String dateTime)
+	public Events(String eventText, String date, String time)
 	{
 		this.eventText = eventText;
-		this.dateTime = LocalDate.parse(dateTime, formatter);	
+		this.date = LocalDate.parse(date, dateFormatter);
+		System.out.println(time);
+		this.time = LocalTime.parse(time, timeFormatter);
 	}
 	
 	public String getEventText()
@@ -28,10 +33,15 @@ public class Events {
 		return eventText;
 	}
 	
-	public LocalDate getDateTime()
+	public LocalDate getDate()
 	{
 	
-		return dateTime;
+		return date;
+	}
+	
+	public LocalTime getTime()
+	{
+		return time;
 	}
 
 }
