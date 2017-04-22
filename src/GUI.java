@@ -72,6 +72,7 @@ public class GUI extends Application
     private Label traderLabel = new Label("Trader: " + selectedTrader);
     private Label clientLabel = new Label("Client: " + selectedClient);
     private Label netWorthLabel = new Label("Net Worth: " + selectedClient.getNetWorth());
+    private Label currentDateTimeLabel = new Label("Current: " + exchange.getDate() + ", " + exchange.getTime());
     
     // hard-coded ideal window sizes
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -140,6 +141,7 @@ public class GUI extends Application
       	        	traderLabel.setText("Trader: " + selectedTrader.getTraderName());
       	        	clientLabel.setText("Client: " + selectedClient.getName());
       	        	netWorthLabel.setText("Net Worth: " + selectedClient.getNetWorth());
+      	        	currentDateTimeLabel = new Label("Current: " + exchange.getDate() + ", " + exchange.getTime());
       	        }
       	      });
       	      i++;
@@ -426,11 +428,13 @@ public class GUI extends Application
         traderLabel.setFont(new Font(20/((scaleHeight+scaleWidth)/2)));
         clientLabel.setFont(new Font(20/((scaleHeight+scaleWidth)/2)));
         netWorthLabel.setFont(new Font(20/((scaleHeight+scaleWidth)/2)));
+        currentDateTimeLabel.setFont(new Font(20/((scaleHeight+scaleWidth)/2)));
         GridPane info = new GridPane();
         info.add(traderLabel, 0, 0);
         info.add(clientLabel, 0, 1);
         info.add(new Label("          "), 1, 0);
         info.add(netWorthLabel, 2, 0);
+        info.add(currentDateTimeLabel, 2, 1);
         info.add(new Label("          "), 3, 0);
         clientPane.setStyle("-fx-border-color: #606060;"
         		+ "-fx-border-width: 3 3 3 3;"
