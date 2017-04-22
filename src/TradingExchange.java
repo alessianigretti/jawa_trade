@@ -35,8 +35,8 @@ public class TradingExchange {
 	
 	public TradingExchange()
 	{
-		currentDate = LocalDate.parse("Dec 31 2016", dateFormatter);
-		currentTime = LocalTime.parse("17:00", timeFormatter);
+		currentDate = LocalDate.parse("Jan 1 2017", dateFormatter);
+		currentTime = LocalTime.parse("09:00", timeFormatter);
 		companies = new LinkedList();
 		//upForSell = new LinkedList();
 		traders = new LinkedList();
@@ -52,7 +52,6 @@ public class TradingExchange {
 		for(int i = 0; i<28; i++)
 		{
 			tradeSim();
-			updateDateTime();
 		}
 		System.out.println(getDate() + " " + getTime());
 		checkShareNum();
@@ -190,7 +189,7 @@ public class TradingExchange {
 			companies.get(i).clearCount();
 		}
 		
-
+		updateDateTime();
 		
 	}
 	
