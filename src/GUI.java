@@ -59,6 +59,8 @@ public class GUI extends Application
     double height = Screen.getPrimary().getBounds().getHeight() / 1.3;
 	double scaleHeight = (832/height)*1.1;
 	double scaleWidth = (1200/width)*1.1;
+	// creating commodities pane (left of root) //moved here but to no avail
+    private ScrollPane leftPane = createLeftPane();
 	
     /* 
      * Sets up the stage.
@@ -72,8 +74,7 @@ public class GUI extends Application
         // creating newsfeed pane (right of root)
         ScrollPane rightPane = createRightPane();
         
-        // creating commodities pane (left of root)
-        ScrollPane leftPane = createLeftPane();
+        
         
         // creating toolbar pane (top of root)
         BorderPane topPane = createTopPane();
@@ -99,8 +100,6 @@ public class GUI extends Application
       	        public void run() {
       	        	traderLabel.setText("Trader: " + selectedTrader.getTraderName());
       	        	clientLabel.setText("Client: " + selectedClient.getName());
-      	        	netWorthLabel.setText("Net Worth: " + selectedClient.getNetWorth());
-      	        	currentDateTimeLabel = new Label("Current: " + exchange.getDate() + ", " + exchange.getTime());
       	        }
       	      });
       	      Thread.sleep(1000);
@@ -228,11 +227,30 @@ public class GUI extends Application
         startSim.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-            	for(int i = 0; i<28; i++)
-            	{
-            		exchange.tradeSim();
-            	}
-            	
+            	  Task<Void> task = new Task<Void>()
+            		        {
+            		      	  @Override
+            		      	  public Void call() throws Exception
+            		      	  {
+            		      	    while (true)
+            		      	    {
+            		      	      Platform.runLater(new Runnable()
+            		      	      {
+            		      	        @Override
+            		      	        public void run() {
+            		      	        	exchange.tradeSim();
+            		      	        	netWorthLabel.setText("Net Worth: " + selectedClient.getNetWorth());
+            		      	        	//leftPane = createLeftPane();
+            		      	        	currentDateTimeLabel.setText("Current: " + exchange.getDate() + ", " + exchange.getTime());
+            		      	        }
+            		      	      });
+            		      	      Thread.sleep(5000);
+            		      	    }
+            		      	  }
+            		      	};
+            		      	Thread th = new Thread(task);
+            		      	th.setDaemon(true);
+            		      	th.start();
             }
         });
         toolbar.setLeft(startSim);

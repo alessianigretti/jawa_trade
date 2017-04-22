@@ -125,19 +125,6 @@ public class Client
 				portfolio.get(iter).updateSize(quantity);
 			iter++;
 		}
-		/*for(int i = 0; i<portfolio.size(); i++)
-		{
-			if(portfolio.get(i).getCompanyName().equals(company.getName()))
-			{
-				portfolio.get(i).updateSize(quantity);
-				// System.out.println(quantity);
-			}
-			else
-			{
-				portfolio.add(new Shares(quantity,company));
-				System.out.println("dont run " + getName());
-			}
-		}*/
 	}
 	
 	/**
@@ -172,6 +159,11 @@ public class Client
 			investment = investment + portfolio.get(i).getShareValue();
 		}
 		
+	}
+	
+	public void updateCash(double value)
+	{
+		cashHolding = cashHolding + value;
 	}
 	
 	/**

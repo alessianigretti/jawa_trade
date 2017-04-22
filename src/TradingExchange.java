@@ -247,6 +247,7 @@ public class TradingExchange {
 		}
 		
 		updateDateTime();
+		System.out.println(getDate() + getTime());
 		
 	}
 	
