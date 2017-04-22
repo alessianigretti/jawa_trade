@@ -1,6 +1,9 @@
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import com.opencsv.CSVReader;
@@ -24,10 +27,16 @@ public class TradingExchange {
 	private LinkedList shareIndexList;
 	private LinkedList<Events> events;
 	private Random rand = new Random();
+	private LocalDate currentDate;
+	private LocalTime currentTime;
+	private DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMM d yyyy");
+	private DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("H:m");
 	
 	
 	public TradingExchange()
 	{
+		currentDate = LocalDate.parse("Dec 31 2016", dateFormatter);
+		currentTime = LocalTime.parse("17:00", timeFormatter);
 		companies = new LinkedList();
 		//upForSell = new LinkedList();
 		traders = new LinkedList();
@@ -38,11 +47,14 @@ public class TradingExchange {
 		events = new LinkedList();
 		setUpSim();
 		updateShareIndex();
-		//System.out.println(getShareIndex());
+		System.out.println(getShareIndex());
+		System.out.println(getDate() + " " + getTime());
 		for(int i = 0; i<28; i++)
 		{
 			tradeSim();
+			updateDateTime();
 		}
+		System.out.println(getDate() + " " + getTime());
 		checkShareNum();
 		
 	}
@@ -109,6 +121,23 @@ public class TradingExchange {
 	public LinkedList<Trader> getTraders()
 	{
 		return traders;
+	}
+	
+	public String getTime()
+	{
+		return String.valueOf(currentTime);
+	}
+	
+	public String getDate()
+	{
+		return String.valueOf(currentDate);
+	}
+	
+	public void updateDateTime()
+	{
+		currentTime = currentTime.plusMinutes(15);
+		if(String.valueOf(currentTime).equals("00:00"))
+			currentDate = currentDate.plusDays(1);
 	}
 	
 	public void tradeSim()
@@ -308,7 +337,7 @@ public class TradingExchange {
 				}
 			}
 		}
-		//System.out.println(count);
+		System.out.println(count);
 	}
 	
 	
