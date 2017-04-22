@@ -91,8 +91,8 @@ public class GUI extends Application
         yAxis.setLabel("Value");
         // creating and setting up chart (centre of BorderPane centre)
         final LineChart<Number,Number> lineChart = new LineChart<Number,Number>(xAxis,yAxis);
-        lineChart.setMaxHeight(height/(height/(550/scaleHeight)));
-        lineChart.setMinHeight(height/(height/(550/scaleHeight)));
+        lineChart.setMaxHeight(550/scaleHeight);
+        lineChart.setMinHeight(550/scaleHeight);
         lineChart.setTitle("Stock Monitoring");
         // defining name of series
         series.setName("My portfolio");
@@ -104,8 +104,8 @@ public class GUI extends Application
         
         // centre panel (containing chart and orders)
     	BorderPane centre = new BorderPane();
-    	centre.setMaxWidth(width/(width/(650/scaleWidth)));
-    	centre.setMinWidth(width/(width/(650/scaleWidth)));
+    	centre.setMaxWidth(650/scaleWidth);
+    	centre.setMinWidth(650/scaleWidth);
         centre.setTop(lineChart);
         centre.setBottom(bottomPane);
         
@@ -169,8 +169,8 @@ public class GUI extends Application
     {
     	// insert main grid for all news
     	GridPane allNews = new GridPane();
-		allNews.setMaxWidth(width/(width/(215/scaleWidth)));
-		allNews.setMinWidth(width/(width/(215/scaleWidth)));
+		allNews.setMaxWidth(215/scaleWidth);
+		allNews.setMinWidth(215/scaleWidth);
 		allNews.setPadding(new Insets(20, 0, 0, 20));
 	
 		for (int i = 0; i < exchange.getEvents().size(); i++)
@@ -212,8 +212,8 @@ public class GUI extends Application
     {
     	// insert main grid for all commodities
     	GridPane allCommodities = new GridPane();
-		allCommodities.setMinWidth(width/(width/(215/scaleWidth)));
-		allCommodities.setMaxWidth(width/(width/(215/scaleWidth)));
+		allCommodities.setMinWidth(215/scaleWidth);
+		allCommodities.setMaxWidth(215/scaleWidth);
 		allCommodities.setPadding(new Insets(0, 20, 20, 20));
 	
 		for (int i = 0; i < exchange.getCompanies().size(); i++)
@@ -231,8 +231,8 @@ public class GUI extends Application
     {
     	// create cell in commodities grid
     	BorderPane commodity = new BorderPane();
-    	commodity.setMinWidth(width/(width/(165/scaleWidth)));
-    	commodity.setMaxWidth(width/(width/(165/scaleWidth)));
+    	commodity.setMinWidth(165/scaleWidth);
+    	commodity.setMaxWidth(165/scaleWidth);
     	
     	// create button for cell
     	Button commodityButton = new Button(null, commodity);
@@ -393,8 +393,8 @@ public class GUI extends Application
     private ScrollPane createRightPane()
     {
     	ScrollPane newsfeedScroll = new ScrollPane();
-        newsfeedScroll.setMaxSize(width/(width/(250/scaleWidth)), height/(height/(787/scaleHeight)));
-        newsfeedScroll.setMinSize(width/(width/(250/scaleWidth)), height/(height/(787/scaleHeight)));
+        newsfeedScroll.setMaxSize(250/scaleWidth, 787/scaleHeight);
+        newsfeedScroll.setMinSize(250/scaleWidth, 787/scaleHeight);
 	    
         GridPane allNews = displayAllNews();
         
@@ -406,8 +406,8 @@ public class GUI extends Application
     private ScrollPane createLeftPane()
     {
     	ScrollPane commoditiesScroll = new ScrollPane();
-        commoditiesScroll.setMaxSize(width/(width/(250/scaleWidth)), height/(height/(787/scaleHeight)));
-        commoditiesScroll.setMinSize(width/(width/(250/scaleWidth)), height/(height/(787/scaleHeight)));
+        commoditiesScroll.setMaxSize(250/scaleWidth, 787/scaleHeight);
+        commoditiesScroll.setMinSize(250/scaleWidth, 787/scaleHeight);
         
         GridPane allCommodities = displayAllCommodities();
 		commoditiesScroll.setContent(allCommodities);
@@ -448,8 +448,8 @@ public class GUI extends Application
     private TabPane createBottomPane()
     {
     	TabPane bottomPane = new TabPane();
-        bottomPane.setMaxHeight(height/(height/(230/scaleHeight)));
-        bottomPane.setMinHeight(height/(height/(230/scaleHeight)));
+        bottomPane.setMaxHeight(230/scaleHeight);
+        bottomPane.setMinHeight(230/scaleHeight);
         
         Tab ordersTab = new Tab();
         ordersTab.setText("Orders");
@@ -467,35 +467,38 @@ public class GUI extends Application
     private TableView createTableView()
     {
     	TableView<OrderTable> table = new TableView<OrderTable>();
-        table.setMaxHeight(height/(height/(190/scaleHeight)));
+        table.setMaxHeight(190/scaleHeight);
         table.setEditable(false);
         
         TableColumn instrumentsOrders = new TableColumn("Instrument");
-        instrumentsOrders.setMinWidth(width/(width/(100/scaleWidth)));
+        instrumentsOrders.setMinWidth(100/scaleWidth);
         instrumentsOrders.setCellValueFactory(
 		    new PropertyValueFactory<OrderTable,String>("company")
 		);
         
         TableColumn quantityOrders = new TableColumn("Quantity");
-        quantityOrders.setMinWidth(width/(width/(100/scaleWidth)));
+        quantityOrders.setMinWidth(100/scaleWidth);
         quantityOrders.setCellValueFactory(
 		    new PropertyValueFactory<OrderTable,String>("quantity")
 		);
         
         TableColumn buyOrSellOrders = new TableColumn("Buy/Sell");
-        buyOrSellOrders.setMinWidth(width/(width/(100/scaleWidth)));
+        buyOrSellOrders.setMinWidth(100/scaleWidth);
         buyOrSellOrders.setCellValueFactory(
 		    new PropertyValueFactory<OrderTable,String>("orderType")
 		);
         
         TableColumn priceOrders = new TableColumn("Price");
-        priceOrders.setMinWidth(width/(width/(100/scaleWidth)));
+        priceOrders.setMinWidth(100/scaleWidth);
         priceOrders.setCellValueFactory(
     		    new PropertyValueFactory<OrderTable,String>("price")
     	);
         
+        TableColumn typeOrders = new TableColumn("Type");
+        typeOrders.setMinWidth(100/scaleWidth);
+        
         TableColumn clientOrders = new TableColumn("Client");
-        clientOrders.setMinWidth(width/(width/(110/scaleWidth)));
+        clientOrders.setMinWidth(110/scaleWidth);
         clientOrders.setCellValueFactory(
     		    new PropertyValueFactory<OrderTable,String>("client")
     	);
@@ -594,8 +597,8 @@ public class GUI extends Application
 
 		BorderPane bottomPane = new BorderPane();
 		bottomPane.setPadding(new Insets(5));
-		bottomPane.setMaxWidth(width/(width/(200/scaleWidth)));
-		bottomPane.setMinWidth(width/(width/(200/scaleWidth)));
+		bottomPane.setMaxWidth(200/scaleWidth);
+		bottomPane.setMinWidth(200/scaleWidth);
 		
 		Button clear = new Button("Clear");
 		clear.setOnAction(new EventHandler<ActionEvent>() {
