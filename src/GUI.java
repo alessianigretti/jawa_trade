@@ -174,28 +174,32 @@ public class GUI extends Application
 		for (int i = 0; i < exchange.getEvents().size(); i++)
 		{
 			// create new cells and add them to main grid
-			BorderPane news = createNewsCell(exchange.getEvents().get(i).getDate().toString(), exchange.getEvents().get(i).getEventText());
+			BorderPane news = createNewsCell(exchange.getEvents().get(i).getDate().toString() + " - ", exchange.getEvents().get(i).getTime().toString(), exchange.getEvents().get(i).getEventText());
 		    allNews.add(news, 0, (i * 2 + 1));
+		    BorderPane empty = createNewsCell(" ", " ", " ");
+		    allNews.add(empty, 0, (i * 2 + 2));
 		}
 	    
 	    return allNews;
     }
     
-    private BorderPane createNewsCell(String newsDate, String newsContent)
+    private BorderPane createNewsCell(String newsDate, String newsTime, String newsContent)
     {
     	// create cell in news grid
     	BorderPane news = new BorderPane();
     	
     	// create label for name of news
-		Label newsNameLabel = new Label(newsDate);
+		Label newsNameLabel = new Label(newsDate + newsTime);
 		newsNameLabel.setFont(new Font(20/((scaleHeight+scaleWidth)/2)));
 		
 		// create label for content of news
 		Label newsContentLabel = new Label(newsContent);
-		newsContentLabel.setMinSize(width/(width/(190/scaleWidth)), height/(height/(75/scaleHeight)));
 		newsContentLabel.setTextAlignment(TextAlignment.LEFT);
 		newsContentLabel.setWrapText(true);
 		
+		news.setAlignment(newsNameLabel, Pos.TOP_LEFT);
+		news.setAlignment(newsContentLabel, Pos.TOP_LEFT);
+    	
 		news.setTop(newsNameLabel);
 	    news.setCenter(newsContentLabel);
 	   
