@@ -231,6 +231,7 @@ public class GUI extends Application
             	//exchange.tradeSim();
             }
         });
+        toolbar.setLeft(startSim);
         
         // setting up style and position for labels and toolbar
         traderLabel.setFont(new Font(20/((scaleHeight+scaleWidth)/2)));
