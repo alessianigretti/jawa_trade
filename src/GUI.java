@@ -783,22 +783,18 @@ public class GUI extends Application
     	clientPane.setPadding(new Insets(10, 5, 5, 5));
 		
 		// creating and adding labels and textfields to gridpane
-		Label fName = new Label("First Name: ");
-		Label lName = new Label("Last Name: ");
+		Label name = new Label("Name: ");
 		Label expectedReturn = new Label("Expected Return: ");
 		Label initialInvestment = new Label("Initial Investment: ");
-		TextField fNameField = new TextField();
-		TextField lNameField = new TextField();
+		TextField nameField = new TextField();
 		TextField expectedReturnField = new TextField();
 		TextField initialInvestmentField = new TextField();
-		clientPane.add(fName, 0, 0);
-		clientPane.add(fNameField, 1, 0);
-		clientPane.add(lName, 0, 1);
-		clientPane.add(lNameField, 1, 1);
-		clientPane.add(expectedReturn, 0, 2);
-		clientPane.add(expectedReturnField, 1, 2);
-		clientPane.add(initialInvestment, 0, 3);
-		clientPane.add(initialInvestmentField, 1, 3);
+		clientPane.add(name, 0, 0);
+		clientPane.add(nameField, 1, 0);
+		clientPane.add(expectedReturn, 0, 1);
+		clientPane.add(expectedReturnField, 1, 1);
+		clientPane.add(initialInvestment, 0, 2);
+		clientPane.add(initialInvestmentField, 1, 2);
 
 		// borderpane for clear and confirm buttons
 		BorderPane bottomPane = new BorderPane();
@@ -811,8 +807,7 @@ public class GUI extends Application
 		clear.setOnAction(new EventHandler<ActionEvent>() {
 	       	@Override
 	       	public void handle(ActionEvent event) {
-	       		fNameField.setText("");
-	       		lNameField.setText("");
+	       		nameField.setText("");
 	       		expectedReturnField.setText("");
 	       		initialInvestmentField.setText("");
 	       	}
@@ -823,7 +818,7 @@ public class GUI extends Application
 		confirm.setOnAction(new EventHandler<ActionEvent>() {
 	       	@Override
 	       	public void handle(ActionEvent event) {
-	       		Client client = new Client(fNameField.getText() + " " + lNameField.getText(), Double.valueOf(expectedReturnField.getText()), Double.valueOf(initialInvestmentField.getText()));
+	       		Client client = new Client(nameField.getText(), Double.valueOf(expectedReturnField.getText()), Double.valueOf(initialInvestmentField.getText()));
 	       		client.calculateNetWorth();
 	       		selectedTrader.addClient(client);
 	       		exchange.setCurrentClient(client);
