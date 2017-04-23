@@ -132,7 +132,7 @@ public class GUI extends Application
     private BorderPane createCentrePane()
     {
     	// defining the axes
-        final NumberAxis xAxis = new NumberAxis("X label (temporary)", 1, 28, 1);
+        final NumberAxis xAxis = new NumberAxis("X label (temporary)", 1, 192, 1);
         final NumberAxis yAxis = new NumberAxis();
         yAxis.setLabel("Value");
         // creating and setting up chart (centre of BorderPane centre)
@@ -241,7 +241,12 @@ public class GUI extends Application
 		      	      {
 		      	        @Override
 		      	        public void run() {
-		      	        	exchange.tradeSim();
+		      	        	System.out.println(Integer.valueOf(exchange.getTime().substring(0, 2)));
+		      	        	if(Integer.valueOf(exchange.getTime().substring(0, 2))<=16 && Integer.valueOf(exchange.getTime().substring(0, 2))>=9)
+		      	        		exchange.tradeSim();
+		      	        	else
+		      	        		exchange.updateDateTime();
+		      	        	System.out.println(exchange.getCompanies().get(0).getCurrentShareValue());
 		      	        	netWorthLabel.setText("Net Worth: " + selectedClient.getNetWorth());
 		      	        	currentDateTimeLabel.setText("Current: " + exchange.getDate() + ", " + exchange.getTime());
 		      	        	series.getData().setAll(new XYChart.Data(0, 0));
@@ -253,7 +258,7 @@ public class GUI extends Application
 		                	}
 		      	        }
 		      	      });
-		      	      Thread.sleep(5000);
+		      	      Thread.sleep(500);
 		      	    }
 		      	  }
 		      	};
@@ -404,7 +409,7 @@ public class GUI extends Application
             	for (int i = 0; i < company.getShareValueList().size(); i++)
             	{
             		// updating chart depending on selected commodity
-            		selectedCompany = exchange.getCompanies().get(i);
+            		//selectedCompany = exchange.getCompanies().get(i);
             		exchange.getXChart().get(i);
             		series.getData().add(new XYChart.Data(exchange.getXChart().get(i), company.getShareValueList().get(i)));
             	}
@@ -851,6 +856,7 @@ public class GUI extends Application
     public static void main(String[] args)
     {
         launch(args);
+        System.out.println("Thread count " + java.lang.Thread.activeCount());
     }
     
 }

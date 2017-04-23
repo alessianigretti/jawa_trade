@@ -65,7 +65,7 @@ public class TradingExchange {
 	{
 		//placeholder
 		LinkedList x = new LinkedList();
-		for (int i = 1; i <= 28; i++)
+		for (int i = 1; i <= 192; i++)
 		{
 			x.add(i);
 		}
@@ -190,6 +190,7 @@ public class TradingExchange {
 	 */
 	public void tradeSim()
 	{
+		long startTime = System.nanoTime();
 		for(int i = 1; i<traders.size(); i++)
 		{
 			for(int j = 0; j<traders.get(i).getClients().size(); j++)
@@ -247,7 +248,11 @@ public class TradingExchange {
 		}
 		
 		updateDateTime();
-		System.out.println(getDate() + getTime());
+		//System.out.println(getDate() + getTime());
+		long endTime = System.nanoTime();
+
+		long duration = ((endTime - startTime));
+		//System.out.println(duration);
 		
 	}
 	
