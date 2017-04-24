@@ -61,8 +61,9 @@ public class GUI extends Application
     double height = Screen.getPrimary().getBounds().getHeight() / 1.3;
 	double scaleHeight = (832/height)*1.1;
 	double scaleWidth = (1200/width)*1.1;
-	// creating commodities pane (left of root) //moved here but to no avail
+	private ScrollPane commoditiesScroll = new ScrollPane();// creating commodities pane (left of root) //moved here but to no avail
     private ScrollPane leftPane = createLeftPane();
+    
 	
     /* 
      * Sets up the stage.
@@ -143,8 +144,7 @@ public class GUI extends Application
         // defining name of series
         series.setName("My portfolio");
         // adding data to chart
-        lineChart.getData().add(series);
-        
+        lineChart.getData().add(series);     
         // orders panel (bottom of BorderPane centre)
         TabPane bottomPane = createBottomPane();
         
@@ -185,7 +185,7 @@ public class GUI extends Application
     private ScrollPane createLeftPane()
     {
     	// left scrollpane (frame for gridpane)
-    	ScrollPane commoditiesScroll = new ScrollPane();
+    	
         commoditiesScroll.setMaxSize(250/scaleWidth, 787/scaleHeight);
         commoditiesScroll.setMinSize(250/scaleWidth, 787/scaleHeight);
         
@@ -256,6 +256,7 @@ public class GUI extends Application
 		                		exchange.getXChart().get(i);
 		                		series.getData().add(new XYChart.Data(exchange.getXChart().get(i), selectedCompany.getShareValueList().get(i)));
 		                	}
+		      	        	commoditiesScroll.setContent(displayAllCommodities());
 		      	        }
 		      	      });
 		      	      Thread.sleep(500);
@@ -377,11 +378,10 @@ public class GUI extends Application
 		for (int i = 0; i < exchange.getCompanies().size(); i++)
 		{
 			// creating new cells and adding them to main grid
-			Button commodity = createCommodityCell(exchange.getCompanies().get(i), exchange.getCompanies().get(i).getCurrentShareValue(), "^");
+			Button commodity = createCommodityCell(exchange.getCompanies().get(i), "^");
 	        allCommodities.add(commodity, 0, i * 2 + 1);
 	        allCommodities.add(new Label(), 0, i * 2);
 		}
-        
         return allCommodities;
     }
     
@@ -393,13 +393,13 @@ public class GUI extends Application
      * @param trend the trend of the company
      * @return the button to be placed as a cell of the commodities pane
      */
-    private Button createCommodityCell(Company company, double shareValue, String trend)
+    private Button createCommodityCell(Company company, String trend)
     {
     	// creating cell in commodities grid
     	BorderPane commodity = new BorderPane();
     	commodity.setMinWidth(165/scaleWidth);
     	commodity.setMaxWidth(165/scaleWidth);
-
+    	double shareValue = company.getCurrentShareValue();
     	// creating button for cell
     	Button commodityButton = new Button(null, commodity);
     	commodityButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -409,7 +409,7 @@ public class GUI extends Application
             	for (int i = 0; i < company.getShareValueList().size(); i++)
             	{
             		// updating chart depending on selected commodity
-            		//selectedCompany = exchange.getCompanies().get(i);
+            		selectedCompany = exchange.getCompanies().get(i);
             		exchange.getXChart().get(i);
             		series.getData().add(new XYChart.Data(exchange.getXChart().get(i), company.getShareValueList().get(i)));
             	}
@@ -428,9 +428,9 @@ public class GUI extends Application
             	createNewOrder(company);
             }
         });
-		
-		// creating label for share value
 		Label shareValueLabel = new Label(String.valueOf(shareValue));
+		// creating label for share value
+		
 		
 		// creating label for trend of commodity
 		Label trendLabel = new Label(trend);
