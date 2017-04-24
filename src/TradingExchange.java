@@ -49,7 +49,6 @@ public class TradingExchange {
 		traders.add(smartTrader);
 		shareIndexList = new LinkedList();
 		events = new LinkedList();
-		setUpSim();
 		updateShareIndex();
 		System.out.println(getShareIndex());
 		checkShareNum();
@@ -259,11 +258,11 @@ public class TradingExchange {
 	/**
 	 * Sets the up sim.
 	 */
-	public void setUpSim()
+	public void setUpSim(int randomTradersNum)
 	{
 		setUpCompanies();
 		setUpEvents();
-		setUpRandomTraders();
+		setUpRandomTraders(randomTradersNum);
 		setUpClients();
 	}
 	
@@ -357,9 +356,9 @@ public class TradingExchange {
 	/**
 	 * Sets the up random traders.
 	 */
-	private void setUpRandomTraders()
+	private void setUpRandomTraders(int num)
 	{
-		for(int i = 0; i<4; i++)
+		for(int i = 0; i<num; i++)
 		{
 			RandomTrader randomTrader = new RandomTrader(RandomTrader.Mode.BALANCED, i);
 			traders.add(randomTrader);
