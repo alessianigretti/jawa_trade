@@ -235,43 +235,51 @@ public class GUI extends Application
         startSim.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-            	startSim.setDisable(true);  
-            	Task<Void> task = new Task<Void>()
-		        {
-		      	  @Override
-		      	  public Void call() throws Exception
-		      	  {
-		      	    while (true)
-		      	    {
-		      	      Platform.runLater(new Runnable()
-		      	      {
-		      	        @Override
-		      	        public void run() {
-		      	        	System.out.println(Integer.valueOf(exchange.getTime().substring(0, 2)));
-		      	        	if(Integer.valueOf(exchange.getTime().substring(0, 2))<=16 && Integer.valueOf(exchange.getTime().substring(0, 2))>=9)
-		      	        		exchange.tradeSim();
-		      	        	else
-		      	        		exchange.updateDateTime();
-		      	        	System.out.println(exchange.getCompanies().get(0).getCurrentShareValue());
-		      	        	netWorthLabel.setText("Net Worth: " + selectedClient.getNetWorth());
-		      	        	currentDateTimeLabel.setText("Current: " + exchange.getDate() + ", " + exchange.getTime());
-		      	        	series.getData().setAll(new XYChart.Data(0, 0));
-		      	        	for (int i = 0; i < selectedCompany.getShareValueList().size(); i++)
-		                	{
-		                		// updating chart depending on selected commodity
-		                		exchange.getXChart().get(i);
-		                		series.getData().add(new XYChart.Data(exchange.getXChart().get(i), selectedCompany.getShareValueList().get(i)));
-		                	}
-		      	        	commoditiesScroll.setContent(displayAllCommodities());
-		      	        }
-		      	      });
-		      	      Thread.sleep(500);
-		      	    }
-		      	  }
-		      	};
-		      	Thread th = new Thread(task);
-		      	th.setDaemon(true);
-		      	th.start();
+            	try {
+            		if (selectedCompany == null)
+            		{
+            			throw new NullPointerException();
+            		}
+	            	startSim.setDisable(true);  
+	            	Task<Void> task = new Task<Void>()
+			        {
+			      	  @Override
+			      	  public Void call() throws Exception
+			      	  {
+			      	    while (true)
+			      	    {
+			      	      Platform.runLater(new Runnable()
+			      	      {
+			      	        @Override
+			      	        public void run() {
+		      	        		System.out.println(Integer.valueOf(exchange.getTime().substring(0, 2)));
+			      	        	if(Integer.valueOf(exchange.getTime().substring(0, 2))<=16 && Integer.valueOf(exchange.getTime().substring(0, 2))>=9)
+			      	        		exchange.tradeSim();
+			      	        	else
+			      	        		exchange.updateDateTime();
+			      	        	System.out.println(exchange.getCompanies().get(0).getCurrentShareValue());
+			      	        	netWorthLabel.setText("Net Worth: " + selectedClient.getNetWorth());
+			      	        	currentDateTimeLabel.setText("Current: " + exchange.getDate() + ", " + exchange.getTime());
+			      	        	series.getData().setAll(new XYChart.Data(0, 0));
+			      	        	for (int i = 0; i < selectedCompany.getShareValueList().size(); i++)
+			                	{
+			                		// updating chart depending on selected commodity
+			                		exchange.getXChart().get(i);
+			                		series.getData().add(new XYChart.Data(exchange.getXChart().get(i), selectedCompany.getShareValueList().get(i)));
+			                	}
+			      	        	commoditiesScroll.setContent(displayAllCommodities());
+			      	        }
+			      	      });
+			      	      Thread.sleep(500);
+			      	    }
+			      	  }
+			      	};
+			      	Thread th = new Thread(task);
+			      	th.setDaemon(true);
+			      	th.start();
+            } catch (Exception e) {
+	        		throwErrorMessage(AlertType.ERROR, "Invalid Action", "Invalid Action", "You must select a Company to see progress in the chart during the simulation.");
+	        	}
             }
         });
         
