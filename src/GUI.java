@@ -12,6 +12,7 @@ import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.*;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
@@ -226,6 +227,9 @@ public class GUI extends Application
         info.add(new Label("          "), 3, 0);
         toolbar.setRight(info);
         
+        //
+        GridPane simulationGrid = new GridPane();
+        
         // button for starting simulation
         Button startSim = new Button("Start Simulation");
         startSim.setOnAction(new EventHandler<ActionEvent>() {
@@ -270,7 +274,19 @@ public class GUI extends Application
 		      	th.start();
             }
         });
-        toolbar.setLeft(startSim);
+        
+        //
+        Button setUpSim = new Button("Set Up Simulation");
+        setUpSim.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+            	setUpSimulation();
+            }
+        });
+        
+        simulationGrid.add(startSim, 0, 0);
+        simulationGrid.add(setUpSim, 1, 0);
+        toolbar.setLeft(simulationGrid);
         
         // setting up style and position for labels and toolbar
         traderLabel.setFont(new Font(20/((scaleHeight+scaleWidth)/2)));
@@ -887,6 +903,55 @@ public class GUI extends Application
 		alert.setTitle(title);
 	    alert.setHeaderText(headerText);
 		alert.showAndWait();
+    }
+    
+    /**
+     * Allows the user to set up a custom simulation.
+     */
+    private void setUpSimulation()
+    {
+    	// creating new window for setting up a simulation
+    	Stage setUpSimStage = new Stage();
+    	
+    	// borderpane containing options to set up simulation
+    	BorderPane setUpPane = new BorderPane();
+    	setUpPane.setPadding(new Insets(15));
+    	
+    	GridPane form = new GridPane();
+    	form.setPadding(new Insets(15));
+    	
+    	// creating and adding labels and textfields to gridpane
+		Label numOfTradersLabel = new Label("Number of\nRandom Traders:    ");
+		numOfTradersLabel.setTextAlignment(TextAlignment.CENTER);
+		TextField numOfTraders = new TextField();
+		form.add(numOfTradersLabel, 0, 0);
+		form.add(numOfTraders, 1, 0);
+		
+		// creating and adding confirm button
+		Button confirm = new Button("Confirm");
+		confirm.setOnAction(new EventHandler<ActionEvent>() {
+	       	@Override
+	       	public void handle(ActionEvent event) {
+	       		try {
+	       			// do something
+	       		} catch (Exception e) {
+	       			throwErrorMessage(AlertType.ERROR, "Invalid Argument", "Invalid Argument", "The minimum number of trader is 1.");
+	       		}
+	       	}
+	    });
+		
+		setUpPane.setCenter(form);
+		setUpPane.setBottom(confirm);
+		setUpPane.setAlignment(confirm, Pos.CENTER);
+		
+		// setting up and styling scene for new order
+		Scene newSetUp = new Scene(setUpPane);
+		newSetUp.getStylesheets().add("resources/com/guigarage/flatterfx/flatterfx.css");
+		
+		setUpSimStage.sizeToScene();
+		setUpSimStage.setTitle("Set Up Simulation");
+		setUpSimStage.setScene(newSetUp);
+		setUpSimStage.show();
     }
 
     /**
