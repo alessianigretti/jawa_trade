@@ -402,6 +402,7 @@ public class GUI extends Application
     	commodity.setMinWidth(165/scaleWidth);
     	commodity.setMaxWidth(165/scaleWidth);
     	double shareValue = company.getCurrentShareValue();
+    	
     	// creating button for cell
     	Button commodityButton = new Button(null, commodity);
     	commodityButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -430,9 +431,9 @@ public class GUI extends Application
             	createNewOrder(company);
             }
         });
-		Label shareValueLabel = new Label(String.valueOf(shareValue));
-		// creating label for share value
 		
+		// creating label for share value
+		Label shareValueLabel = new Label(String.valueOf(shareValue));
 		
 		// creating label for trend of commodity
 		Label trendLabel = new Label(trend);
