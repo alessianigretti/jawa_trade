@@ -12,12 +12,14 @@ import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.*;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
@@ -487,8 +489,16 @@ public class GUI extends Application
 		buyButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-            	orders.add(new OrderTable(company, Integer.valueOf(quantities.getSelectionModel().getSelectedItem().toString()), selectedClient, "Buy"));              		
-            	makeNewOrder.hide();
+            	try {
+            		orders.add(new OrderTable(company, Integer.valueOf(quantities.getSelectionModel().getSelectedItem().toString()), selectedClient, "Buy")); 
+            		if (selectedClient == null || selectedTrader == null || quantities.getSelectionModel().getSelectedItem() == null)
+            		{
+            			throw new Exception();
+            		}
+            		makeNewOrder.hide();
+            	} catch (Exception e) {
+            		throwErrorMessage(AlertType.ERROR, "Invalid Action", "Invalid Action", "You have to select both a Quantity and a Client before buying.");
+            	}
             }
         });
 		
@@ -497,8 +507,16 @@ public class GUI extends Application
 		sellButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-            	orders.add(new OrderTable(company, Integer.valueOf(quantities.getSelectionModel().getSelectedItem().toString()), selectedClient, "Sell"));
-            	makeNewOrder.hide();
+            	try {
+            		orders.add(new OrderTable(company, Integer.valueOf(quantities.getSelectionModel().getSelectedItem().toString()), selectedClient, "Sell"));
+            		if (selectedClient == null || selectedTrader == null || quantities.getSelectionModel().getSelectedItem() == null)
+            		{
+            			throw new Exception();
+            		}
+            		makeNewOrder.hide();
+            	} catch (Exception e) {
+            		throwErrorMessage(AlertType.ERROR, "Invalid Action", "Invalid Action", "You have to select both a Quantity and a Client before selling.");
+            	}
             }
         });
 		
@@ -660,6 +678,7 @@ public class GUI extends Application
          * @param quantity the quantity
          * @param client the client
          * @param orderType the order type
+         * @throws Exception 
          */
         private OrderTable(Company company, int quantity, Client client, String orderType)
         {
@@ -823,12 +842,16 @@ public class GUI extends Application
 		confirm.setOnAction(new EventHandler<ActionEvent>() {
 	       	@Override
 	       	public void handle(ActionEvent event) {
-	       		Client client = new Client(nameField.getText(), Double.valueOf(expectedReturnField.getText()), Double.valueOf(initialInvestmentField.getText()));
-	       		client.calculateNetWorth();
-	       		selectedTrader.addClient(client);
-	       		exchange.setCurrentClient(client);
-	       		selectedClient = exchange.getCurrentClient();
-	       		addCustomClient.hide();
+	       		try {
+	       			Client client = new Client(nameField.getText(), Double.valueOf(expectedReturnField.getText()), Double.valueOf(initialInvestmentField.getText()));
+	       			client.calculateNetWorth();
+		       		selectedTrader.addClient(client);
+		       		exchange.setCurrentClient(client);
+		       		selectedClient = exchange.getCurrentClient();
+		       		addCustomClient.hide();
+	       		} catch (Exception e) {
+	       			throwErrorMessage(AlertType.ERROR, "Invalid Argument", "Invalid Argument", "Expected Return and Initial Investment must be numbers.");
+	       		}
 	       	}
 	    });
 		
@@ -846,6 +869,23 @@ public class GUI extends Application
 		addCustomClient.setTitle("New Custom Client");
 		addCustomClient.setScene(addClientScene);
 		addCustomClient.show();
+    }
+    
+    /**
+     * Shows a custom error message.
+     * 
+     * @param errorType the error type
+     * @param title the title of the error window
+     * @param headerText the text of the header of the error window
+     * @param contentText the content of the error window
+     */
+    private void throwErrorMessage(AlertType errorType, String title, String headerText, String contentText)
+    {
+    	Alert alert = new Alert(errorType, contentText, ButtonType.OK);
+		alert.getDialogPane().getStylesheets().add("resources/com/guigarage/flatterfx/flatterfx.css");
+		alert.setTitle(title);
+	    alert.setHeaderText(headerText);
+		alert.showAndWait();
     }
 
     /**

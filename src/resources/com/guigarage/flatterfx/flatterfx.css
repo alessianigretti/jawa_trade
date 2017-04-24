@@ -301,6 +301,28 @@
 
 /*******************************************************************************
  *                                                                             *
+ * Dialog Pane			                                                       *
+ *                                                                             *
+ ******************************************************************************/
+
+.dialog-pane {
+    -fx-background-color: -dark;
+}
+
+.dialog-pane .label {
+    -fx-text-fill: white;
+}
+
+.dialog-pane:header .header-panel {
+    -fx-background-color: -dark;
+}
+
+.dialog-pane:header .header-panel .label {
+    -fx-font-size: 2em;
+}
+
+/*******************************************************************************
+ *                                                                             *
  * TextField & TextArea                                                        *
  *                                                                             *
  ******************************************************************************/
