@@ -271,7 +271,11 @@ public class TradingExchange {
 			e.printStackTrace();
 		}
 		//setUpRandomTraders(randomTradersNum);
-		//setUpClients();
+		try {
+			setUpClients(new CSVReader(new FileReader("clients.csv")));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**
