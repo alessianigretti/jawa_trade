@@ -238,6 +238,8 @@ public class TradingExchange {
 			{
 				((RandomTrader) traders.get(i)).completeOrder(traders.get(i).getOrderList().get(j));
 			}
+			((RandomTrader) traders.get(i)).switchMode(rand.nextInt());
+			traders.get(i).addOrderHistory();
 			traders.get(i).clearOrders();
 		}
 		
@@ -245,7 +247,7 @@ public class TradingExchange {
 		{
 			companies.get(i).clearCount();
 		}
-		
+		System.out.println(String.valueOf(((RandomTrader) traders.get(1)).getMode()));
 		updateDateTime();
 		//System.out.println(getDate() + getTime());
 		long endTime = System.nanoTime();

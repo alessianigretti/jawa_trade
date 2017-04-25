@@ -13,6 +13,7 @@ public class Trader {
 	
 	private LinkedList<Client> clientList;
 	private LinkedList<Order> orderList = new LinkedList();
+	private LinkedList<Order> orderHistory = new LinkedList();
 	private String name;
 	
 	
@@ -122,4 +123,10 @@ public class Trader {
 	{
 		orderList.clear();
 	}
+	
+	public void addOrderHistory()
+	{
+		orderHistory.addAll(orderList);
+	}
+	
 }
