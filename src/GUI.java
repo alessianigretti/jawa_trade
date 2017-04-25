@@ -941,7 +941,7 @@ public class GUI extends Application
 	       	@Override
 	       	public void handle(ActionEvent event) {
 	       		try {
-	       			exchange.setUpSim(Integer.valueOf(numOfTraders.getText()));
+	       			//exchange.setUpSim(Integer.valueOf(numOfTraders.getText()));
 	       		} catch (Exception e) {
 	       			throwErrorMessage(AlertType.ERROR, "Invalid Argument", "Invalid Argument", "The minimum number of trader is 1.");
 	       		}

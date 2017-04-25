@@ -42,13 +42,13 @@ public class TradingExchange {
 		currentDate = LocalDate.parse("Jan 1 2017", dateFormatter);
 		currentTime = LocalTime.parse("09:00", timeFormatter);
 		companies = new LinkedList();
-		//upForSell = new LinkedList();
 		traders = new LinkedList();
 		smartTrader = new SmartTrader();
 		smartTrader.setTraderName("W&G Trader");
 		traders.add(smartTrader);
 		shareIndexList = new LinkedList();
 		events = new LinkedList();
+		setUpSim(4);
 		updateShareIndex();
 		System.out.println(getShareIndex());
 		checkShareNum();
@@ -264,6 +264,7 @@ public class TradingExchange {
 		setUpEvents();
 		setUpRandomTraders(randomTradersNum);
 		setUpClients();
+		System.out.println("done");
 	}
 	
 	/**
