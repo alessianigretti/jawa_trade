@@ -348,6 +348,38 @@ public class TradingExchange {
 		}
 	}
 	
+	public void setUpClients2(CSVReader reader)
+	{
+		int index = 1;
+		String[] myEntries;
+	     try {
+			String[] next = reader.readNext();
+			while(next != null)
+			{
+				myEntries = next;
+				Client client = new Client(myEntries[0],Double.valueOf(myEntries[1]));
+				for(int i = 2; i<=next.length-1; i++ )
+				{
+					client.initialShare(Integer.valueOf(myEntries[i]), companies.get(i-2));
+				}
+				client.calculateNetWorth();
+				if(client.getName().equals("Norbert DaVinci") || client.getName().equals("Justine Thyme") )
+					smartTrader.addClient(client);
+				else
+				{
+					traders.get(index).addClient(client);
+					index++;
+					if(index > 4)
+						index = 1;
+				}
+				index++;
+				next = reader.readNext();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	/**
 	 * Sets the up random traders.
 	 */
