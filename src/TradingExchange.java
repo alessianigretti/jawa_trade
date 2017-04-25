@@ -270,11 +270,9 @@ public class TradingExchange {
 	/**
 	 * Sets the up companies.
 	 */
-	private void setUpCompanies()
+	private void setUpCompanies(CSVReader reader)
 	{
 		String[] myEntries;
-		try{
-			 CSVReader reader = new CSVReader(new FileReader("companies.csv"));
 		     try {
 				String[] next = reader.readNext();
 				while(next != null)
@@ -287,10 +285,6 @@ public class TradingExchange {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}
-		catch (FileNotFoundException e){
-			e.printStackTrace();
-		}
 	}
 	
 	/**
@@ -369,11 +363,9 @@ public class TradingExchange {
 	/**
 	 * Sets the up events.
 	 */
-	public void setUpEvents()
+	public void setUpEvents(CSVReader reader)
 	{
 		String[] myEntries;
-		try{
-			 CSVReader reader = new CSVReader(new FileReader("events.csv"));
 		     try {
 				String[] next = reader.readNext();
 				while(next != null)
@@ -386,10 +378,6 @@ public class TradingExchange {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}
-		catch (FileNotFoundException e){
-			e.printStackTrace();
-		}
 	}
 	
 	/**
