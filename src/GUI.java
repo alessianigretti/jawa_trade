@@ -60,7 +60,9 @@ public class GUI extends Application
     private Label traderLabel = new Label("Trader: " + selectedTrader);
     private Label clientLabel = new Label("Client: " + selectedClient);
     private Label netWorthLabel = new Label("Net Worth: " + selectedClient.getNetWorth());
-    private Label currentDateTimeLabel = new Label("Current: " + exchange.getDate() + ", " + exchange.getTime());
+    private Label dailyShareIndex = new Label("Share Index: " + exchange.getShareIndex());
+    private Label currentDateTimeLabel = new Label("Day/Time: " + exchange.getDate() + ", " + exchange.getTime());
+    private Label currentTradingMode = new Label("Mode: BALANCED");
     
     // hard-coded ideal window sizes
     private double width = Screen.getPrimary().getBounds().getWidth() / 1.5;
@@ -72,7 +74,6 @@ public class GUI extends Application
 	private ScrollPane commoditiesScroll;
     private ScrollPane newsfeedScroll;
     
-	
     /* 
      * Sets up the stage.
      */
@@ -227,10 +228,13 @@ public class GUI extends Application
         GridPane info = new GridPane();
         info.add(traderLabel, 0, 0);
         info.add(clientLabel, 0, 1);
-        info.add(new Label("          "), 1, 0);
+        info.add(new Label("     "), 1, 0);
         info.add(netWorthLabel, 2, 0);
-        info.add(currentDateTimeLabel, 2, 1);
-        info.add(new Label("          "), 3, 0);
+        info.add(dailyShareIndex, 2, 1);
+        info.add(new Label("     "), 3, 0);
+        info.add(currentDateTimeLabel, 4, 0);
+        info.add(currentTradingMode, 4, 1);
+        info.add(new Label("     "), 5, 0);
         toolbar.setRight(info);
         
         //
@@ -260,9 +264,14 @@ public class GUI extends Application
 			      	        public void run() {
 		      	        		System.out.println(Integer.valueOf(exchange.getTime().substring(0, 2)));
 			      	        	if(Integer.valueOf(exchange.getTime().substring(0, 2))<=16 && Integer.valueOf(exchange.getTime().substring(0, 2))>=9)
+			      	        	{
 			      	        		exchange.tradeSim();
-			      	        	else
-			      	        		exchange.updateDateTime();
+			      	        		currentTradingMode.setText("Mode: " + ((RandomTrader) selectedTrader).getMode().toString());
+			      	        	} else {
+			      	        		exchange.updateShareIndex();
+			          	        	dailyShareIndex.setText("Share Index: " + exchange.getShareIndex());
+			          	        	exchange.updateDateTime();
+			      	        	}	
 			      	        	System.out.println(exchange.getCompanies().get(0).getCurrentShareValue());
 			      	        	netWorthLabel.setText("Net Worth: " + selectedClient.getNetWorth());
 			      	        	currentDateTimeLabel.setText("Current: " + exchange.getDate() + ", " + exchange.getTime());
@@ -307,6 +316,8 @@ public class GUI extends Application
         traderLabel.setFont(new Font(20/((scaleHeight+scaleWidth)/2)));
         clientLabel.setFont(new Font(20/((scaleHeight+scaleWidth)/2)));
         netWorthLabel.setFont(new Font(20/((scaleHeight+scaleWidth)/2)));
+        dailyShareIndex.setFont(new Font(20/((scaleHeight+scaleWidth)/2)));
+        currentTradingMode.setFont(new Font(20/((scaleHeight+scaleWidth)/2)));
         currentDateTimeLabel.setFont(new Font(20/((scaleHeight+scaleWidth)/2)));
         toolbar.setStyle("-fx-border-color: #606060;"
         		+ "-fx-border-width: 3 3 3 3;"
@@ -357,11 +368,15 @@ public class GUI extends Application
 	
 		for (int i = 0; i < exchange.getEvents().size(); i++)
 		{
-			// creating new cells + filler cells and adding them to gridpane
-			BorderPane news = createNewsCell(exchange.getEvents().get(i).getDate().toString() + " - ", exchange.getEvents().get(i).getTime().toString(), exchange.getEvents().get(i).getEventText());
-		    allNews.add(news, 0, (i * 2 + 1));
-		    BorderPane filler = createNewsCell(" ", " ", " ");
-		    allNews.add(filler, 0, (i * 2 + 2));
+			if (exchange.getDate().equals(exchange.getEvents().get(i).getDate().toString()) &&
+					exchange.getTime().equals(exchange.getEvents().get(i).getTime().toString()))
+			{
+				// creating new cells + filler cells and adding them to gridpane
+				BorderPane news = createNewsCell(exchange.getEvents().get(i).getDate().toString() + " - ", exchange.getEvents().get(i).getTime().toString(), exchange.getEvents().get(i).getEventText());
+			    allNews.add(news, 0, (i * 2 + 1));
+			    BorderPane filler = createNewsCell(" ", " ", " ");
+			    allNews.add(filler, 0, (i * 2 + 2));
+			}
 		}
 	    
 	    return allNews;

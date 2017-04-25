@@ -49,10 +49,10 @@ public class TradingExchange {
 		shareIndexList = new LinkedList();
 		events = new LinkedList();
 		setUpRandomTraders(4);
-		updateShareIndex();
 		System.out.println(getShareIndex());
 		checkShareNum();
 		setUpSim();
+		updateShareIndex();
 	}
 	
 	/**
