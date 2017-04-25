@@ -48,11 +48,11 @@ public class TradingExchange {
 		traders.add(smartTrader);
 		shareIndexList = new LinkedList();
 		events = new LinkedList();
-		setUpSim(4);
+		setUpRandomTraders(4);
 		updateShareIndex();
 		System.out.println(getShareIndex());
 		checkShareNum();
-		
+		setUpSim();
 	}
 	
 	/**
@@ -258,19 +258,26 @@ public class TradingExchange {
 	/**
 	 * Sets the up sim.
 	 */
-	public void setUpSim(int randomTradersNum)
+	public void setUpSim()
 	{
-		setUpCompanies();
-		setUpEvents();
-		setUpRandomTraders(randomTradersNum);
-		setUpClients();
-		System.out.println("done");
+		try {
+			setUpCompanies(new CSVReader(new FileReader("companies.csv")));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		try {
+			setUpEvents(new CSVReader(new FileReader("events.csv")));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		//setUpRandomTraders(randomTradersNum);
+		//setUpClients();
 	}
 	
 	/**
 	 * Sets the up companies.
 	 */
-	private void setUpCompanies(CSVReader reader)
+	public void setUpCompanies(CSVReader reader)
 	{
 		String[] myEntries;
 		     try {
