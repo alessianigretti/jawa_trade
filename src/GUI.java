@@ -1,6 +1,6 @@
-import java.awt.Dimension;
-import java.awt.Toolkit;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 
 import com.opencsv.CSVReader;
 
@@ -63,13 +63,14 @@ public class GUI extends Application
     private Label currentDateTimeLabel = new Label("Current: " + exchange.getDate() + ", " + exchange.getTime());
     
     // hard-coded ideal window sizes
-    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    double width = Screen.getPrimary().getBounds().getWidth() / 1.5;
-    double height = Screen.getPrimary().getBounds().getHeight() / 1.3;
-	double scaleHeight = (832/height)*1.1;
-	double scaleWidth = (1200/width)*1.1;
-	private ScrollPane commoditiesScroll = new ScrollPane();// creating commodities pane (left of root) //moved here but to no avail
-    private ScrollPane leftPane = createLeftPane();
+    private double width = Screen.getPrimary().getBounds().getWidth() / 1.5;
+    private double height = Screen.getPrimary().getBounds().getHeight() / 1.3;
+	private double scaleHeight = (832 / height) * 1.1;
+	private double scaleWidth = (1200 / width) * 1.1;
+	
+	// panes shared within class methods
+	private ScrollPane commoditiesScroll;
+    private ScrollPane newsfeedScroll;
     
 	
     /* 
@@ -84,7 +85,8 @@ public class GUI extends Application
         // creating newsfeed pane (right of root)
         ScrollPane rightPane = createRightPane();
         
-        
+        // creating commodities pane (left of root)
+        ScrollPane leftPane = createLeftPane();
         
         // creating toolbar pane (top of root)
         BorderPane topPane = createTopPane();
@@ -173,7 +175,7 @@ public class GUI extends Application
     private ScrollPane createRightPane()
     {
     	// right scrollpane (frame for gridpane)
-    	ScrollPane newsfeedScroll = new ScrollPane();
+    	newsfeedScroll = new ScrollPane();
         newsfeedScroll.setMaxSize(250/scaleWidth, 787/scaleHeight);
         newsfeedScroll.setMinSize(250/scaleWidth, 787/scaleHeight);
 	    
@@ -192,7 +194,7 @@ public class GUI extends Application
     private ScrollPane createLeftPane()
     {
     	// left scrollpane (frame for gridpane)
-    	
+    	commoditiesScroll = new ScrollPane();
         commoditiesScroll.setMaxSize(250/scaleWidth, 787/scaleHeight);
         commoditiesScroll.setMinSize(250/scaleWidth, 787/scaleHeight);
         
@@ -272,6 +274,8 @@ public class GUI extends Application
 			                		series.getData().add(new XYChart.Data(exchange.getXChart().get(i), selectedCompany.getShareValueList().get(i)));
 			                	}
 			      	        	commoditiesScroll.setContent(displayAllCommodities());
+			      	        	newsfeedScroll.setContent(displayAllNews());
+			      	        	
 			      	        }
 			      	      });
 			      	      Thread.sleep(500);
@@ -584,21 +588,30 @@ public class GUI extends Application
     	loadClients.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-            	chooseFile().getPath();
+            	//chooseFile().getPath();
             }
     	});
     	MenuItem loadCompanies = new MenuItem("Load companies...");
     	loadCompanies.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-            	chooseFile();
+            	try {
+					exchange.setUpCompanies(chooseFile());
+					selectedCompany = exchange.getCompanies().get(0);
+				} catch (FileNotFoundException e) {
+					throwErrorMessage(AlertType.ERROR, "File Not Found!", "File Not Found!", "Select a valid .csv file.");
+				}
             }
     	});
     	MenuItem loadEvents = new MenuItem("Load events...");
     	loadEvents.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-            	exchange.setUpEvents(chooseFile().getPath());
+            	try {
+					exchange.setUpEvents(chooseFile());
+				} catch (FileNotFoundException e) {
+					throwErrorMessage(AlertType.ERROR, "File Not Found!", "File Not Found!", "Select a valid .csv file.");
+				}
             }
     	});
     	
@@ -1001,13 +1014,15 @@ public class GUI extends Application
 
     /**
      * Opens a file chooser to explore the system.
+     * @throws FileNotFoundException 
      */
-    private File chooseFile()
+    private CSVReader chooseFile() throws FileNotFoundException
     {
     	FileChooser fileChooser = new FileChooser();
     	fileChooser.setTitle("Open Resource File");
     	File file = fileChooser.showOpenDialog(new Stage());
-    	return file;
+    	CSVReader csvFile = new CSVReader(new FileReader(file.getPath()));
+		return csvFile;
     }
     
     /**
