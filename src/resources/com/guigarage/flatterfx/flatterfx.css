@@ -161,8 +161,8 @@
   -fx-tick-label-font-color: white;
 }
 
-.default-color0.chart-series-line { -fx-stroke: grey; }
-.default-color0.chart-line-symbol { -fx-background-color: grey, white; }
+/*.default-color0.chart-series-line { -fx-stroke: grey; }
+  .default-color0.chart-line-symbol { -fx-background-color: grey, white; }*/
 
 /*******************************************************************************
  *                                                                             *

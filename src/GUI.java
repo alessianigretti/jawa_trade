@@ -142,7 +142,7 @@ public class GUI extends Application
     private BorderPane createCentrePane()
     {
     	// defining the axes
-        final NumberAxis xAxis = new NumberAxis("X label (temporary)", 1, 192, 1);
+        final NumberAxis xAxis = new NumberAxis("Time (Minutes)", 1, 192, 1);
         final NumberAxis yAxis = new NumberAxis();
         yAxis.setLabel("Value");
         // creating and setting up chart (centre of BorderPane centre)
@@ -275,7 +275,6 @@ public class GUI extends Application
 			                	}
 			      	        	commoditiesScroll.setContent(displayAllCommodities());
 			      	        	newsfeedScroll.setContent(displayAllNews());
-			      	        	
 			      	        }
 			      	      });
 			      	      Thread.sleep(500);
@@ -584,14 +583,14 @@ public class GUI extends Application
 		// creating menu for data
     	Menu fileMenu = new Menu("File");
     	
-    	MenuItem loadClients = new MenuItem("Load clients...");
+    	MenuItem loadClients = new MenuItem("Load Clients...");
     	loadClients.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
             	//chooseFile().getPath();
             }
     	});
-    	MenuItem loadCompanies = new MenuItem("Load companies...");
+    	MenuItem loadCompanies = new MenuItem("Load Companies...");
     	loadCompanies.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -603,7 +602,7 @@ public class GUI extends Application
 				}
             }
     	});
-    	MenuItem loadEvents = new MenuItem("Load events...");
+    	MenuItem loadEvents = new MenuItem("Load Events...");
     	loadEvents.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
