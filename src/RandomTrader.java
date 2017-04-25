@@ -109,7 +109,7 @@ public class RandomTrader extends Trader {
 			case BALANCED:
 					if(ranNum < 0.1)
 						setMode(Mode.AGGRESSIVE_SELL);
-					if(ranNum > 0.1 && ranNum < 0.2)
+					if(ranNum > 0.1 && ranNum < 0.9)
 						setMode(Mode.AGGRESSIVE_BUY);
 					break;
 			case AGGRESSIVE_BUY:

@@ -263,7 +263,7 @@ public class GUI extends Application
 			      	        @Override
 			      	        public void run() {
 		      	        		System.out.println(Integer.valueOf(exchange.getTime().substring(0, 2)));
-			      	        	if(Integer.valueOf(exchange.getTime().substring(0, 2))<=16 && Integer.valueOf(exchange.getTime().substring(0, 2))>=9)
+			      	        	if(Integer.valueOf(exchange.getTime().substring(0, 2))<16 && Integer.valueOf(exchange.getTime().substring(0, 2))>=9)
 			      	        	{
 			      	        		exchange.tradeSim();
 			      	        		currentTradingMode.setText("Mode: " + ((RandomTrader) selectedTrader).getMode().toString());
