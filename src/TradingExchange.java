@@ -378,12 +378,13 @@ public class TradingExchange {
 					smartTrader.addClient(client);
 				else
 				{
+					
 					traders.get(index).addClient(client);
 					index++;
 					if(index > 4)
 						index = 1;
+					
 				}
-				index++;
 				next = reader.readNext();
 			}
 		} catch (IOException e) {
