@@ -1,5 +1,8 @@
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.io.File;
+
+import com.opencsv.CSVReader;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -26,6 +29,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.FileChooser;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.scene.control.MenuBar;
@@ -436,9 +440,13 @@ public class GUI extends Application
             	for (int i = 0; i < company.getShareValueList().size(); i++)
             	{
             		// updating chart depending on selected commodity
+            		try {
             		selectedCompany = exchange.getCompanies().get(i);
             		exchange.getXChart().get(i);
             		series.getData().add(new XYChart.Data(exchange.getXChart().get(i), company.getShareValueList().get(i)));
+            		} catch (Exception e) {
+            			// ignoring error on timing when selecting different company too fast for the threads
+            		}
             	}
             }
         });
@@ -569,7 +577,34 @@ public class GUI extends Application
      */
     private MenuBar createMenu()
     {
-		// creating menu for traders
+		// creating menu for data
+    	Menu fileMenu = new Menu("File");
+    	
+    	MenuItem loadClients = new MenuItem("Load clients...");
+    	loadClients.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+            	chooseFile().getPath();
+            }
+    	});
+    	MenuItem loadCompanies = new MenuItem("Load companies...");
+    	loadCompanies.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+            	chooseFile();
+            }
+    	});
+    	MenuItem loadEvents = new MenuItem("Load events...");
+    	loadEvents.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+            	exchange.setUpEvents(chooseFile().getPath());
+            }
+    	});
+    	
+    	fileMenu.getItems().addAll(loadClients, loadCompanies, loadEvents);
+    	
+    	// creating menu for traders
     	Menu traderMenu = new Menu("Traders");
 		
     	// looping through all traders
@@ -625,6 +660,7 @@ public class GUI extends Application
         
 		// creating menu bar to show on top of stage
         MenuBar menuBar = new MenuBar();
+        menuBar.getMenus().add(fileMenu);
         menuBar.getMenus().add(traderMenu);
         menuBar.getMenus().add(ordersMenu);
         
@@ -932,6 +968,7 @@ public class GUI extends Application
 		Label numOfTradersLabel = new Label("Number of\nRandom Traders:    ");
 		numOfTradersLabel.setTextAlignment(TextAlignment.CENTER);
 		TextField numOfTraders = new TextField();
+		
 		form.add(numOfTradersLabel, 0, 0);
 		form.add(numOfTraders, 1, 0);
 		
@@ -962,6 +999,17 @@ public class GUI extends Application
 		setUpSimStage.show();
     }
 
+    /**
+     * Opens a file chooser to explore the system.
+     */
+    private File chooseFile()
+    {
+    	FileChooser fileChooser = new FileChooser();
+    	fileChooser.setTitle("Open Resource File");
+    	File file = fileChooser.showOpenDialog(new Stage());
+    	return file;
+    }
+    
     /**
      * Launches the program.
      *
