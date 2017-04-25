@@ -297,7 +297,7 @@ public class TradingExchange {
 	/**
 	 * Sets the up clients.
 	 */
-	private void setUpClients()
+	private void setUpClients2()
 	{
 		String[] myEntries;
 		int i = 0;
@@ -355,7 +355,7 @@ public class TradingExchange {
 		}
 	}
 	
-	public void setUpClients2(CSVReader reader)
+	public void setUpClients(CSVReader reader)
 	{
 		int index = 1;
 		String[] myEntries;
