@@ -275,7 +275,6 @@ public class GUI extends Application
 			                	}
 			      	        	commoditiesScroll.setContent(displayAllCommodities());
 			      	        	newsfeedScroll.setContent(displayAllNews());
-			      	        	
 			      	        }
 			      	      });
 			      	      Thread.sleep(500);
