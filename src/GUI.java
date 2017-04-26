@@ -43,7 +43,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ProgressBar;
-import javafx.scene.control.ProgressIndicator;
 
 /**
  *	The class GUI is used to visually represent the software.
@@ -77,7 +76,8 @@ public class GUI extends Application
     private ScrollPane newsfeedScroll;
     private double totalSimIterations = 2880.0;
     private double currentSimIterations = 0;
-    private ProgressBar pb = new ProgressBar(0);
+    private ProgressBar progressBar = new ProgressBar(0);
+    
     /* 
      * Sets up the stage.
      */
@@ -252,7 +252,9 @@ public class GUI extends Application
             	try {
             		if (selectedCompany == null)
             		{
-            			throw new NullPointerException();
+            			throw new NullPointerException("Company");
+            		} else if (selectedClient.getName().equals("No client selected.")) {
+            			throw new NullPointerException("Client");
             		}
 	            	startSim.setDisable(true);  
 	            	Task<Void> task = new Task<Void>()
@@ -289,7 +291,7 @@ public class GUI extends Application
 			      	        	newsfeedScroll.setContent(displayAllNews());
 			      	        	currentSimIterations++;
 			      	        	double progress = currentSimIterations/totalSimIterations;
-			      	        	pb.setProgress(progress);
+			      	        	progressBar.setProgress(progress);
 			      	        }
 			      	      });
 			      	      Thread.sleep(500);
@@ -299,9 +301,14 @@ public class GUI extends Application
 			      	Thread th = new Thread(task);
 			      	th.setDaemon(true);
 			      	th.start();
-            } catch (Exception e) {
-	        		throwErrorMessage(AlertType.ERROR, "Invalid Action", "Invalid Action", "You must select a Company to see progress in the chart during the simulation.");
-	        	}
+	            } catch (Exception e) {
+		        	if (e.getMessage().equals("Company"))
+		        	{
+		        		throwErrorMessage(AlertType.ERROR, "Invalid Action", "Invalid Action", "You must select a Company.");
+		        	} else if (e.getMessage().equals("Client")) {
+		        		throwErrorMessage(AlertType.ERROR, "Invalid Action", "Invalid Action", "You must select a Client.");
+		        	}
+	            }
             }
         });
         
@@ -314,10 +321,9 @@ public class GUI extends Application
             }
         });
         
+        
         simulationGrid.add(setUpSim, 0, 0);
         simulationGrid.add(startSim, 1, 0);
-        simulationGrid.add(new Label("   "), 2, 0);
-        simulationGrid.add(pb,3,0);
         toolbar.setLeft(simulationGrid);
         
         // setting up style and position for labels and toolbar
@@ -330,7 +336,12 @@ public class GUI extends Application
         toolbar.setStyle("-fx-border-color: #606060;"
         		+ "-fx-border-width: 3 3 3 3;"
         		+ "-fx-font-size: 16;");
-        topPane.setBottom(toolbar);
+        topPane.setCenter(toolbar);
+        
+        // setting up width for progress bar 
+        progressBar.setMinWidth(1150/scaleWidth);
+        progressBar.setMaxWidth(1150/scaleWidth);
+        topPane.setBottom(progressBar);
         
         return topPane;
     }
@@ -550,14 +561,25 @@ public class GUI extends Application
             @Override
             public void handle(ActionEvent event) {
             	try {
-            		orders.add(new Order(company, Integer.valueOf(quantities.getSelectionModel().getSelectedItem().toString()), true, 0, "High", selectedClient)); 
-            		if (selectedClient == null || selectedTrader == null || quantities.getSelectionModel().getSelectedItem() == null)
+            		if (selectedClient.getName().equals("No client selected."))
             		{
-            			throw new Exception();
+            			throw new NullPointerException("Client");
             		}
+            		if (quantities.getSelectionModel().getSelectedItem() == null)
+            		{
+            			throw new NullPointerException("Quantity");
+            		}
+            		orders.add(new Order(company, Integer.valueOf(quantities.getSelectionModel().getSelectedItem().toString()), true, 0, "High", selectedClient)); 
             		makeNewOrder.hide();
-            	} catch (Exception e) {
-            		throwErrorMessage(AlertType.ERROR, "Invalid Action", "Invalid Action", "You have to select both a Quantity and a Client before buying.");
+            	} catch (NullPointerException e) {
+            		if (e.getMessage().equals("Client"))
+            		{
+            			throwErrorMessage(AlertType.ERROR, "Invalid Action", "Invalid Action", "You must select a Client.");
+            		}
+            		if (e.getMessage().equals("Quantity"))
+            		{
+            			throwErrorMessage(AlertType.ERROR, "Invalid Action", "Invalid Action", "You must select a Quantity.");
+            		}
             	}
             }
         });
@@ -568,14 +590,25 @@ public class GUI extends Application
             @Override
             public void handle(ActionEvent event) {
             	try {
-            		orders.add(new Order(company, Integer.valueOf(quantities.getSelectionModel().getSelectedItem().toString()), false, 0, "High", selectedClient));
-            		if (selectedClient == null || selectedTrader == null || quantities.getSelectionModel().getSelectedItem() == null)
+            		if (selectedClient.getName().equals("No client selected."))
             		{
-            			throw new Exception();
+            			throw new NullPointerException("Client");
             		}
+            		if (quantities.getSelectionModel().getSelectedItem() == null)
+            		{
+            			throw new NullPointerException("Quantity");
+            		}
+            		orders.add(new Order(company, Integer.valueOf(quantities.getSelectionModel().getSelectedItem().toString()), false, 0, "High", selectedClient));
             		makeNewOrder.hide();
-            	} catch (Exception e) {
-            		throwErrorMessage(AlertType.ERROR, "Invalid Action", "Invalid Action", "You have to select both a Quantity and a Client before selling.");
+            	} catch (NullPointerException e) {
+            		if (e.getMessage().equals("Client"))
+            		{
+            			throwErrorMessage(AlertType.ERROR, "Invalid Action", "Invalid Action", "You must select a Client.");
+            		}
+            		if (e.getMessage().equals("Quantity"))
+            		{
+            			throwErrorMessage(AlertType.ERROR, "Invalid Action", "Invalid Action", "You must select a Quantity.");
+            		}
             	}
             }
         });
