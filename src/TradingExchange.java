@@ -65,7 +65,7 @@ public class TradingExchange {
 	{
 		//placeholder
 		LinkedList x = new LinkedList();
-		for (int i = 1; i <= 192; i++)
+		for (int i = 1; i <= 2880; i++)
 		{
 			x.add(i);
 		}

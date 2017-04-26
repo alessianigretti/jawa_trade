@@ -75,13 +75,15 @@ public class GUI extends Application
 	// panes shared within class methods
 	private ScrollPane commoditiesScroll;
     private ScrollPane newsfeedScroll;
-    
+    private double totalSimIterations = 2880.0;
+    private double currentSimIterations = 0;
+    private ProgressBar pb = new ProgressBar(0);
     /* 
      * Sets up the stage.
      */
     @Override
     public void start(Stage stage)
-    {    	
+    {    
     	// creating chart/orders pane (centre of root)
     	BorderPane centre = createCentrePane();
         
@@ -145,7 +147,7 @@ public class GUI extends Application
     private BorderPane createCentrePane()
     {
     	// defining the axes
-        final NumberAxis xAxis = new NumberAxis("Time (Minutes)", 1, 192, 1);
+        final NumberAxis xAxis = new NumberAxis("Time (Minutes)", 1, 2880, 30);
         final NumberAxis yAxis = new NumberAxis();
         yAxis.setLabel("Value");
         // creating and setting up chart (centre of BorderPane centre)
@@ -285,6 +287,9 @@ public class GUI extends Application
 			                	}
 			      	        	commoditiesScroll.setContent(displayAllCommodities());
 			      	        	newsfeedScroll.setContent(displayAllNews());
+			      	        	currentSimIterations++;
+			      	        	double progress = currentSimIterations/totalSimIterations;
+			      	        	pb.setProgress(progress);
 			      	        }
 			      	      });
 			      	      Thread.sleep(500);
@@ -312,6 +317,7 @@ public class GUI extends Application
         simulationGrid.add(setUpSim, 0, 0);
         simulationGrid.add(startSim, 1, 0);
         simulationGrid.add(new Label("   "), 2, 0);
+        simulationGrid.add(pb,3,0);
         toolbar.setLeft(simulationGrid);
         
         // setting up style and position for labels and toolbar
