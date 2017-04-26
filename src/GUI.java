@@ -313,12 +313,12 @@ public class GUI extends Application
         toolbar.setLeft(simulationGrid);
         
         // setting up style and position for labels and toolbar
-        traderLabel.setFont(new Font(20/((scaleHeight+scaleWidth)/2)));
-        clientLabel.setFont(new Font(20/((scaleHeight+scaleWidth)/2)));
-        netWorthLabel.setFont(new Font(20/((scaleHeight+scaleWidth)/2)));
-        dailyShareIndex.setFont(new Font(20/((scaleHeight+scaleWidth)/2)));
-        currentTradingMode.setFont(new Font(20/((scaleHeight+scaleWidth)/2)));
-        currentDateTimeLabel.setFont(new Font(20/((scaleHeight+scaleWidth)/2)));
+        traderLabel.setFont(new Font(16/((scaleHeight+scaleWidth)/2)));
+        clientLabel.setFont(new Font(16/((scaleHeight+scaleWidth)/2)));
+        netWorthLabel.setFont(new Font(16/((scaleHeight+scaleWidth)/2)));
+        dailyShareIndex.setFont(new Font(16/((scaleHeight+scaleWidth)/2)));
+        currentTradingMode.setFont(new Font(16/((scaleHeight+scaleWidth)/2)));
+        currentDateTimeLabel.setFont(new Font(16/((scaleHeight+scaleWidth)/2)));
         toolbar.setStyle("-fx-border-color: #606060;"
         		+ "-fx-border-width: 3 3 3 3;"
         		+ "-fx-font-size: 16;");
@@ -365,7 +365,8 @@ public class GUI extends Application
 		allNews.setMaxWidth(215/scaleWidth);
 		allNews.setMinWidth(215/scaleWidth);
 		allNews.setPadding(new Insets(20, 0, 0, 20));
-	
+		allNews.add(new Label("No events to display."), 0, 0);
+		
 		for (int i = 0; i < exchange.getEvents().size(); i++)
 		{
 			if (exchange.getDate().equals(exchange.getEvents().get(i).getDate().toString()) &&
@@ -541,7 +542,7 @@ public class GUI extends Application
             @Override
             public void handle(ActionEvent event) {
             	try {
-            		orders.add(new OrderTable(company, Integer.valueOf(quantities.getSelectionModel().getSelectedItem().toString()), selectedClient, "Buy")); 
+            		orders.add(new OrderTable(company, Integer.valueOf(quantities.getSelectionModel().getSelectedItem().toString()), "Buy", 0, "High", selectedClient)); 
             		if (selectedClient == null || selectedTrader == null || quantities.getSelectionModel().getSelectedItem() == null)
             		{
             			throw new Exception();
@@ -559,7 +560,7 @@ public class GUI extends Application
             @Override
             public void handle(ActionEvent event) {
             	try {
-            		orders.add(new OrderTable(company, Integer.valueOf(quantities.getSelectionModel().getSelectedItem().toString()), selectedClient, "Sell"));
+            		orders.add(new OrderTable(company, Integer.valueOf(quantities.getSelectionModel().getSelectedItem().toString()), "Sell", 0, "High", selectedClient));
             		if (selectedClient == null || selectedTrader == null || quantities.getSelectionModel().getSelectedItem() == null)
             		{
             			throw new Exception();
@@ -732,7 +733,7 @@ public class GUI extends Application
     		    new PropertyValueFactory<OrderTable,String>("price")
     	);
         
-        TableColumn typeOrders = new TableColumn("Type");
+        TableColumn typeOrders = new TableColumn("Risk");
         typeOrders.setMinWidth(100/scaleWidth);
         
         TableColumn clientOrders = new TableColumn("Client");
@@ -755,28 +756,51 @@ public class GUI extends Application
         // fields for filling table up with data
     	private final SimpleStringProperty company;
         private final SimpleIntegerProperty quantity;
-        private final SimpleStringProperty client;
-        private final SimpleDoubleProperty price;
         private final SimpleStringProperty orderType;
+        private final SimpleDoubleProperty price;
+        private final SimpleStringProperty risk;
+        private final SimpleStringProperty client;
  
         /**
          * Instantiates a new order table.
          *
          * @param company the company
          * @param quantity the quantity
-         * @param client the client
          * @param orderType the order type
-         * @throws Exception 
+         * @param price the price
+         * @param risk the risk
+         * @param client the client
          */
-        private OrderTable(Company company, int quantity, Client client, String orderType)
+        private OrderTable(Company company, int quantity, String orderType, double price, String risk, Client client)
         {
             this.company = new SimpleStringProperty(company.getName());
             this.quantity = new SimpleIntegerProperty(quantity);
-            this.client = new SimpleStringProperty(client.getName());
-            price = new SimpleDoubleProperty(quantity * company.getCurrentShareValue());
             this.orderType = new SimpleStringProperty(orderType);
+            this.price = new SimpleDoubleProperty(quantity * company.getCurrentShareValue());
+            this.risk = new SimpleStringProperty(company.getShareType());
+            this.client = new SimpleStringProperty(client.getName());
         }
  
+        /**
+         * Gets the risk.
+         *
+         * @return the risk
+         */
+        public String getRisk()
+        {
+        	return risk.get();
+        }
+        
+        /**
+         * Sets the risk.
+         *
+         * @param risk the new risk
+         */
+        public void setRisk(String risk)
+        {
+        	this.risk.set(risk);
+        }
+        
         /**
          * Gets the quantity.
          *
