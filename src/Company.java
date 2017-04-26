@@ -12,9 +12,10 @@ public class Company {
 	private String name;
 	private int shareCount;
 	private double netWorth, currentShareValue; 
-	private LinkedList shareValueList = new LinkedList();
+	private LinkedList<Double> shareValueList = new LinkedList<Double>();
 	private double sellCount;
 	private double buyCount;
+	private String trend = "-";
 	/*private enum ShareType
 	{
 		FOOD, HARD, TECH, PROPERTY
@@ -136,6 +137,7 @@ public class Company {
 	public void updateShareValue(double excess)
 	{
 		setCurrentShareValue(getCurrentShareValue()+(excess/shareCount)*getCurrentShareValue());//supply vs demand
+		setCompanyTrend();
 	}
 	
 	/**
@@ -195,6 +197,24 @@ public class Company {
 	{
 		sellCount = 0;
 		buyCount = 0;
+	}
+	
+	public void setCompanyTrend()
+	{
+		int end = shareValueList.size()-1;
+		if(shareValueList.size()>=3)
+		{
+			if(shareValueList.get(end) > shareValueList.get(end-1) && shareValueList.get(end-1) > shareValueList.get(end-2))
+				trend =  "^";
+			if(shareValueList.get(end) < shareValueList.get(end-1) && shareValueList.get(end-1) < shareValueList.get(end-2))
+				trend =  "v";
+		}
+		trend = "-";
+	}
+	
+	public String getCompanyTrend()
+	{
+		return trend;
 	}
 	
 	
