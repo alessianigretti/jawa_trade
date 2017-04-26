@@ -603,7 +603,11 @@ public class GUI extends Application
     	loadClients.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-            	//chooseFile().getPath();
+            	try {
+					exchange.setUpClients(chooseFile());
+				} catch (FileNotFoundException e) {
+					throwErrorMessage(AlertType.ERROR, "File Not Found!", "File Not Found!", "Select a valid .csv file.");
+				}
             }
     	});
     	MenuItem loadCompanies = new MenuItem("Load Companies...");
@@ -749,161 +753,7 @@ public class GUI extends Application
         table.getColumns().addAll(instrumentsOrders, quantityOrders, buyOrSellOrders, priceOrders, typeOrders, clientOrders);
 
         return table;
-    }
-    
-//    /**
-//     * The Class OrderTable.
-//     */
-//    public static class OrderTable
-//    {
-//        // fields for filling table up with data
-//    	private final SimpleStringProperty company;
-//        private final SimpleIntegerProperty quantity;
-//        private final SimpleStringProperty orderType;
-//        private final SimpleDoubleProperty price;
-//        private final SimpleStringProperty risk;
-//        private final SimpleStringProperty client;
-// 
-//        /**
-//         * Instantiates a new order table.
-//         *
-//         * @param company the company
-//         * @param quantity the quantity
-//         * @param orderType the order type
-//         * @param price the price
-//         * @param risk the risk
-//         * @param client the client
-//         */
-//        private OrderTable(Company company, int quantity, String orderType, double price, String risk, Client client)
-//        {
-//            this.company = new SimpleStringProperty(company.getName());
-//            this.quantity = new SimpleIntegerProperty(quantity);
-//            this.orderType = new SimpleStringProperty(orderType);
-//            this.price = new SimpleDoubleProperty(quantity * company.getCurrentShareValue());
-//            this.risk = new SimpleStringProperty(company.getShareType());
-//            this.client = new SimpleStringProperty(client.getName());
-//        }
-// 
-//        /**
-//         * Gets the risk.
-//         *
-//         * @return the risk
-//         */
-//        public String getRisk()
-//        {
-//        	return risk.get();
-//        }
-//        
-//        /**
-//         * Sets the risk.
-//         *
-//         * @param risk the new risk
-//         */
-//        public void setRisk(String risk)
-//        {
-//        	this.risk.set(risk);
-//        }
-//        
-//        /**
-//         * Gets the quantity.
-//         *
-//         * @return the quantity
-//         */
-//        public int getQuantity()
-//        {
-//            return quantity.get();
-//        }
-// 
-//        /**
-//         * Sets the quantity.
-//         *
-//         * @param quantity the new quantity
-//         */
-//        public void setQuantity(int quantity)
-//        {
-//            this.quantity.set(quantity);
-//        }
-// 
-//        /**
-//         * Gets the company.
-//         *
-//         * @return the company
-//         */
-//        public String getCompany()
-//        {
-//            return company.get();
-//        }
-// 
-//        /**
-//         * Sets the company.
-//         *
-//         * @param company the new company
-//         */
-//        public void setCompany(String company)
-//        {
-//            this.company.set(company);
-//        }
-// 
-//        /**
-//         * Gets the client.
-//         *
-//         * @return the client
-//         */
-//        public String getClient()
-//        {
-//            return client.get();
-//        }
-// 
-//        /**
-//         * Sets the client.
-//         *
-//         * @param client the new client
-//         */
-//        public void setClient(String client)
-//        {
-//            this.client.set(client);
-//        }
-//        
-//        /**
-//         * Gets the price.
-//         *
-//         * @return the price
-//         */
-//        public double getPrice()
-//        {
-//        	return price.get();
-//        }
-//        
-//        /**
-//         * Sets the price.
-//         *
-//         * @param price the new price
-//         */
-//        public void setPrice(double price)
-//        {
-//        	this.price.set(price);
-//        }
-//        
-//        /**
-//         * Gets the order type.
-//         *
-//         * @return the order type
-//         */
-//        public String getOrderType()
-//        {
-//        	return orderType.get();
-//        }
-//        
-//        /**
-//         * Sets the order type.
-//         *
-//         * @param orderType the new order type
-//         */
-//        public void setOrderType(String orderType)
-//        {
-//        	this.orderType.set(orderType);
-//        }
-//    } 
+    } 
     
     /**
      * Allows the user to add a custom client.

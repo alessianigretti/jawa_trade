@@ -12,7 +12,7 @@ public class Order
 	// fields for filling table up with data
 	private final SimpleStringProperty companyColumn;
     private final SimpleIntegerProperty quantityColumn;
-    private final SimpleBooleanProperty orderTypeColumn;
+    private final SimpleStringProperty orderTypeColumn;
     private final SimpleDoubleProperty priceColumn;
     private final SimpleStringProperty riskColumn;
     private final SimpleStringProperty clientColumn;
@@ -43,7 +43,12 @@ public class Order
     	
     	companyColumn = new SimpleStringProperty(company.getName());
         quantityColumn = new SimpleIntegerProperty(quantity);
-        orderTypeColumn = new SimpleBooleanProperty(orderType);
+        if (orderType)
+		{
+        	orderTypeColumn = new SimpleStringProperty("Buy");
+		} else {
+			orderTypeColumn = new SimpleStringProperty("Sell");
+		}
         priceColumn = new SimpleDoubleProperty(quantity * company.getCurrentShareValue());
         riskColumn = new SimpleStringProperty(company.getShareType());
         clientColumn = new SimpleStringProperty(client.getName());
@@ -154,7 +159,7 @@ public class Order
      *
      * @return the order type
      */
-    public boolean getOrderTypeColumn()
+    public String getOrderTypeColumn()
     {
     	return orderTypeColumn.get();
     }
@@ -164,7 +169,7 @@ public class Order
      *
      * @param orderType the new order type
      */
-    public void setOrderTypeColumn(boolean orderType)
+    public void setOrderTypeColumn(String orderType)
     {
     	this.orderTypeColumn.set(orderType);
     }
