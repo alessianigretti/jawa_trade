@@ -53,6 +53,7 @@ public class TradingExchange {
 		checkShareNum();
 		setUpSim();
 		updateShareIndex();
+		shareIndexList.add(getShareIndex());
 	}
 	
 	/**
@@ -187,6 +188,15 @@ public class TradingExchange {
 	/**
 	 * Trade sim.
 	 */
+	
+	public String marketStatus()
+	{
+		if(shareIndexList.size()>=3)
+		{
+
+		}
+		return "Undefined";
+	}
 	public void tradeSim()
 	{
 		long startTime = System.nanoTime();
@@ -246,14 +256,26 @@ public class TradingExchange {
 		for(int i = 0; i<companies.size(); i++)
 		{
 			companies.get(i).clearCount();
+			if(isCompanyTradable(companies.get(i)) == false)
+			{
+				for(int j = 0; j<traders.size(); j++)
+				{
+					for(int k = 0; k<traders.get(j).getClients().size(); k++)
+					{
+						for(int x = 0; x<traders.get(j).getClients().get(k).getPortfolio().size(); x++)
+						{
+							if(traders.get(j).getClients().get(k).getPortfolio().get(x).getCompanyName().equals(companies.get(i).getName()))
+								traders.get(j).getClients().get(k).getPortfolio().remove(traders.get(j).getClients().get(k).getPortfolio().get(x));
+						}
+						traders.get(j).getClients().get(k).calculateNetWorth();
+					}
+				}
+				companies.remove(companies.get(i));
+			}
 		}
 		System.out.println(String.valueOf(((RandomTrader) traders.get(1)).getMode()));
 		updateDateTime();
-		//System.out.println(getDate() + getTime());
-		long endTime = System.nanoTime();
-
-		long duration = ((endTime - startTime));
-		//System.out.println(duration);
+		
 		
 	}
 	
@@ -444,6 +466,14 @@ public class TradingExchange {
 			}
 		}
 		System.out.println(count);
+	}
+	
+	public boolean isCompanyTradable(Company company)
+	{
+		if(company.getCurrentShareValue() < 0.01)
+			return false;
+		
+		return true;
 	}
 	
 	
