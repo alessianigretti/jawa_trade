@@ -53,14 +53,14 @@ public class GUI extends Application
     private Trader selectedTrader = new Trader();
     private Client selectedClient = new Client(null, 0);
     private Company selectedCompany = null;
-    private XYChart.Series series = new XYChart.Series();
+    private XYChart.Series<Number, Number> series = new XYChart.Series<Number, Number>();
     private final ObservableList<Order> orders = FXCollections.observableArrayList();   
     
     // declaring labels to update in real-time
     private Label traderLabel = new Label("Trader: " + selectedTrader);
     private Label clientLabel = new Label("Client: " + selectedClient);
     private Label netWorthLabel = new Label("Net Worth: " + selectedClient.getNetWorth());
-    private Label dailyShareIndex = new Label("Share Index: " + exchange.getShareIndex());
+    private Label marketStatusLabel = new Label("Market Status: " + exchange.marketStatus());
     private Label currentDateTimeLabel = new Label("Day/Time: " + exchange.getDate() + ", " + exchange.getTime());
     private Label currentTradingMode = new Label("Mode: BALANCED");
     
@@ -115,7 +115,7 @@ public class GUI extends Application
       	        	clientLabel.setText("Client: " + selectedClient.getName());
       	        }
       	      });
-      	      Thread.sleep(1000);
+      	      Thread.sleep(500);
       	    }
       	  }
       	};
@@ -230,7 +230,7 @@ public class GUI extends Application
         info.add(clientLabel, 0, 1);
         info.add(new Label("     "), 1, 0);
         info.add(netWorthLabel, 2, 0);
-        info.add(dailyShareIndex, 2, 1);
+        info.add(marketStatusLabel, 2, 1);
         info.add(new Label("     "), 3, 0);
         info.add(currentDateTimeLabel, 4, 0);
         info.add(currentTradingMode, 4, 1);
@@ -269,13 +269,12 @@ public class GUI extends Application
 			      	        		currentTradingMode.setText("Mode: " + ((RandomTrader) selectedTrader).getMode().toString());
 			      	        	} else {
 			      	        		exchange.updateShareIndex();
-			          	        	dailyShareIndex.setText("Share Index: " + exchange.getShareIndex());
+			          	        	marketStatusLabel.setText("Market Status: " + exchange.marketStatus());
 			          	        	exchange.updateDateTime();
 			      	        	}	
 			      	        	System.out.println(exchange.getCompanies().get(0).getCurrentShareValue());
 			      	        	netWorthLabel.setText("Net Worth: " + selectedClient.getNetWorth());
 			      	        	currentDateTimeLabel.setText("Current: " + exchange.getDate() + ", " + exchange.getTime());
-			      	        	series.getData().setAll(new XYChart.Data(0, 0));
 			      	        	for (int i = 0; i < selectedCompany.getShareValueList().size(); i++)
 			                	{
 			                		// updating chart depending on selected commodity
@@ -316,7 +315,7 @@ public class GUI extends Application
         traderLabel.setFont(new Font(16/((scaleHeight+scaleWidth)/2)));
         clientLabel.setFont(new Font(16/((scaleHeight+scaleWidth)/2)));
         netWorthLabel.setFont(new Font(16/((scaleHeight+scaleWidth)/2)));
-        dailyShareIndex.setFont(new Font(16/((scaleHeight+scaleWidth)/2)));
+        marketStatusLabel.setFont(new Font(16/((scaleHeight+scaleWidth)/2)));
         currentTradingMode.setFont(new Font(16/((scaleHeight+scaleWidth)/2)));
         currentDateTimeLabel.setFont(new Font(16/((scaleHeight+scaleWidth)/2)));
         toolbar.setStyle("-fx-border-color: #606060;"
@@ -460,10 +459,10 @@ public class GUI extends Application
             	{
             		// updating chart depending on selected commodity
             		try {
-            		selectedCompany = exchange.getCompanies().get(i);
-            		exchange.getXChart().get(i);
-            		series.getData().add(new XYChart.Data(exchange.getXChart().get(i), company.getShareValueList().get(i)));
-            		} catch (Exception e) {
+            			selectedCompany = exchange.getCompanies().get(i);
+	            		exchange.getXChart().get(i);
+	            		series.getData().add(new XYChart.Data(exchange.getXChart().get(i), company.getShareValueList().get(i)));
+	            	} catch (Exception e) {
             			// ignoring error on timing when selecting different company too fast for the threads
             		}
             	}
