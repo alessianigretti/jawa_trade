@@ -208,8 +208,9 @@ public class Company {
 				trend =  "^";
 			if(shareValueList.get(end) < shareValueList.get(end-1) && shareValueList.get(end-1) < shareValueList.get(end-2))
 				trend =  "v";
+		} else {
+			trend = "-";
 		}
-		trend = "-";
 	}
 	
 	public String getCompanyTrend()

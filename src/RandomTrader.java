@@ -102,15 +102,16 @@ public class RandomTrader extends Trader {
 	 *
 	 * @param ranNum the ran num
 	 */
-	public void switchMode(int ranNum)
+	public void switchMode(double ranNum)
 	{
 		switch (getMode())
 		{
 			case BALANCED:
 					if(ranNum < 0.1)
 						setMode(Mode.AGGRESSIVE_SELL);
-					if(ranNum > 0.1 && ranNum < 0.9)
+					if(ranNum > 0.1 && ranNum < 0.2)
 						setMode(Mode.AGGRESSIVE_BUY);
+					System.out.println("blaaaaaaaaaaaaaa " + ranNum);
 					break;
 			case AGGRESSIVE_BUY:
 					if(ranNum < 0.7)

@@ -253,7 +253,7 @@ public class TradingExchange {
 			{
 				((RandomTrader) traders.get(i)).completeOrder(traders.get(i).getOrderList().get(j));
 			}
-			((RandomTrader) traders.get(i)).switchMode(rand.nextInt());
+			((RandomTrader) traders.get(i)).switchMode(Math.random());
 			traders.get(i).addOrderHistory();
 			traders.get(i).clearOrders();
 		}

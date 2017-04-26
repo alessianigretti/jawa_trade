@@ -42,6 +42,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.control.ProgressIndicator;
 
 /**
  *	The class GUI is used to visually represent the software.
@@ -307,8 +309,9 @@ public class GUI extends Application
             }
         });
         
-        simulationGrid.add(startSim, 0, 0);
-        simulationGrid.add(setUpSim, 1, 0);
+        simulationGrid.add(setUpSim, 0, 0);
+        simulationGrid.add(startSim, 1, 0);
+        simulationGrid.add(new Label("   "), 2, 0);
         toolbar.setLeft(simulationGrid);
         
         // setting up style and position for labels and toolbar
@@ -426,7 +429,7 @@ public class GUI extends Application
 		for (int i = 0; i < exchange.getCompanies().size(); i++)
 		{
 			// creating new cells and adding them to main grid
-			Button commodity = createCommodityCell(exchange.getCompanies().get(i), "^");
+			Button commodity = createCommodityCell(exchange.getCompanies().get(i), exchange.getCompanies().get(i).getCompanyTrend());
 	        allCommodities.add(commodity, 0, i * 2 + 1);
 	        allCommodities.add(new Label(), 0, i * 2);
 		}
