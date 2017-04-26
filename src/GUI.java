@@ -54,7 +54,7 @@ public class GUI extends Application
     private Client selectedClient = new Client(null, 0);
     private Company selectedCompany = null;
     private XYChart.Series series = new XYChart.Series();
-    private final ObservableList<OrderTable> orders = FXCollections.observableArrayList();   
+    private final ObservableList<Order> orders = FXCollections.observableArrayList();   
     
     // declaring labels to update in real-time
     private Label traderLabel = new Label("Trader: " + selectedTrader);
@@ -347,7 +347,7 @@ public class GUI extends Application
         bottomPane.getTabs().addAll(ordersTab);
         
         // table view for holding data in table
-        TableView<OrderTable> ordersTable = createTableView();
+        TableView<Order> ordersTable = createTableView();
         ordersTab.setContent(ordersTable);
         
         return bottomPane;
@@ -542,7 +542,7 @@ public class GUI extends Application
             @Override
             public void handle(ActionEvent event) {
             	try {
-            		orders.add(new OrderTable(company, Integer.valueOf(quantities.getSelectionModel().getSelectedItem().toString()), "Buy", 0, "High", selectedClient)); 
+            		orders.add(new Order(company, Integer.valueOf(quantities.getSelectionModel().getSelectedItem().toString()), "Buy", 0, "High", selectedClient)); 
             		if (selectedClient == null || selectedTrader == null || quantities.getSelectionModel().getSelectedItem() == null)
             		{
             			throw new Exception();
@@ -560,7 +560,7 @@ public class GUI extends Application
             @Override
             public void handle(ActionEvent event) {
             	try {
-            		orders.add(new OrderTable(company, Integer.valueOf(quantities.getSelectionModel().getSelectedItem().toString()), "Sell", 0, "High", selectedClient));
+            		orders.add(new Order(company, Integer.valueOf(quantities.getSelectionModel().getSelectedItem().toString()), "Sell", 0, "High", selectedClient));
             		if (selectedClient == null || selectedTrader == null || quantities.getSelectionModel().getSelectedItem() == null)
             		{
             			throw new Exception();
@@ -700,10 +700,10 @@ public class GUI extends Application
      *
      * @return the table view
      */
-    private TableView<OrderTable> createTableView()
+    private TableView<Order> createTableView()
     {
     	// setting up tableview to fill table up with data
-    	TableView<OrderTable> table = new TableView<OrderTable>();
+    	TableView<Order> table = new TableView<Order>();
         table.setMaxHeight(190/scaleHeight);
         table.setEditable(false);
         
@@ -712,34 +712,37 @@ public class GUI extends Application
         TableColumn instrumentsOrders = new TableColumn("Instrument");
         instrumentsOrders.setMinWidth(100/scaleWidth);
         instrumentsOrders.setCellValueFactory(
-		    new PropertyValueFactory<OrderTable,String>("company")
+		    new PropertyValueFactory<Order,String>("companyColumn")
 		);
         
         TableColumn quantityOrders = new TableColumn("Quantity");
         quantityOrders.setMinWidth(100/scaleWidth);
         quantityOrders.setCellValueFactory(
-		    new PropertyValueFactory<OrderTable,String>("quantity")
+		    new PropertyValueFactory<Order,String>("quantityColumn")
 		);
         
         TableColumn buyOrSellOrders = new TableColumn("Buy/Sell");
         buyOrSellOrders.setMinWidth(100/scaleWidth);
         buyOrSellOrders.setCellValueFactory(
-		    new PropertyValueFactory<OrderTable,String>("orderType")
+		    new PropertyValueFactory<Order,String>("orderTypeColumn")
 		);
         
         TableColumn priceOrders = new TableColumn("Price");
         priceOrders.setMinWidth(100/scaleWidth);
         priceOrders.setCellValueFactory(
-    		    new PropertyValueFactory<OrderTable,String>("price")
+    		    new PropertyValueFactory<Order,String>("priceColumn")
     	);
         
         TableColumn typeOrders = new TableColumn("Risk");
         typeOrders.setMinWidth(100/scaleWidth);
+        typeOrders.setCellValueFactory(
+        		new PropertyValueFactory<Order,String>("riskColumn")
+        );
         
         TableColumn clientOrders = new TableColumn("Client");
         clientOrders.setMinWidth(110/scaleWidth);
         clientOrders.setCellValueFactory(
-    		    new PropertyValueFactory<OrderTable,String>("client")
+    		    new PropertyValueFactory<Order,String>("clientColumn")
     	);
         
         table.setItems(orders);
@@ -748,159 +751,159 @@ public class GUI extends Application
         return table;
     }
     
-    /**
-     * The Class OrderTable.
-     */
-    public static class OrderTable
-    {
-        // fields for filling table up with data
-    	private final SimpleStringProperty company;
-        private final SimpleIntegerProperty quantity;
-        private final SimpleStringProperty orderType;
-        private final SimpleDoubleProperty price;
-        private final SimpleStringProperty risk;
-        private final SimpleStringProperty client;
- 
-        /**
-         * Instantiates a new order table.
-         *
-         * @param company the company
-         * @param quantity the quantity
-         * @param orderType the order type
-         * @param price the price
-         * @param risk the risk
-         * @param client the client
-         */
-        private OrderTable(Company company, int quantity, String orderType, double price, String risk, Client client)
-        {
-            this.company = new SimpleStringProperty(company.getName());
-            this.quantity = new SimpleIntegerProperty(quantity);
-            this.orderType = new SimpleStringProperty(orderType);
-            this.price = new SimpleDoubleProperty(quantity * company.getCurrentShareValue());
-            this.risk = new SimpleStringProperty(company.getShareType());
-            this.client = new SimpleStringProperty(client.getName());
-        }
- 
-        /**
-         * Gets the risk.
-         *
-         * @return the risk
-         */
-        public String getRisk()
-        {
-        	return risk.get();
-        }
-        
-        /**
-         * Sets the risk.
-         *
-         * @param risk the new risk
-         */
-        public void setRisk(String risk)
-        {
-        	this.risk.set(risk);
-        }
-        
-        /**
-         * Gets the quantity.
-         *
-         * @return the quantity
-         */
-        public int getQuantity()
-        {
-            return quantity.get();
-        }
- 
-        /**
-         * Sets the quantity.
-         *
-         * @param quantity the new quantity
-         */
-        public void setQuantity(int quantity)
-        {
-            this.quantity.set(quantity);
-        }
- 
-        /**
-         * Gets the company.
-         *
-         * @return the company
-         */
-        public String getCompany()
-        {
-            return company.get();
-        }
- 
-        /**
-         * Sets the company.
-         *
-         * @param company the new company
-         */
-        public void setCompany(String company)
-        {
-            this.company.set(company);
-        }
- 
-        /**
-         * Gets the client.
-         *
-         * @return the client
-         */
-        public String getClient()
-        {
-            return client.get();
-        }
- 
-        /**
-         * Sets the client.
-         *
-         * @param client the new client
-         */
-        public void setClient(String client)
-        {
-            this.client.set(client);
-        }
-        
-        /**
-         * Gets the price.
-         *
-         * @return the price
-         */
-        public double getPrice()
-        {
-        	return price.get();
-        }
-        
-        /**
-         * Sets the price.
-         *
-         * @param price the new price
-         */
-        public void setPrice(double price)
-        {
-        	this.price.set(price);
-        }
-        
-        /**
-         * Gets the order type.
-         *
-         * @return the order type
-         */
-        public String getOrderType()
-        {
-        	return orderType.get();
-        }
-        
-        /**
-         * Sets the order type.
-         *
-         * @param orderType the new order type
-         */
-        public void setOrderType(String orderType)
-        {
-        	this.orderType.set(orderType);
-        }
-    } 
+//    /**
+//     * The Class OrderTable.
+//     */
+//    public static class OrderTable
+//    {
+//        // fields for filling table up with data
+//    	private final SimpleStringProperty company;
+//        private final SimpleIntegerProperty quantity;
+//        private final SimpleStringProperty orderType;
+//        private final SimpleDoubleProperty price;
+//        private final SimpleStringProperty risk;
+//        private final SimpleStringProperty client;
+// 
+//        /**
+//         * Instantiates a new order table.
+//         *
+//         * @param company the company
+//         * @param quantity the quantity
+//         * @param orderType the order type
+//         * @param price the price
+//         * @param risk the risk
+//         * @param client the client
+//         */
+//        private OrderTable(Company company, int quantity, String orderType, double price, String risk, Client client)
+//        {
+//            this.company = new SimpleStringProperty(company.getName());
+//            this.quantity = new SimpleIntegerProperty(quantity);
+//            this.orderType = new SimpleStringProperty(orderType);
+//            this.price = new SimpleDoubleProperty(quantity * company.getCurrentShareValue());
+//            this.risk = new SimpleStringProperty(company.getShareType());
+//            this.client = new SimpleStringProperty(client.getName());
+//        }
+// 
+//        /**
+//         * Gets the risk.
+//         *
+//         * @return the risk
+//         */
+//        public String getRisk()
+//        {
+//        	return risk.get();
+//        }
+//        
+//        /**
+//         * Sets the risk.
+//         *
+//         * @param risk the new risk
+//         */
+//        public void setRisk(String risk)
+//        {
+//        	this.risk.set(risk);
+//        }
+//        
+//        /**
+//         * Gets the quantity.
+//         *
+//         * @return the quantity
+//         */
+//        public int getQuantity()
+//        {
+//            return quantity.get();
+//        }
+// 
+//        /**
+//         * Sets the quantity.
+//         *
+//         * @param quantity the new quantity
+//         */
+//        public void setQuantity(int quantity)
+//        {
+//            this.quantity.set(quantity);
+//        }
+// 
+//        /**
+//         * Gets the company.
+//         *
+//         * @return the company
+//         */
+//        public String getCompany()
+//        {
+//            return company.get();
+//        }
+// 
+//        /**
+//         * Sets the company.
+//         *
+//         * @param company the new company
+//         */
+//        public void setCompany(String company)
+//        {
+//            this.company.set(company);
+//        }
+// 
+//        /**
+//         * Gets the client.
+//         *
+//         * @return the client
+//         */
+//        public String getClient()
+//        {
+//            return client.get();
+//        }
+// 
+//        /**
+//         * Sets the client.
+//         *
+//         * @param client the new client
+//         */
+//        public void setClient(String client)
+//        {
+//            this.client.set(client);
+//        }
+//        
+//        /**
+//         * Gets the price.
+//         *
+//         * @return the price
+//         */
+//        public double getPrice()
+//        {
+//        	return price.get();
+//        }
+//        
+//        /**
+//         * Sets the price.
+//         *
+//         * @param price the new price
+//         */
+//        public void setPrice(double price)
+//        {
+//        	this.price.set(price);
+//        }
+//        
+//        /**
+//         * Gets the order type.
+//         *
+//         * @return the order type
+//         */
+//        public String getOrderType()
+//        {
+//        	return orderType.get();
+//        }
+//        
+//        /**
+//         * Sets the order type.
+//         *
+//         * @param orderType the new order type
+//         */
+//        public void setOrderType(String orderType)
+//        {
+//        	this.orderType.set(orderType);
+//        }
+//    } 
     
     /**
      * Allows the user to add a custom client.
