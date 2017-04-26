@@ -92,7 +92,8 @@ public class TradingExchange {
 		{
 			shareIndex =  shareIndex + companies.get(i).getCurrentShareValue();
 		}
-		shareIndex = shareIndex/companies.size();	
+		shareIndex = shareIndex/companies.size();
+		shareIndexList.add(shareIndex);
 	}
 	
 	/**
@@ -197,7 +198,7 @@ public class TradingExchange {
 			if(shareIndexList.get(end) > shareIndexList.get(end-1) && shareIndexList.get(end-1) > shareIndexList.get(end-2))
 				return "Bull";
 			if(shareIndexList.get(end) < shareIndexList.get(end-1) && shareIndexList.get(end-1) < shareIndexList.get(end-2))
-				return "Bull";
+				return "Bear";
 		}
 		return "Undefined";
 	}
