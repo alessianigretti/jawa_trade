@@ -542,7 +542,7 @@ public class GUI extends Application
             @Override
             public void handle(ActionEvent event) {
             	try {
-            		orders.add(new Order(company, Integer.valueOf(quantities.getSelectionModel().getSelectedItem().toString()), "Buy", 0, "High", selectedClient)); 
+            		orders.add(new Order(company, Integer.valueOf(quantities.getSelectionModel().getSelectedItem().toString()), true, 0, "High", selectedClient)); 
             		if (selectedClient == null || selectedTrader == null || quantities.getSelectionModel().getSelectedItem() == null)
             		{
             			throw new Exception();
@@ -560,7 +560,7 @@ public class GUI extends Application
             @Override
             public void handle(ActionEvent event) {
             	try {
-            		orders.add(new Order(company, Integer.valueOf(quantities.getSelectionModel().getSelectedItem().toString()), "Sell", 0, "High", selectedClient));
+            		orders.add(new Order(company, Integer.valueOf(quantities.getSelectionModel().getSelectedItem().toString()), false, 0, "High", selectedClient));
             		if (selectedClient == null || selectedTrader == null || quantities.getSelectionModel().getSelectedItem() == null)
             		{
             			throw new Exception();

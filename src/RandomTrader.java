@@ -145,7 +145,7 @@ public class RandomTrader extends Trader {
 		}
 		if(orderType == false)
 			quantity = -quantity;
-		Order order = new Order(quantity,company,client.getName(),orderType);
+		Order order = new Order(company,quantity,orderType,quantity*company.getCurrentShareValue(),"RiskLev",client);
 		getOrderList().add(order);
 		return quantity*company.getCurrentShareValue();
 	}
@@ -163,14 +163,14 @@ public class RandomTrader extends Trader {
 			{
 				if(o.getOrderType() == true)
 				{
-					c.updateCash(-(o.getQuanitity()*o.getCurrentShareValue()));
-					c.newShare((o.getQuanitity()/o.getCompany().getBuyCount())*Math.abs(o.getCompany().getSellCount()), o.getCompany());
+					c.updateCash(-(o.getQuantity()*o.getCurrentShareValue()));
+					c.newShare((o.getQuantity()/o.getCompany().getBuyCount())*Math.abs(o.getCompany().getSellCount()), o.getCompany());
 					c.calculateNetWorth();
 				}
 				else
 				{
-					c.updateCash(-(o.getQuanitity()*o.getCurrentShareValue()));
-					c.newShare(-((o.getQuanitity()/o.getCompany().getSellCount())*o.getCompany().getBuyCount()), o.getCompany());
+					c.updateCash(-(o.getQuantity()*o.getCurrentShareValue()));
+					c.newShare(-((o.getQuantity()/o.getCompany().getSellCount())*o.getCompany().getBuyCount()), o.getCompany());
 					c.calculateNetWorth();
 				}
 					

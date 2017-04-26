@@ -217,10 +217,10 @@ public class TradingExchange {
 				{
 					if(traders.get(i).getOrderList().get(j).getCompanyName().equals(companies.get(k).getName()))
 					{
-						if(traders.get(i).getOrderList().get(j).getQuanitity() < 0)
-							companies.get(k).setSellCount(traders.get(i).getOrderList().get(j).getQuanitity());
+						if(traders.get(i).getOrderList().get(j).getQuantity() < 0)
+							companies.get(k).setSellCount(traders.get(i).getOrderList().get(j).getQuantity());
 						else
-							companies.get(k).setBuyCount(traders.get(i).getOrderList().get(j).getQuanitity());
+							companies.get(k).setBuyCount(traders.get(i).getOrderList().get(j).getQuantity());
 					}
 				}
 				

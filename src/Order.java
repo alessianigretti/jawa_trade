@@ -1,3 +1,4 @@
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -11,7 +12,7 @@ public class Order
 	// fields for filling table up with data
 	private final SimpleStringProperty companyColumn;
     private final SimpleIntegerProperty quantityColumn;
-    private final SimpleStringProperty orderTypeColumn;
+    private final SimpleBooleanProperty orderTypeColumn;
     private final SimpleDoubleProperty priceColumn;
     private final SimpleStringProperty riskColumn;
     private final SimpleStringProperty clientColumn;
@@ -32,17 +33,17 @@ public class Order
      * @param risk the risk
      * @param client the client
      */
-    public Order(Company company, int quantity, String orderType, double price, String risk, Client client)
+    public Order(Company company, int quantity, boolean orderType, double price, String risk, Client client)
     {
     	this.company = company;
 		this.openingPrice = company.getCurrentShareValue();
 		this.quantity = quantity;
-		this.clientName = clientName;
-		//this.orderType = orderType;
+		this.clientName = client.getName();
+		this.orderType = orderType;
     	
     	companyColumn = new SimpleStringProperty(company.getName());
         quantityColumn = new SimpleIntegerProperty(quantity);
-        orderTypeColumn = new SimpleStringProperty(orderType);
+        orderTypeColumn = new SimpleBooleanProperty(orderType);
         priceColumn = new SimpleDoubleProperty(quantity * company.getCurrentShareValue());
         riskColumn = new SimpleStringProperty(company.getShareType());
         clientColumn = new SimpleStringProperty(client.getName());
@@ -153,7 +154,7 @@ public class Order
      *
      * @return the order type
      */
-    public String getOrderTypeColumn()
+    public boolean getOrderTypeColumn()
     {
     	return orderTypeColumn.get();
     }
@@ -163,7 +164,7 @@ public class Order
      *
      * @param orderType the new order type
      */
-    public void setOrderTypeColumn(String orderType)
+    public void setOrderTypeColumn(boolean orderType)
     {
     	this.orderTypeColumn.set(orderType);
     }
