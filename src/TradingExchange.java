@@ -25,7 +25,7 @@ public class TradingExchange {
 	private SmartTrader smartTrader;
 	private double shareIndex;
 	private Client currentClient;
-	private LinkedList shareIndexList;
+	private LinkedList<Double> shareIndexList;
 	private LinkedList<Events> events;
 	private Random rand = new Random();
 	private LocalDate currentDate;
@@ -46,7 +46,7 @@ public class TradingExchange {
 		smartTrader = new SmartTrader();
 		smartTrader.setTraderName("W&G Trader");
 		traders.add(smartTrader);
-		shareIndexList = new LinkedList();
+		shareIndexList = new LinkedList<Double>();
 		events = new LinkedList();
 		setUpRandomTraders(4);
 		System.out.println(getShareIndex());
@@ -191,15 +191,18 @@ public class TradingExchange {
 	
 	public String marketStatus()
 	{
+		int end = shareIndexList.size()-1;
 		if(shareIndexList.size()>=3)
 		{
-
+			if(shareIndexList.get(end) > shareIndexList.get(end-1) && shareIndexList.get(end-1) > shareIndexList.get(end-2))
+				return "Bull";
+			if(shareIndexList.get(end) < shareIndexList.get(end-1) && shareIndexList.get(end-1) < shareIndexList.get(end-2))
+				return "Bull";
 		}
 		return "Undefined";
 	}
 	public void tradeSim()
 	{
-		long startTime = System.nanoTime();
 		for(int i = 1; i<traders.size(); i++)
 		{
 			for(int j = 0; j<traders.get(i).getClients().size(); j++)
