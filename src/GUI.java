@@ -646,7 +646,7 @@ public class GUI extends Application
             public void handle(ActionEvent event) {
             	try {
 					exchange.setUpClients(chooseFile());
-				} catch (FileNotFoundException e) {
+				} catch (Exception e) {
 					throwErrorMessage(AlertType.ERROR, "File Not Found!", "File Not Found!", "Select a valid .csv file.");
 				}
             }
@@ -658,7 +658,7 @@ public class GUI extends Application
             	try {
 					exchange.setUpCompanies(chooseFile());
 					selectedCompany = exchange.getCompanies().get(0);
-				} catch (FileNotFoundException e) {
+				} catch (Exception e) {
 					throwErrorMessage(AlertType.ERROR, "File Not Found!", "File Not Found!", "Select a valid .csv file.");
 				}
             }
@@ -669,7 +669,7 @@ public class GUI extends Application
             public void handle(ActionEvent event) {
             	try {
 					exchange.setUpEvents(chooseFile());
-				} catch (FileNotFoundException e) {
+				} catch (Exception e) {
 					throwErrorMessage(AlertType.ERROR, "File Not Found!", "File Not Found!", "Select a valid .csv file.");
 				}
             }
@@ -951,6 +951,8 @@ public class GUI extends Application
     private CSVReader chooseFile() throws FileNotFoundException
     {
     	FileChooser fileChooser = new FileChooser();
+    	FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("CSV Files", "*.csv");
+    	fileChooser.getExtensionFilters().add(extFilter);
     	fileChooser.setTitle("Open Resource File");
     	File file = fileChooser.showOpenDialog(new Stage());
     	CSVReader csvFile = new CSVReader(new FileReader(file.getPath()));
