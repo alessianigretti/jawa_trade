@@ -77,6 +77,7 @@ public class GUI extends Application
     private double totalSimIterations = 2880.0;
     private double currentSimIterations = 0;
     private ProgressBar progressBar = new ProgressBar(0);
+    private Menu traderMenu;
     
     /* 
      * Sets up the stage.
@@ -646,7 +647,7 @@ public class GUI extends Application
             public void handle(ActionEvent event) {
             	try {
 					exchange.setUpClients(chooseFile());
-				} catch (FileNotFoundException e) {
+				} catch (Exception e) {
 					throwErrorMessage(AlertType.ERROR, "File Not Found!", "File Not Found!", "Select a valid .csv file.");
 				}
             }
@@ -658,7 +659,7 @@ public class GUI extends Application
             	try {
 					exchange.setUpCompanies(chooseFile());
 					selectedCompany = exchange.getCompanies().get(0);
-				} catch (FileNotFoundException e) {
+				} catch (Exception e) {
 					throwErrorMessage(AlertType.ERROR, "File Not Found!", "File Not Found!", "Select a valid .csv file.");
 				}
             }
@@ -669,7 +670,7 @@ public class GUI extends Application
             public void handle(ActionEvent event) {
             	try {
 					exchange.setUpEvents(chooseFile());
-				} catch (FileNotFoundException e) {
+				} catch (Exception e) {
 					throwErrorMessage(AlertType.ERROR, "File Not Found!", "File Not Found!", "Select a valid .csv file.");
 				}
             }
@@ -678,8 +679,8 @@ public class GUI extends Application
     	fileMenu.getItems().addAll(loadClients, loadCompanies, loadEvents);
     	
     	// creating menu for traders
-    	Menu traderMenu = new Menu("Traders");
-		
+    	traderMenu = new Menu("Traders");
+    	
     	// looping through all traders
 		for(int i = 0; i < exchange.getTraders().size(); i++)
 		{
@@ -719,6 +720,33 @@ public class GUI extends Application
 			traderMenu.getItems().add(trader);
 		}
 		
+		// creating menu for account
+		Menu accountMenu = new Menu("Account");
+		// menuitems for withdrawal and deposit
+		MenuItem withdrawal = new MenuItem("Withdrawal");
+		withdrawal.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				try {
+					openAccountWindow("Withdraw");
+				} catch (Exception e) {
+					throwErrorMessage(AlertType.ERROR, "Internal Error", "Internal Error", "Must pass \"Withdraw\" or \"Deposit\" as method parameter.");
+				}
+			}
+		});
+		MenuItem deposit = new MenuItem("Deposit");
+		deposit.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				try {
+					openAccountWindow("Deposit");
+				} catch (Exception e) {
+					throwErrorMessage(AlertType.ERROR, "Internal Error", "Internal Error", "Must pass \"Withdraw\" or \"Deposit\" as method parameter.");
+				}
+			}
+		});
+		accountMenu.getItems().addAll(withdrawal, deposit);
+		
 		// creating menu for orders
 		Menu ordersMenu = new Menu("Orders");
 		// menuitem for clearing all orders table
@@ -730,12 +758,22 @@ public class GUI extends Application
 			}
 		});
 		ordersMenu.getItems().add(clearOrders);
+		
+		// creating menu for help
+		Menu helpMenu = new Menu("Help");
+		// menuitem for tutorial
+		MenuItem tutorial = new MenuItem("Tutorial");
+		helpMenu.getItems().add(tutorial);
+		
+		// creating menu for about
+		Menu aboutMenu = new Menu("About");
+		// menuitem for about
+		MenuItem about = new MenuItem("About");
+		aboutMenu.getItems().add(about);
         
 		// creating menu bar to show on top of stage
         MenuBar menuBar = new MenuBar();
-        menuBar.getMenus().add(fileMenu);
-        menuBar.getMenus().add(traderMenu);
-        menuBar.getMenus().add(ordersMenu);
+        menuBar.getMenus().addAll(fileMenu, traderMenu, accountMenu, ordersMenu, helpMenu, aboutMenu);
         
         return menuBar;
     }
@@ -795,6 +833,77 @@ public class GUI extends Application
 
         return table;
     } 
+    
+    private void openAccountWindow(String action) throws Exception
+    {
+    	// creating new stage for opening new account window
+    	Stage accountWindow = new Stage();
+    	
+    	// borderpane for form to fill (frame for accountPane)
+    	BorderPane form = new BorderPane();
+    	form.setPadding(new Insets(15));
+    	
+    	// gridpane for client labels and textfields
+    	GridPane accountPane = new GridPane();
+    	accountPane.setPadding(new Insets(10, 5, 5, 5));
+		
+		// creating and adding labels and textfields to gridpane
+		Label accountBalanceLabel = new Label("Account Balance: ");
+		Label accountBalance = new Label("000.00");
+		Label actionLabel = new Label(action);
+		TextField amount = new TextField();
+		accountPane.add(accountBalanceLabel, 0, 0);
+		accountPane.add(accountBalance, 1, 0);
+		accountPane.add(actionLabel, 0, 1);
+		accountPane.add(amount, 1, 1);
+		
+		// creating bottom pane for buttons
+		BorderPane bottomPane = new BorderPane();
+		
+		// button for clearing form and event handler
+		Button clear = new Button("Clear");
+		clear.setOnAction(new EventHandler<ActionEvent>() {
+	       	@Override
+	       	public void handle(ActionEvent event) {
+	       		amount.setText("");
+	       	}
+	    });
+		
+		// button for confirming form and event handler
+		Button confirm = new Button("Confirm");
+		confirm.setOnAction(new EventHandler<ActionEvent>() {
+	       	@Override
+	       	public void handle(ActionEvent event) {
+	       		try {
+	       			//
+	       		} catch (Exception e) {
+	       			throwErrorMessage(AlertType.ERROR, "Invalid Argument", "Invalid Argument", "The amount must be a number.");
+	       		}
+	       	}
+	    });
+		
+		bottomPane.setLeft(clear);
+		bottomPane.setRight(confirm);
+		
+    	form.setCenter(accountPane);
+		form.setBottom(bottomPane);
+		
+		// creating scene for account window
+		Scene addAccountScene = new Scene(form);
+		addAccountScene.getStylesheets().add("resources/com/guigarage/flatterfx/flatterfx.css");
+		
+		accountWindow.sizeToScene();
+		if (action.equals("Withdraw"))
+		{
+			accountWindow.setTitle("Withdrawal");
+		} else if (action.equals("Deposit")) {
+			accountWindow.setTitle("Deposit");
+		} else {
+			throw new Exception("Must be Withdrawal or Deposit.");
+		}
+		accountWindow.setScene(addAccountScene);
+		accountWindow.show();
+    }
     
     /**
      * Allows the user to add a custom client.
@@ -923,9 +1032,15 @@ public class GUI extends Application
 	       	@Override
 	       	public void handle(ActionEvent event) {
 	       		try {
-	       			//exchange.setUpSim(Integer.valueOf(numOfTraders.getText()));
+	       			if (Integer.valueOf(numOfTraders.getText()) < 2)
+	       			{
+	       				throw new Exception("Num is too low.");
+	       			}
+	       			exchange.getTraders().clear();
+	       			exchange.setUpRandomTraders(Integer.valueOf(numOfTraders.getText()));
+	       			setUpSimStage.hide();
 	       		} catch (Exception e) {
-	       			throwErrorMessage(AlertType.ERROR, "Invalid Argument", "Invalid Argument", "The minimum number of trader is 1.");
+	       			throwErrorMessage(AlertType.ERROR, "Invalid Argument", "Invalid Argument", "The minimum number of trader is 2.");
 	       		}
 	       	}
 	    });
@@ -951,6 +1066,8 @@ public class GUI extends Application
     private CSVReader chooseFile() throws FileNotFoundException
     {
     	FileChooser fileChooser = new FileChooser();
+    	FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("CSV Files", "*.csv");
+    	fileChooser.getExtensionFilters().add(extFilter);
     	fileChooser.setTitle("Open Resource File");
     	File file = fileChooser.showOpenDialog(new Stage());
     	CSVReader csvFile = new CSVReader(new FileReader(file.getPath()));

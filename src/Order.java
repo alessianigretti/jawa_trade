@@ -177,23 +177,6 @@ public class Order
     {
     	this.orderTypeColumn.set(orderType);
     }
-    
-//	/**
-//	 * Instantiates a new order.
-//	 *
-//	 * @param quantity the quantity
-//	 * @param company the company
-//	 * @param clientName the client name
-//	 * @param orderType the order type
-//	 */
-//	public Order(int quantity,Company company,String clientName, boolean orderType)
-//	{
-//		this.company = company;
-//		this.openingPrice = company.getCurrentShareValue();
-//		this.quantity = quantity;
-//		this.clientName = clientName;
-//		this.orderType = orderType;
-//	}
 	
 	/**
 	 * Gets the current share value.

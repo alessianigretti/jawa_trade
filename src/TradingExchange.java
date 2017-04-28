@@ -25,9 +25,13 @@ public class TradingExchange {
 	private SmartTrader smartTrader;
 	private double shareIndex;
 	private Client currentClient;
+	private int numOfTraders;
 	private LinkedList<Double> shareIndexList;
 	private LinkedList<Events> events;
 	private Random rand = new Random();
+	private CSVReader currentClientsFile;
+	private CSVReader currentCompaniesFile;
+	private CSVReader currentEventsFile;
 	private LocalDate currentDate;
 	private LocalTime currentTime;
 	private DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMM d yyyy");
@@ -48,10 +52,10 @@ public class TradingExchange {
 		traders.add(smartTrader);
 		shareIndexList = new LinkedList<Double>();
 		events = new LinkedList();
-		setUpRandomTraders(4);
-		//System.out.println(getShareIndex());
-		checkShareNum();
+		numOfTraders = 2;
 		setUpSim();
+		System.out.println(getShareIndex());
+		checkShareNum();
 		updateShareIndex();
 		shareIndexList.add(getShareIndex());
 	}
@@ -319,7 +323,7 @@ public class TradingExchange {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		//setUpRandomTraders(randomTradersNum);
+		setUpRandomTraders(numOfTraders);
 		try {
 			setUpClients(new CSVReader(new FileReader("clients.csv")));
 		} catch (FileNotFoundException e) {
@@ -332,6 +336,7 @@ public class TradingExchange {
 	 */
 	public void setUpCompanies(CSVReader reader)
 	{
+		currentCompaniesFile = reader;
 		String[] myEntries;
 		     try {
 				String[] next = reader.readNext();
@@ -347,12 +352,10 @@ public class TradingExchange {
 			}
 	}
 	
-	/**
-	 * Sets the up clients.
-	 */
-	
+
 	public void setUpClients(CSVReader reader)
 	{
+		currentClientsFile = reader;
 		int index = 1;
 		String[] myEntries;
 	     try {
@@ -370,10 +373,9 @@ public class TradingExchange {
 					smartTrader.addClient(client);
 				else
 				{
-					
 					traders.get(index).addClient(client);
 					index++;
-					if(index > 4)
+					if(index > numOfTraders)
 						index = 1;
 					
 				}
@@ -387,13 +389,19 @@ public class TradingExchange {
 	/**
 	 * Sets the up random traders.
 	 */
-	private void setUpRandomTraders(int num)
+	public void setUpRandomTraders(int num)
 	{
-		for(int i = 0; i<num; i++)
+		numOfTraders = num;
+		for(int i = 0; i<numOfTraders; i++)
 		{
 			RandomTrader randomTrader = new RandomTrader(RandomTrader.Mode.BALANCED, i);
 			traders.add(randomTrader);
 		}
+	}
+	
+	public int getNumOfTraders()
+	{
+		return numOfTraders;
 	}
 	
 	/**
@@ -401,6 +409,7 @@ public class TradingExchange {
 	 */
 	public void setUpEvents(CSVReader reader)
 	{
+		currentEventsFile = reader;
 		String[] myEntries;
 		     try {
 				String[] next = reader.readNext();
