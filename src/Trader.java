@@ -129,4 +129,9 @@ public class Trader {
 		orderHistory.addAll(orderList);
 	}
 	
+	public LinkedList<Order> getOrderHostory()
+	{
+		return orderHistory;
+	}
+	
 }

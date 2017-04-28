@@ -247,7 +247,7 @@ public class TradingExchange {
 			}
 			
 			((RandomTrader) traders.get(i)).switchMode(Math.random());
-			//traders.get(i).addOrderHistory();
+			traders.get(i).addOrderHistory();
 		}
 		System.out.println("After order buy " + companies.get(0).getBuyCount());
 		System.out.println("After order sell " + companies.get(0).getSellCount());
