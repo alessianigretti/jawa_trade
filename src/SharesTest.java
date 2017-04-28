@@ -50,6 +50,7 @@ public class SharesTest {
 	public void testUpdateShareValue() {
 		company.setCurrentShareValue(3);
 		assertNotEquals(3, shares.getShareValue());
+		shares.updatePrice();
 		shares.updateShareValue();
 		assertEquals(3, shares.getShareValue(), 0.001);
 	}

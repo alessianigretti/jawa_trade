@@ -7,10 +7,8 @@ public class Client
 {
 	private String name; // basic client details
 	private double netWorth; // total  value of portfolio plus left over cash
-	private Trader trader; // trader that client is connected to
 	private double cashHolding;// client investment value
 	private double investment;
-	private double deposit; // initial deposit value;
 	private double expectedReturn;// expected return on clients investments
 	private LinkedList<Shares> portfolio = new LinkedList(); // collection of shares that the client currently owns
 	
@@ -19,14 +17,13 @@ public class Client
 	 *
 	 * @param name the name
 	 * @param expectedReturn the expected return
-	 * @param deposit the deposit
+	 * @param cashHolding the cash holding
 	 */
-	public Client(String name, double expectedReturn, double deposit)
+	public Client(String name, double expectedReturn, double cashHolding)
 	{
 		this.name = name;
 		this.expectedReturn = expectedReturn;
-		this.deposit = deposit;
-		this.cashHolding = deposit;
+		this.cashHolding = cashHolding;
 	}
 	
 	/**
@@ -87,16 +84,6 @@ public class Client
 	}
 	
 	/**
-	 * Gets the deposit.
-	 *
-	 * @return the deposit
-	 */
-	public double getDeposit()
-	{
-		return deposit;
-	}
-	
-	/**
 	 * Sets the risk all.
 	 *
 	 * @param risk the new risk all
@@ -117,14 +104,12 @@ public class Client
 	 */
 	public void newShare(double quantity, Company company) 
 	{
-		//quantity = Math.floor(quantity);
 		int iter = 0;
 		while(iter<portfolio.size())
 		{
 			//if order makes quantitiy negative, reject it
 			if(portfolio.get(iter).getCompanyName().equals(company.getName()))
-				//if(portfolio.get(iter).getSize()+quantity >= 0)
-					portfolio.get(iter).updateSize(quantity);
+				portfolio.get(iter).updateSize(quantity);
 			iter++;
 		}
 	}
