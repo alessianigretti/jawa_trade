@@ -15,7 +15,8 @@ import java.util.Locale;
  */
 public class Events {
 	
-	private String eventText;
+	private String[] eventType = new String[3];
+	private String eventText, eventAction;
 	private LocalDate date;
 	private LocalTime time;
 	private DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMM d yyyy", Locale.ENGLISH);
@@ -28,9 +29,12 @@ public class Events {
 	 * @param date the date
 	 * @param time the time
 	 */
-	public Events(String eventText, String date, String time)
+	public Events(String eventText, String date, String time, String action, String type, String duration)
 	{
 		this.eventText = eventText;
+		eventType[0] = action;
+		eventType[1] = type;
+		eventType[2] = duration;
 		this.date = LocalDate.parse(date, dateFormatter);
 		System.out.println(time);
 		this.time = LocalTime.parse(time, timeFormatter);
@@ -65,6 +69,16 @@ public class Events {
 	public LocalTime getTime()
 	{
 		return time;
+	}
+	
+	public String getEventAction()
+	{
+		return eventAction;
+	}
+	
+	public String[] getEventType()
+	{
+		return eventType;
 	}
 
 }

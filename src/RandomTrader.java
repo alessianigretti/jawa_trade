@@ -111,7 +111,7 @@ public class RandomTrader extends Trader {
 						setMode(Mode.AGGRESSIVE_SELL);
 					if(ranNum > 0.1 && ranNum < 0.2)
 						setMode(Mode.AGGRESSIVE_BUY);
-					System.out.println("blaaaaaaaaaaaaaa " + ranNum);
+					//System.out.println("blaaaaaaaaaaaaaa " + ranNum);
 					break;
 			case AGGRESSIVE_BUY:
 					if(ranNum < 0.7)
@@ -145,9 +145,22 @@ public class RandomTrader extends Trader {
 				orderType = rand.nextBoolean();
 		}
 		if(orderType == false)
+		{
 			quantity = -quantity;
+			company.setSellCount(quantity);
+		}
+		else
+		{
+			company.setBuyCount(quantity);
+		}
+			
+		if(company.getName().equals("Pear Computing"))
+			System.out.println("Qusn" + quantity);
 		Order order = new Order(company,quantity,orderType,quantity*company.getCurrentShareValue(),"RiskLev",client);
-		getOrderList().add(order);
+		if(orderType == true)
+			getOrderList().addFirst(order);
+		else
+			getOrderList().addLast(order);
 		return quantity*company.getCurrentShareValue();
 	}
 	
@@ -157,22 +170,74 @@ public class RandomTrader extends Trader {
 	 * @param o the o
 	 */
 	public void completeOrder(Order o)
-	{
+	{	
 		for(Client c: getClients())
 		{
 			if(o.getClientName().equals(c.getName()))
 			{
 				if(o.getOrderType() == true)
 				{
-					c.updateCash(-(o.getQuantity()*o.getCurrentShareValue()));
-					c.newShare((o.getQuantity()/o.getCompany().getBuyCount())*Math.abs(o.getCompany().getSellCount()), o.getCompany());
-					c.calculateNetWorth();
+					if(o.getCompany().getSellCount() != 0)
+					{
+						c.updateCash(-(o.getQuantity()*o.getCurrentShareValue()));
+						if((o.getQuantity()/o.getCompany().getFinalBuyCount())*Math.abs(o.getCompany().getFinalSellCount()) >= o.getQuantity())
+						{
+							c.newShare(o.getQuantity(), o.getCompany());
+							//System.out.println("worked?" + o.getCompany().setBuyCount);
+							//o.getCompany().setBuyCount(-(o.getQuantity()));
+							o.getCompany().setSellCount(o.getQuantity());
+							o.isFullyCompleted();
+							c.calculateNetWorth();
+							break;
+						}
+						else
+						{
+							c.newShare(Math.floor((o.getQuantity()/o.getCompany().getFinalBuyCount())*Math.abs(o.getCompany().getFinalSellCount())), o.getCompany());
+							if(o.getCompany().getName().equals("Pear Computing"))
+							{
+								System.out.println("Buy ratio got " + ( Math.floor((o.getQuantity()/o.getCompany().getFinalBuyCount())*Math.abs(o.getCompany().getFinalSellCount()))));
+								System.out.println(o.getQuantity() + " final buy = " + o.getCompany().getFinalBuyCount());
+							}
+								
+							//o.getCompany().setBuyCount(( Math.floor(-(o.getQuantity()/o.getCompany().getFinalBuyCount())*Math.abs(o.getCompany().getFinalSellCount()))));
+							o.getCompany().setSellCount(( Math.ceil((o.getQuantity()/o.getCompany().getFinalBuyCount())*Math.abs(o.getCompany().getFinalSellCount()))));
+							c.calculateNetWorth();
+							break;
+						}
+						
+					}
 				}
 				else
 				{
-					c.updateCash(-(o.getQuantity()*o.getCurrentShareValue()));
-					c.newShare(-((o.getQuantity()/o.getCompany().getSellCount())*o.getCompany().getBuyCount()), o.getCompany());
-					c.calculateNetWorth();
+					if(o.getCompany().getBuyCount() != 0)
+					{
+						c.updateCash(-(o.getQuantity()*o.getCurrentShareValue()));
+						if((o.getQuantity()/o.getCompany().getFinalSellCount())*o.getCompany().getFinalBuyCount() <= o.getQuantity())
+						{
+							c.newShare(o.getQuantity(), o.getCompany());
+							//o.getCompany().setSellCount(-(o.getQuantity()));
+							o.getCompany().setBuyCount(-o.getQuantity());
+							o.isFullyCompleted();
+							c.calculateNetWorth();
+							break;
+						}
+						else
+						{
+							if(o.getCompany().getFinalBuyCount() > Math.abs(o.getCompany().getFinalSellCount()))
+							{
+								c.newShare(o.getQuantity(), o.getCompany());
+								o.getCompany().setBuyCount(o.getQuantity());
+							}
+							else
+							{
+										c.newShare(Math.ceil(-((o.getQuantity()/o.getCompany().getFinalSellCount())*o.getCompany().getFinalBuyCount())), o.getCompany());
+										//o.getCompany().setSellCount((Math.ceil(((o.getQuantity()/o.getCompany().getFinalSellCount())*o.getCompany().getFinalBuyCount()))));
+										o.getCompany().setBuyCount(-(Math.floor(((o.getQuantity()/o.getCompany().getFinalSellCount())*o.getCompany().getFinalBuyCount()))));
+							}
+							c.calculateNetWorth();
+							break;
+						}
+					}
 				}
 					
 			}

@@ -117,12 +117,14 @@ public class Client
 	 */
 	public void newShare(double quantity, Company company) 
 	{
-		quantity = Math.floor(quantity);
+		//quantity = Math.floor(quantity);
 		int iter = 0;
 		while(iter<portfolio.size())
 		{
+			//if order makes quantitiy negative, reject it
 			if(portfolio.get(iter).getCompanyName().equals(company.getName()))
-				portfolio.get(iter).updateSize(quantity);
+				//if(portfolio.get(iter).getSize()+quantity >= 0)
+					portfolio.get(iter).updateSize(quantity);
 			iter++;
 		}
 	}

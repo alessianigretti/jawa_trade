@@ -19,9 +19,11 @@ public class Order
     
 	private Company company;
 	private double openingPrice, closingPrice;
-	private int quantity;
+	private int quantity, initialQuantity;
 	private String clientName;
 	private boolean orderType; //true == buy; false == sell;
+	private boolean isFullyCompleted = false;
+	private Client client;
 	
     /**
      * Instantiates a new order.
@@ -37,9 +39,11 @@ public class Order
     {
     	this.company = company;
 		this.openingPrice = company.getCurrentShareValue();
+		this.initialQuantity = quantity;
 		this.quantity = quantity;
 		this.clientName = client.getName();
 		this.orderType = orderType;
+		this.client = client;
     	
     	companyColumn = new SimpleStringProperty(company.getName());
         quantityColumn = new SimpleIntegerProperty(quantity);
@@ -287,6 +291,21 @@ public class Order
 	public boolean getOrderType()
 	{
 		return orderType;
+	}
+	
+	public void fullyCompleted()
+	{
+		isFullyCompleted = true;
+	}
+	
+	public boolean isFullyCompleted()
+	{
+		return isFullyCompleted;
+	}
+	
+	public Client getClient()
+	{
+		return client;
 	}
 	
 }

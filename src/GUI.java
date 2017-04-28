@@ -268,7 +268,7 @@ public class GUI extends Application
 			      	      {
 			      	        @Override
 			      	        public void run() {
-		      	        		System.out.println(Integer.valueOf(exchange.getTime().substring(0, 2)));
+		      	        		//System.out.println(Integer.valueOf(exchange.getTime().substring(0, 2)));
 			      	        	if(Integer.valueOf(exchange.getTime().substring(0, 2))<16 && Integer.valueOf(exchange.getTime().substring(0, 2))>=9)
 			      	        	{
 			      	        		exchange.tradeSim();
@@ -278,7 +278,7 @@ public class GUI extends Application
 			          	        	marketStatusLabel.setText("Market Status: " + exchange.marketStatus());
 			          	        	exchange.updateDateTime();
 			      	        	}	
-			      	        	System.out.println(exchange.getCompanies().get(0).getCurrentShareValue());
+			      	        	//System.out.println(exchange.getCompanies().get(0).getCurrentShareValue());
 			      	        	netWorthLabel.setText("Net Worth: " + selectedClient.getNetWorth());
 			      	        	currentDateTimeLabel.setText("Current: " + exchange.getDate() + ", " + exchange.getTime());
 			      	        	for (int i = 0; i < selectedCompany.getShareValueList().size(); i++)
@@ -965,7 +965,7 @@ public class GUI extends Application
     public static void main(String[] args)
     {
         launch(args);
-        System.out.println("Thread count " + java.lang.Thread.activeCount());
+        //System.out.println("Thread count " + java.lang.Thread.activeCount());
     }
     
 }

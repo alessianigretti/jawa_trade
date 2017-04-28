@@ -15,11 +15,9 @@ public class Company {
 	private LinkedList<Double> shareValueList = new LinkedList<Double>();
 	private double sellCount;
 	private double buyCount;
+	private double finalSellCount;
+	private double finalBuyCount;
 	private String trend = "-";
-	/*private enum ShareType
-	{
-		FOOD, HARD, TECH, PROPERTY
-	}*/
 	private String shareType;
 	
 	/**
@@ -155,9 +153,9 @@ public class Company {
 	 *
 	 * @param sellCount the new sell count
 	 */
-	public void setSellCount(int sellCount)
+	public void setSellCount(double sc)
 	{
-		this.sellCount = this.sellCount + sellCount;
+		sellCount = sellCount + sc;
 	}
 	
 	/**
@@ -165,9 +163,9 @@ public class Company {
 	 *
 	 * @param buyCount the new buy count
 	 */
-	public void setBuyCount(int buyCount)
+	public void setBuyCount(double bc)
 	{
-		this.buyCount = this.buyCount + buyCount;
+		buyCount = buyCount + bc;
 	}
 	
 	/**
@@ -193,10 +191,20 @@ public class Company {
 	/**
 	 * Clear count.
 	 */
-	public void clearCount()
+	public void clearFinalCount()
+	{
+		finalSellCount = 0;
+		finalBuyCount = 0;
+	}
+	
+	public void clearBuyCount()
+	{
+		buyCount = 0;
+	}
+	
+	public void clearSellCount()
 	{
 		sellCount = 0;
-		buyCount = 0;
 	}
 	
 	public void setCompanyTrend()
@@ -218,5 +226,20 @@ public class Company {
 		return trend;
 	}
 	
+	public void setFinalCount()
+	{
+		finalBuyCount = getBuyCount();
+		finalSellCount = getSellCount();
+	}
+	
+	public double getFinalSellCount()
+	{
+		return finalSellCount;
+	}
+	
+	public double getFinalBuyCount()
+	{
+		return finalBuyCount;
+	}
 	
 }
