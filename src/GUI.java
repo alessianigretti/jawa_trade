@@ -250,6 +250,7 @@ public class GUI extends Application
         startSim.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+            	orders.clear();
             	try {
             		if (selectedCompany == null)
             		{
@@ -273,7 +274,8 @@ public class GUI extends Application
 			      	        	if(Integer.valueOf(exchange.getTime().substring(0, 2))<16 && Integer.valueOf(exchange.getTime().substring(0, 2))>=9)
 			      	        	{
 			      	        		exchange.tradeSim();
-			      	        		currentTradingMode.setText("Mode: " + ((RandomTrader) selectedTrader).getMode().toString());
+			      	        		orders.add(selectedTrader.getOrderHistory().getLast());
+				      	        	currentTradingMode.setText("Mode: " + ((RandomTrader) selectedTrader).getMode().toString());
 			      	        	} else {
 			      	        		exchange.updateShareIndex();
 			          	        	marketStatusLabel.setText("Market Status: " + exchange.marketStatus());
@@ -698,6 +700,7 @@ public class GUI extends Application
 				client.setOnAction(new EventHandler<ActionEvent>() {
     	            @Override
     	            public void handle(ActionEvent event) {
+    	            	orders.clear();
     	            	selectedTrader = exchange.getTraders().get(traderIndex);
     	            	selectedClient = selectedTrader.getClients().get(clientIndex);
     	            }
@@ -849,7 +852,7 @@ public class GUI extends Application
 		
 		// creating and adding labels and textfields to gridpane
 		Label accountBalanceLabel = new Label("Account Balance: ");
-		Label accountBalance = new Label("000.00");
+		Label accountBalance = new Label(String.valueOf(selectedClient.getCashHolding()));
 		Label actionLabel = new Label(action);
 		TextField amount = new TextField();
 		accountPane.add(accountBalanceLabel, 0, 0);

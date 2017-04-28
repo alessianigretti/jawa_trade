@@ -127,11 +127,11 @@ public class Trader {
 	public void addOrderHistory()
 	{
 		orderHistory.addAll(orderList);
+		
 	}
 	
-	public LinkedList<Order> getOrderHostory()
+	public LinkedList<Order> getOrderHistory()
 	{
 		return orderHistory;
 	}
-	
 }
