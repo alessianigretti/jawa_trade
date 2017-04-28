@@ -58,6 +58,7 @@ public class TradingExchange {
 		checkShareNum();
 		updateShareIndex();
 		shareIndexList.add(getShareIndex());
+		traders.add(new RandomTrader(3));
 	}
 	
 	/**
@@ -394,7 +395,7 @@ public class TradingExchange {
 		numOfTraders = num;
 		for(int i = 0; i<numOfTraders; i++)
 		{
-			RandomTrader randomTrader = new RandomTrader(RandomTrader.Mode.BALANCED, i);
+			RandomTrader randomTrader = new RandomTrader(i);
 			traders.add(randomTrader);
 		}
 	}

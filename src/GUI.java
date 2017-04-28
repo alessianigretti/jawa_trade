@@ -274,7 +274,8 @@ public class GUI extends Application
 			      	        	if(Integer.valueOf(exchange.getTime().substring(0, 2))<16 && Integer.valueOf(exchange.getTime().substring(0, 2))>=9)
 			      	        	{
 			      	        		exchange.tradeSim();
-			      	        		orders.add(selectedTrader.getOrderHistory().getLast());
+			      	        		orders.clear();
+			      	        		orders.addAll(selectedTrader.getOrderHistory(selectedClient));
 				      	        	currentTradingMode.setText("Mode: " + ((RandomTrader) selectedTrader).getMode().toString());
 			      	        	} else {
 			      	        		exchange.updateShareIndex();

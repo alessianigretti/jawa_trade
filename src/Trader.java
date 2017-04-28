@@ -126,12 +126,20 @@ public class Trader {
 	
 	public void addOrderHistory()
 	{
+		orderHistory.clear();
 		orderHistory.addAll(orderList);
-		
 	}
 	
-	public LinkedList<Order> getOrderHistory()
+	public LinkedList<Order> getOrderHistory(Client client)
 	{
-		return orderHistory;
+		LinkedList<Order> oH = orderHistory;
+		for(int i = 0; i<oH.size(); i++)
+		{
+			if(!(oH.get(i).getClient().getName().equals(client.getName())))
+			{
+				oH.remove(i);
+			}
+		}
+		return oH;
 	}
 }
