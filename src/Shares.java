@@ -6,13 +6,10 @@
  */
 public class Shares{
 	private Company company;
-	private int risk, number;
+	private int risk;
 	private double currentPrice;
 	private double shareValue;
 	private double size;
-	
-	
-	
 	
 	/**
 	 * Instantiates a new shares.
@@ -86,16 +83,6 @@ public class Shares{
 	public double getPrice()
 	{
 		return currentPrice;
-	}
-	
-	/**
-	 * Gets the number.
-	 *
-	 * @return the number
-	 */
-	public int getNumber()
-	{
-		return number;
 	}
 	
 	/**
