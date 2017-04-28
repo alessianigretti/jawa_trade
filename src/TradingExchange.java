@@ -1,6 +1,7 @@
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -43,7 +44,7 @@ public class TradingExchange {
 	 */
 	public TradingExchange()
 	{
-		currentDate = LocalDate.parse("Jan 1 2017", dateFormatter);
+		currentDate = LocalDate.parse("Apr 13 2017", dateFormatter);
 		currentTime = LocalTime.parse("09:00", timeFormatter);
 		companies = new LinkedList();
 		traders = new LinkedList();
@@ -210,100 +211,105 @@ public class TradingExchange {
 	
 	public void tradeSim()
 	{
-		System.out.println("zero " + companies.get(0).getBuyCount());
-		System.out.println("zero " + companies.get(0).getSellCount());
-		for(int i = 1; i<traders.size(); i++)
+		if(!isMarketClosed())
 		{
-			for(int j = 0; j<traders.get(i).getClients().size(); j++)
+			System.out.println("zero " + companies.get(0).getBuyCount());
+			System.out.println("zero " + companies.get(0).getSellCount());
+			for(int i = 1; i<traders.size(); i++)
 			{
-				double sellAmountMax =  ((RandomTrader) traders.get(i)).getSellRate() * traders.get(i).getClients().get(j).getNetWorth();
-				double buyAmountMax  =  ((RandomTrader) traders.get(i)).getBuyRate() * traders.get(i).getClients().get(j).getNetWorth();
-				double sellAmount = 0;
-				double buyAmount = 0;
-				while(sellAmount <= sellAmountMax && buyAmount <= buyAmountMax)
+				for(int j = 0; j<traders.get(i).getClients().size(); j++)
 				{
-						double amount = ((RandomTrader)traders.get(i)).newOrder(traders.get(i).getClients().get(j), companies.get(rand.nextInt(companies.size())));
-						if(amount < 0)
-							sellAmount = sellAmount + Math.abs(amount);
-						else
-							buyAmount = buyAmount + amount;
+					double sellAmountMax =  ((RandomTrader) traders.get(i)).getSellRate() * traders.get(i).getClients().get(j).getNetWorth();
+					double buyAmountMax  =  ((RandomTrader) traders.get(i)).getBuyRate() * traders.get(i).getClients().get(j).getNetWorth();
+					double sellAmount = 0;
+					double buyAmount = 0;
+					while(sellAmount <= sellAmountMax && buyAmount <= buyAmountMax)
+					{
+							double amount = ((RandomTrader)traders.get(i)).newOrder(traders.get(i).getClients().get(j), companies.get(rand.nextInt(companies.size())));
+							if(amount < 0)
+								sellAmount = sellAmount + Math.abs(amount);
+							else
+								buyAmount = buyAmount + amount;
+					}
 				}
 			}
-		}
-		System.out.println("Before order buy " + companies.get(0).getBuyCount());
-		System.out.println("Before order sell " + companies.get(0).getSellCount());
-		
-		for(int i = 0; i<companies.size(); i++)
-		{
-			companies.get(i).updateShareValue(companies.get(i).getBuyCount()+companies.get(i).getSellCount());
-			companies.get(i).setFinalCount();
-		}
-		System.out.println("Before order finalbuy " + companies.get(0).getFinalBuyCount());
-		System.out.println("Before order finalsell " + companies.get(0).getFinalSellCount());
-		for(int i = 1; i<traders.size(); i++)
-		{
-			for(int j = 0; j<traders.get(i).getOrderList().size(); j++)
-			{
-				((RandomTrader) traders.get(i)).completeOrder(traders.get(i).getOrderList().get(j));
-			}
+			System.out.println("Before order buy " + companies.get(0).getBuyCount());
+			System.out.println("Before order sell " + companies.get(0).getSellCount());
 			
-			((RandomTrader) traders.get(i)).switchMode(Math.random());
-			traders.get(i).addOrderHistory();
-		}
-		System.out.println("After order buy " + companies.get(0).getBuyCount());
-		System.out.println("After order sell " + companies.get(0).getSellCount());
-		
-		for(int i = 0; i<companies.size(); i++)
-		{
-			if(companies.get(i).getBuyCount() > Math.abs(companies.get(i).getSellCount()))
+			for(int i = 0; i<companies.size(); i++)
 			{
-					companies.get(i).clearBuyCount();	
-			}	
-			else
-			{
-					companies.get(i).clearSellCount();
+				companies.get(i).updateShareValue(companies.get(i).getBuyCount()+companies.get(i).getSellCount());
+				companies.get(i).setFinalCount();
 			}
-			
-			for(int a = 1; a<traders.size(); a++)
+			System.out.println("Before order finalbuy " + companies.get(0).getFinalBuyCount());
+			System.out.println("Before order finalsell " + companies.get(0).getFinalSellCount());
+			for(int i = 1; i<traders.size(); i++)
 			{
-				for(int b = 1; b<traders.get(a).getOrderList().size(); b++)
+				for(int j = 0; j<traders.get(i).getOrderList().size(); j++)
 				{
-					if(traders.get(a).getOrderList().get(b).isFullyCompleted() == false)
+					((RandomTrader) traders.get(i)).completeOrder(traders.get(i).getOrderList().get(j));
+				}
+				
+				((RandomTrader) traders.get(i)).switchMode(Math.random());
+				traders.get(i).addOrderHistory();
+			}
+			System.out.println("After order buy " + companies.get(0).getBuyCount());
+			System.out.println("After order sell " + companies.get(0).getSellCount());
+			
+			for(int i = 0; i<companies.size(); i++)
+			{
+				if(companies.get(i).getBuyCount() > Math.abs(companies.get(i).getSellCount()))
+				{
+						companies.get(i).clearBuyCount();	
+				}	
+				else
+				{
+						companies.get(i).clearSellCount();
+				}
+				
+				for(int a = 1; a<traders.size(); a++)
+				{
+					for(int b = 1; b<traders.get(a).getOrderList().size(); b++)
 					{
-						if(traders.get(a).getOrderList().get(b).getOrderType() == true && companies.get(i).getSellCount() != 0)
+						if(traders.get(a).getOrderList().get(b).isFullyCompleted() == false)
 						{
-							traders.get(a).getOrderList().get(b).getClient().newShare(1, companies.get(i) );
-							companies.get(i).setSellCount(-1);
-						}
+							if(traders.get(a).getOrderList().get(b).getOrderType() == true && companies.get(i).getSellCount() != 0)
+							{
+								traders.get(a).getOrderList().get(b).getClient().newShare(1, companies.get(i) );
+								companies.get(i).setSellCount(-1);
+							}
 
-						if(traders.get(a).getOrderList().get(b).getOrderType() == false && companies.get(i).getBuyCount() != 0)
-						{
-								traders.get(a).getOrderList().get(b).getClient().newShare(-1, companies.get(i) );
-								companies.get(i).setBuyCount(-1);
+							if(traders.get(a).getOrderList().get(b).getOrderType() == false && companies.get(i).getBuyCount() != 0)
+							{
+									traders.get(a).getOrderList().get(b).getClient().newShare(-1, companies.get(i) );
+									companies.get(i).setBuyCount(-1);
+							}
 						}
 					}
+					traders.get(a).clearOrders();
 				}
-				traders.get(a).clearOrders();
-			}
-			companies.get(i).clearFinalCount();
-			companies.get(i).clearBuyCount();
-			companies.get(i).clearSellCount();
-			if(isCompanyTradable(companies.get(i)) == false)
-			{
-				for(int j = 0; j<traders.size(); j++)
+				companies.get(i).clearFinalCount();
+				companies.get(i).clearBuyCount();
+				companies.get(i).clearSellCount();
+				if(isCompanyTradable(companies.get(i)) == false)
 				{
-					for(int k = 0; k<traders.get(j).getClients().size(); k++)
+					for(int j = 0; j<traders.size(); j++)
 					{
-						for(int x = 0; x<traders.get(j).getClients().get(k).getPortfolio().size(); x++)
+						for(int k = 0; k<traders.get(j).getClients().size(); k++)
 						{
-							if(traders.get(j).getClients().get(k).getPortfolio().get(x).getCompanyName().equals(companies.get(i).getName()))
-								traders.get(j).getClients().get(k).getPortfolio().remove(traders.get(j).getClients().get(k).getPortfolio().get(x));
+							for(int x = 0; x<traders.get(j).getClients().get(k).getPortfolio().size(); x++)
+							{
+								if(traders.get(j).getClients().get(k).getPortfolio().get(x).getCompanyName().equals(companies.get(i).getName()))
+									traders.get(j).getClients().get(k).getPortfolio().remove(traders.get(j).getClients().get(k).getPortfolio().get(x));
+							}
+							traders.get(j).getClients().get(k).calculateNetWorth();
 						}
-						traders.get(j).getClients().get(k).calculateNetWorth();
 					}
+					companies.remove(companies.get(i));
 				}
-				companies.remove(companies.get(i));
 			}
+			checkShareNum();
+			updateDateTime();
 		}
 		checkShareNum();
 		updateDateTime();
@@ -452,6 +458,24 @@ public class TradingExchange {
 			return false;
 		
 		return true;
+	}
+	
+	public boolean isMarketClosed()
+	{
+		if(currentDate.getDayOfWeek().equals(DayOfWeek.SATURDAY))
+			return true;
+		if(currentDate.getDayOfWeek().equals(DayOfWeek.SUNDAY))
+			return true;
+		if(currentDate.toString().equals("2017-12-25"))
+			return true;
+		if(currentDate.toString().equals("2017-12-26"))
+			return true;
+		if(currentDate.toString().equals("2017-04-17"))
+			return true;
+		if(currentDate.toString().equals("2017-04-14"))
+			return true;
+		
+		return false;
 	}
 
 }
