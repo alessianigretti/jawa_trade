@@ -135,10 +135,10 @@ public class Trader {
 		LinkedList<Order> oH = orderHistory;
 		for(int i = 0; i<oH.size(); i++)
 		{
-			if(!(oH.get(i).getClient().getName().equals(client.getName())))
-			{
-				oH.remove(i);
-			}
+			if(oH.get(i).getClientName().equalsIgnoreCase(client.getName()))
+				System.out.println(oH.get(i).getClientName());
+			else
+				oH.remove(i);		
 		}
 		return oH;
 	}
