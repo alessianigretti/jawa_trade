@@ -14,12 +14,12 @@ public class Order
     private final SimpleIntegerProperty quantityColumn;
     private final SimpleStringProperty orderTypeColumn;
     private final SimpleDoubleProperty priceColumn;
-    private final SimpleStringProperty riskColumn;
+    private final SimpleStringProperty typeColumn;
     private final SimpleStringProperty clientColumn;
     
 	private Company company;
 	private double openingPrice, closingPrice;
-	private int quantity, initialQuantity;
+	private int quantity;
 	private String clientName;
 	private boolean orderType; //true == buy; false == sell;
 	private boolean isFullyCompleted = false;
@@ -35,11 +35,10 @@ public class Order
      * @param risk the risk
      * @param client the client
      */
-    public Order(Company company, int quantity, boolean orderType, double price, String risk, Client client)
+    public Order(Company company, int quantity, boolean orderType, double price, String type, Client client)
     {
     	this.company = company;
 		this.openingPrice = company.getCurrentShareValue();
-		this.initialQuantity = quantity;
 		this.quantity = quantity;
 		this.clientName = client.getName();
 		this.orderType = orderType;
@@ -54,7 +53,7 @@ public class Order
 			orderTypeColumn = new SimpleStringProperty("Sell");
 		}
         priceColumn = new SimpleDoubleProperty(quantity * company.getCurrentShareValue());
-        riskColumn = new SimpleStringProperty(company.getShareType());
+        typeColumn = new SimpleStringProperty(company.getShareType());
         clientColumn = new SimpleStringProperty(client.getName());
     }
     
@@ -65,7 +64,7 @@ public class Order
      */
     public String getRiskColumn()
     {
-    	return riskColumn.get();
+    	return typeColumn.get();
     }
     
     /**
@@ -75,7 +74,7 @@ public class Order
      */
     public void setRiskColumn(String risk)
     {
-    	this.riskColumn.set(risk);
+    	this.typeColumn.set(risk);
     }
     
     /**

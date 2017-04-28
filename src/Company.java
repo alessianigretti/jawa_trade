@@ -18,7 +18,14 @@ public class Company {
 	private double finalSellCount;
 	private double finalBuyCount;
 	private String trend = "-";
-	private String shareType;
+	public enum Type {
+	    Hitech, Property, Hard, Food
+	}
+	public enum Risk {
+		Low, High
+	}
+	private Type shareType;
+	private Risk risk;
 	
 	/**
 	 * Instantiates a new company.
@@ -28,7 +35,7 @@ public class Company {
 	 * @param currentShareValue the current share value
 	 * @param shareCount the share count
 	 */
-	public Company(String name, String shareType, double currentShareValue, int shareCount) 
+	public Company(String name, String type, double currentShareValue, int shareCount) 
 	{
 		this.name = name;
 		this.shareCount = shareCount;
@@ -36,6 +43,8 @@ public class Company {
 		this.netWorth = getNetWorth();
 		this.currentShareValue = currentShareValue/100;
 		shareValueList.add(getCurrentShareValue());	
+		this.shareType = Type.valueOf(type);
+		setRisk(shareType);
 	}
 	
 	/**
@@ -145,9 +154,33 @@ public class Company {
 	 */
 	public String getShareType()
 	{
-		return shareType;
+		return String.valueOf(shareType);
 	}
 	
+	private void setRisk(Type type)
+	{
+		switch(type)
+		{
+			case Hitech:
+				risk = Risk.High;
+				break;
+			case Property:
+				risk = Risk.High;
+				break;
+			case Food:
+				risk = Risk.Low;
+				break;
+			case Hard:
+				risk = Risk.Low;
+				break;
+			default:
+		}
+	}
+	
+	public String getRisk()
+	{
+		return String.valueOf(risk);
+	}
 	/**
 	 * Sets the sell count.
 	 *
