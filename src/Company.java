@@ -3,12 +3,15 @@
  *
  */
 import java.util.LinkedList;
+import java.util.Random;
 
 /**
  * The Class Company.
  */
 public class Company {
 	
+	private boolean eventTrigger = false;
+	private boolean orderType;
 	private String name;
 	private int shareCount;
 	private double netWorth, currentShareValue; 
@@ -18,6 +21,7 @@ public class Company {
 	private double finalSellCount;
 	private double finalBuyCount;
 	private String trend = "-";
+	private Random rand  = new Random();
 	public enum Type {
 	    Hitech, Property, Hard, Food
 	}
@@ -274,5 +278,43 @@ public class Company {
 	{
 		return finalBuyCount;
 	}
+	
+	public void triggerEvent()
+	{
+		eventTrigger = true;
+	}
+	
+	public void endEvent()
+	{
+		eventTrigger = false;
+	}
+	
+	public boolean isEventTriggered()
+	{
+		return eventTrigger;
+	}
+	
+	public boolean randomBool()
+	{
+		if(isEventTriggered())
+			return orderType;
+		else
+			return rand.nextBoolean();
+	}
+	
+	public void setOrderType(String type)
+	{
+		if(type.contains("buy"))
+			orderType = true;
+		if(type.contains("sell"))
+			orderType = false;
+	}
+	
+	public void event(String type)
+	{
+		if(type.equalsIgnoreCase(getName()) || type.equalsIgnoreCase(getShareType()) || type.equalsIgnoreCase("UK"))
+			triggerEvent();
+	}
+	
 	
 }

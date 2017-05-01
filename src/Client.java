@@ -191,4 +191,17 @@ public class Client
 	{
 		return Math.round(netWorth);
 	}
+	
+	public boolean hasShare(Company company)
+	{
+		for(int i = 0; i<portfolio.size(); i++)
+		{
+			if(company.getName().equals(portfolio.get(i).getCompanyName()))
+			{
+				if(portfolio.get(i).getSize() == 0)
+					return false;
+			}
+		}
+		return true;
+	}
 }

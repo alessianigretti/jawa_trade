@@ -37,6 +37,7 @@ public class TradingExchange {
 	private LocalTime currentTime;
 	private DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMM d yyyy");
 	private DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("H:m");
+	private int nextEvent = 0;
 	
 	
 	/**
@@ -44,7 +45,7 @@ public class TradingExchange {
 	 */
 	public TradingExchange()
 	{
-		currentDate = LocalDate.parse("Apr 13 2017", dateFormatter);
+		currentDate = LocalDate.parse("Feb 7 2017", dateFormatter);
 		currentTime = LocalTime.parse("09:00", timeFormatter);
 		companies = new LinkedList();
 		traders = new LinkedList();
@@ -190,6 +191,7 @@ public class TradingExchange {
 		currentTime = currentTime.plusMinutes(15);
 		if(String.valueOf(currentTime).equals("00:00"))
 			currentDate = currentDate.plusDays(1);
+		checkEvent();
 	}
 	
 	/**
@@ -476,6 +478,20 @@ public class TradingExchange {
 			return true;
 		
 		return false;
+	}
+	
+	public void checkEvent()
+	{
+		if(getDate().equals(String.valueOf(events.get(nextEvent).getDate())) && getTime().equals(String.valueOf(events.get(nextEvent).getTime())))
+		{
+			for(int i = 0; i<companies.size(); i++)
+			{
+				companies.get(i).event(events.get(nextEvent).getEventType()[1]);
+				companies.get(i).setOrderType(events.get(nextEvent).getEventType()[0]);
+			}
+			nextEvent++;
+		}
+			
 	}
 
 }

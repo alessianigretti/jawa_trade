@@ -137,13 +137,19 @@ public class RandomTrader extends Trader {
 		int quantity = randomQuantity();
 		//System.out.println(quantity);
 		boolean orderType = true;
-		for(Order o : getOrderList())
+		if(client.hasShare(company))
 		{
-			if(o.getCompanyName().equals(company.getName()))
-				orderType = o.getOrderType();
-			else
-				orderType = rand.nextBoolean();
+			for(Order o : getOrderList())
+			{
+				if(o.getCompanyName().equals(company.getName()))
+					orderType = o.getOrderType();
+				else
+					orderType = company.randomBool();
+			}
 		}
+		else
+			orderType = true;
+		
 		if(orderType == false)
 		{
 			quantity = -quantity;
