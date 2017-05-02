@@ -194,8 +194,6 @@ public class RandomTrader extends Trader {
 						if((o.getQuantity()/o.getCompany().getFinalBuyCount())*Math.abs(o.getCompany().getFinalSellCount()) >= o.getQuantity())
 						{
 							c.newShare(o.getQuantity(), o.getCompany());
-							//System.out.println("worked?" + o.getCompany().setBuyCount);
-							//o.getCompany().setBuyCount(-(o.getQuantity()));
 							o.getCompany().setSellCount(o.getQuantity());
 							o.isFullyCompleted();
 							c.calculateNetWorth();
@@ -210,7 +208,6 @@ public class RandomTrader extends Trader {
 								System.out.println(o.getQuantity() + " final buy = " + o.getCompany().getFinalBuyCount());
 							}
 								
-							//o.getCompany().setBuyCount(( Math.floor(-(o.getQuantity()/o.getCompany().getFinalBuyCount())*Math.abs(o.getCompany().getFinalSellCount()))));
 							o.getCompany().setSellCount(( Math.ceil((o.getQuantity()/o.getCompany().getFinalBuyCount())*Math.abs(o.getCompany().getFinalSellCount()))));
 							c.calculateNetWorth();
 							break;
@@ -226,7 +223,6 @@ public class RandomTrader extends Trader {
 						if((o.getQuantity()/o.getCompany().getFinalSellCount())*o.getCompany().getFinalBuyCount() <= o.getQuantity())
 						{
 							c.newShare(o.getQuantity(), o.getCompany());
-							//o.getCompany().setSellCount(-(o.getQuantity()));
 							o.getCompany().setBuyCount(-o.getQuantity());
 							o.isFullyCompleted();
 							c.calculateNetWorth();
@@ -242,7 +238,6 @@ public class RandomTrader extends Trader {
 							else
 							{
 										c.newShare(Math.ceil(-((o.getQuantity()/o.getCompany().getFinalSellCount())*o.getCompany().getFinalBuyCount())), o.getCompany());
-										//o.getCompany().setSellCount((Math.ceil(((o.getQuantity()/o.getCompany().getFinalSellCount())*o.getCompany().getFinalBuyCount()))));
 										o.getCompany().setBuyCount(-(Math.floor(((o.getQuantity()/o.getCompany().getFinalSellCount())*o.getCompany().getFinalBuyCount()))));
 							}
 							c.calculateNetWorth();

@@ -236,9 +236,9 @@ public class Order
 	}
 	
 	/**
-	 * Gets the quanitity.
+	 * Gets the quantity.
 	 *
-	 * @return the quanitity
+	 * @return the quantity
 	 */
 	public int getQuantity()
 	{
