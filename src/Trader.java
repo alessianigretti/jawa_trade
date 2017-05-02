@@ -108,13 +108,12 @@ public class Trader {
 		LinkedList<Order> orderHistoryList = orderHistory;
 		for(int i = 0; i<orderHistoryList.size(); i++)
 		{
-<<<<<<< HEAD
-			if(oH.get(i).getClientName().equalsIgnoreCase(client.getName()))
+			if(orderHistoryList.get(i).getClientName().equalsIgnoreCase(client.getName()))
 				System.out.println("");
-=======
+
 			if(orderHistoryList.get(i).getClientName().equalsIgnoreCase(client.getName()))
 				System.out.println(orderHistoryList.get(i).getClientName());
->>>>>>> 3e2ba5abbf868618671726850e1e1d6f6b41030b
+
 			else
 				orderHistoryList.remove(i);		
 		}

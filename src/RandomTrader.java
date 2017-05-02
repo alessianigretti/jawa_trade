@@ -175,10 +175,10 @@ public class RandomTrader extends Trader {
 		else
 		{
 			order = new Order(company,quantity,orderType,quantity*company.getCurrentShareValue(),"RiskLev",client);
-			/*if(orderType == true)
+			if(orderType == true)
 				getOrderList().addFirst(order);
 			else
-				getOrderList().addLast(order);*/
+				getOrderList().addLast(order);
 		}
 		
 		if(orderType == false)
@@ -209,12 +209,11 @@ public class RandomTrader extends Trader {
 						if((o.getQuantity()/o.getCompany().getFinalBuyCount())*Math.abs(o.getCompany().getFinalSellCount()) >= o.getQuantity())
 						{
 							c.newShare(o.getQuantity(), o.getCompany());
-<<<<<<< HEAD
+
 							System.out.println(orderNum);
 							//System.out.println("worked?" + o.getCompany().setBuyCount);
 							//o.getCompany().setBuyCount(-(o.getQuantity()));
-=======
->>>>>>> 3e2ba5abbf868618671726850e1e1d6f6b41030b
+
 							o.getCompany().setSellCount(o.getQuantity());
 							o.isFullyCompleted();
 							c.calculateNetWorth();
@@ -245,11 +244,10 @@ public class RandomTrader extends Trader {
 						if((o.getQuantity()/o.getCompany().getFinalSellCount())*o.getCompany().getFinalBuyCount() <= o.getQuantity())
 						{
 							c.newShare(o.getQuantity(), o.getCompany());
-<<<<<<< HEAD
+
 							System.out.println(orderNum);
 							//o.getCompany().setSellCount(-(o.getQuantity()));
-=======
->>>>>>> 3e2ba5abbf868618671726850e1e1d6f6b41030b
+
 							o.getCompany().setBuyCount(-o.getQuantity());
 							o.isFullyCompleted();
 							c.calculateNetWorth();

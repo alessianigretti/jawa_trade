@@ -456,6 +456,7 @@ public class TradingExchange {
 				}
 			}
 		}
+		System.out.println(count);
 	}
 	
 	public boolean isCompanyTradable(Company company)
