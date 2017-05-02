@@ -859,24 +859,22 @@ public class GUI extends Application
     	riskPane.setPadding(new Insets(10, 5, 5, 5));
 		
 		// creating and adding label and combobox to gridpane
+    	Label currentRiskLabel = new Label("Current Risk:  ");
+    	Label currentRisk = new Label(selectedClient.getRisk());
 		Label riskLabel = new Label("Risk:  ");
 		// combobox allowing to choose quantities
 		ComboBox risks = new ComboBox();
 		risks.setMinWidth(80/scaleWidth);
 		risks.setMaxWidth(80/scaleWidth);
-		for (int i = 0; i < 2; i++)
-		{
-			if(i == 0)
-			{
-				//quantities.getItems().add(50);
-			} else {
-				//quantities.getItems().add(100*i);
-			}
-		}
-		riskPane.add(riskLabel, 0, 0);
-		riskPane.add(risks, 1, 0);
-		riskPane.add(new Label("             "), 0, 1);
-		riskPane.add(new Label("             "), 1, 1);
+		for (int i = 0; i < Company.Risk.values().length; i++)
+			risks.getItems().add(String.valueOf(Company.Risk.values()[i]));
+		
+		riskPane.add(currentRiskLabel, 0, 0);
+		riskPane.add(currentRisk, 1, 0);
+		riskPane.add(riskLabel, 0, 1);
+		riskPane.add(risks, 1, 1);
+		riskPane.add(new Label("             "), 0, 2);
+		riskPane.add(new Label("             "), 1, 2);
 		
 		// creating bottom pane for buttons
 		BorderPane bottomPane = new BorderPane();
@@ -886,7 +884,12 @@ public class GUI extends Application
 		confirm.setOnAction(new EventHandler<ActionEvent>() {
 	       	@Override
 	       	public void handle(ActionEvent event) {
-	       		
+	       		try {
+	       			selectedClient.setRisk(risks.getSelectionModel().getSelectedItem().toString());
+	       		} catch(Exception e) {
+	       			throwErrorMessage(AlertType.ERROR, "Invalid Argument", "Invalid Argument", "Select a valid risk.");
+	       		}
+	       		riskWindow.hide();
 	       	}
 	    });
 		bottomPane.setCenter(confirm);
