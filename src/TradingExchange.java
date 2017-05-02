@@ -1,3 +1,4 @@
+
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -192,6 +193,7 @@ public class TradingExchange {
 		if(String.valueOf(currentTime).equals("00:00"))
 			currentDate = currentDate.plusDays(1);
 		checkEvent();
+		endEvents();
 	}
 	
 	/**
@@ -227,11 +229,15 @@ public class TradingExchange {
 					double buyAmount = 0;
 					while(sellAmount <= sellAmountMax && buyAmount <= buyAmountMax)
 					{
-							double amount = ((RandomTrader)traders.get(i)).newOrder(traders.get(i).getClients().get(j), companies.get(rand.nextInt(companies.size())));
-							if(amount < 0)
-								sellAmount = sellAmount + Math.abs(amount);
-							else
-								buyAmount = buyAmount + amount;
+							int randomCompanyIndex = rand.nextInt(companies.size());
+							if(companies.get(randomCompanyIndex).getRisk().equalsIgnoreCase(traders.get(i).getClients().get(j).getRisk()) || traders.get(i).getClients().get(j).getRisk().equalsIgnoreCase("High"))
+							{
+								double amount = ((RandomTrader)traders.get(i)).newOrder(traders.get(i).getClients().get(j), companies.get(randomCompanyIndex));
+								if(amount < 0)
+									sellAmount = sellAmount + Math.abs(amount);
+								else
+									buyAmount = buyAmount + amount;
+							}	
 					}
 				}
 			}
@@ -487,11 +493,28 @@ public class TradingExchange {
 			for(int i = 0; i<companies.size(); i++)
 			{
 				companies.get(i).event(events.get(nextEvent).getEventType()[1]);
-				companies.get(i).setOrderType(events.get(nextEvent).getEventType()[0]);
+				if(companies.get(i).isEventTriggered())
+				{
+					companies.get(i).setOrderType(events.get(nextEvent).getEventType()[0]);
+					companies.get(i).setEventEnd(events.get(nextEvent).getEventType()[2] + " " + String.valueOf(events.get(nextEvent).getTime()));
+				}
+					
 			}
 			nextEvent++;
 		}
 			
+	}
+	
+	public void endEvents()
+	{
+		String currentDateTime = getDate() + " " + getTime();
+		for(int i = 0; i<companies.size(); i++)
+		{
+			if(companies.get(i).getEventEnd().equals(currentDateTime))
+			{
+				companies.get(i).endEvent();
+			}
+		}
 	}
 
 }

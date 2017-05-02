@@ -134,7 +134,7 @@ public class RandomTrader extends Trader {
 	 */
 	public double newOrder(Client client, Company company)
 	{
-		int quantity = randomQuantity();
+		
 		//System.out.println(quantity);
 		boolean orderType = true;
 		if(client.hasShare(company))
@@ -149,9 +149,14 @@ public class RandomTrader extends Trader {
 		}
 		else
 			orderType = true;
-		
+		int quantity = randomQuantity();
 		if(orderType == false)
 		{
+			if(client.shareSize(company) < 50 || client.shareSize(company) - quantity < 50)
+			{
+				System.out.println(client.shareSize(company) + " " + company.getName() + " " + client.getName());
+				quantity = rand.nextInt((int) client.shareSize(company));
+			}	
 			quantity = -quantity;
 			company.setSellCount(quantity);
 		}

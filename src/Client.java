@@ -11,7 +11,7 @@ public class Client
 	private double investment;
 	private double expectedReturn;// expected return on clients investments
 	private LinkedList<Shares> portfolio = new LinkedList(); // collection of shares that the client currently owns
-	
+	private Company.Risk risk = Company.Risk.High; //All clients by default have a high risk
 	/**
 	 * Instantiates a new client.
 	 *
@@ -88,12 +88,17 @@ public class Client
 	 *
 	 * @param risk the new risk all
 	 */
-	public void setRiskAll(int risk)
+	public void setRisk(String risk)
 	{
-		for(int i = 0; i<portfolio.size(); i++)
-		{
-			portfolio.get(i).setRisk(risk);
-		}
+		if(risk.equalsIgnoreCase("High"))
+			this.risk = Company.Risk.High;
+		if(risk.equalsIgnoreCase("Low"))
+			this.risk = Company.Risk.Low;
+	}
+	
+	public String getRisk()
+	{
+		return String.valueOf(risk);
 	}
 	
 	/**
@@ -203,5 +208,18 @@ public class Client
 			}
 		}
 		return true;
+	}
+	
+	public double shareSize(Company company)
+	{
+		double size = 0;
+		for(int i = 0; i<portfolio.size(); i++)
+		{
+			if(company.getName().equals(portfolio.get(i).getCompanyName()))
+			{
+				size = portfolio.get(i).getSize();
+			}
+		}
+		return size;
 	}
 }

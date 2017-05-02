@@ -88,33 +88,6 @@ public class Trader {
 		return clientList;
 	}
 	
-	/**
-	 * Sets the risk all.
-	 *
-	 * @param risk the risk
-	 * @param name the name
-	 */
-	public void setRiskAll(int risk, String name)
-	{
-		for(int i = 0; i<clientList.size(); i++)
-		{
-			if(clientList.get(i).getName().equals(name))
-			{
-				clientList.get(i).setRiskAll(risk);
-			}
-		}
-	}
-	
-	/**
-	 * Sets the risk.
-	 *
-	 * @param risk the risk
-	 * @param firstname the firstname
-	 */
-	public void setRisk(int risk, String firstname)
-	{
-		
-	}
 	
 	/**
 	 * Clear orders.

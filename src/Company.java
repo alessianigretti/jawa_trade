@@ -11,6 +11,7 @@ import java.util.Random;
 public class Company {
 	
 	private boolean eventTrigger = false;
+	private String eventEnd = "";
 	private boolean orderType;
 	private String name;
 	private int shareCount;
@@ -287,6 +288,7 @@ public class Company {
 	public void endEvent()
 	{
 		eventTrigger = false;
+		eventEnd = "";
 	}
 	
 	public boolean isEventTriggered()
@@ -308,6 +310,16 @@ public class Company {
 			orderType = true;
 		if(type.contains("sell"))
 			orderType = false;
+	}
+	
+	public void setEventEnd(String end)
+	{
+		eventEnd = end;
+	}
+	
+	public String getEventEnd()
+	{
+		return eventEnd;
 	}
 	
 	public void event(String type)

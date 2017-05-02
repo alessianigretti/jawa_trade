@@ -6,7 +6,6 @@
  */
 public class Shares{
 	private Company company;
-	private int risk;
 	private double currentPrice;
 	private double shareValue;
 	private double size;
@@ -20,7 +19,6 @@ public class Shares{
 	public Shares(double size,  Company company)
 	{
 		this.size = size;
-		this.risk = 1;
 		this.currentPrice = company.getCurrentShareValue() ;
 		this.company = company;
 		this.shareValue = currentPrice * size;
@@ -45,26 +43,6 @@ public class Shares{
 	public double getSize()
 	{
 		return size;
-	}
-	
-	/**
-	 * Sets the risk.
-	 *
-	 * @param risk the new risk
-	 */
-	public void setRisk(int risk)
-	{
-		this.risk = risk;
-	}
-	
-	/**
-	 * Gets the risk.
-	 *
-	 * @return the risk
-	 */
-	public int getRisk()
-	{
-		return risk;
 	}
 	
 	/**

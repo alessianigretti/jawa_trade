@@ -29,15 +29,15 @@ public class Events {
 	 * @param date the date
 	 * @param time the time
 	 */
-	public Events(String eventText, String date, String time, String action, String type, String duration)
+	public Events(String eventText, String eventDate, String eventTime, String action, String type, String duration)
 	{
 		this.eventText = eventText;
+		this.date = LocalDate.parse(eventDate, dateFormatter);
+		this.time = LocalTime.parse(eventTime, timeFormatter);
+		System.out.println(time);
 		eventType[0] = action;
 		eventType[1] = type;
-		eventType[2] = duration;
-		this.date = LocalDate.parse(date, dateFormatter);
-		System.out.println(time);
-		this.time = LocalTime.parse(time, timeFormatter);
+		eventType[2] = String.valueOf(date.plusDays(Integer.valueOf(duration)));
 	}
 	
 	/**
