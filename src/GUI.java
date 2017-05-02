@@ -1112,6 +1112,45 @@ public class GUI extends Application
 	       			}
 	       			exchange.getTraders().clear();
 	       			exchange.setUpRandomTraders(Integer.valueOf(numOfTraders.getText()));
+	       			traderMenu.getItems().clear();
+	       			for(int i = 0; i < exchange.getTraders().size(); i++)
+	       			{
+	       				final int traderIndex = i;
+	       				// filling menu up with all trader's names
+	       				Menu trader = new Menu(exchange.getTraders().get(i).getTraderName());
+	       				
+	       				// looping through all clients for each trader
+	       				for (int j = 0; j < exchange.getTraders().get(i).getClients().size(); j++)
+	       				{
+	       					final int clientIndex = j;
+	       					// filling menuitems up with all trader's clients' names
+	       					MenuItem client = new MenuItem(exchange.getTraders().get(i).getClients().get(j).getName());
+	       					// setting up event handler for each client
+	       					client.setOnAction(new EventHandler<ActionEvent>() {
+	       	    	            @Override
+	       	    	            public void handle(ActionEvent event) {
+	       	    	            	orders.clear();
+	       	    	            	selectedTrader = exchange.getTraders().get(traderIndex);
+	       	    	            	selectedClient = selectedTrader.getClients().get(clientIndex);
+	       	    	            }
+	       	    	        });
+	       					trader.getItems().add(client);
+	       				}
+	       				
+	       				// menuitem for adding a custom client
+	       				MenuItem addClient = new MenuItem("Add Client...");
+	       		        addClient.setOnAction(new EventHandler<ActionEvent>() {
+	       		        	@Override
+	       		        	public void handle(ActionEvent event) {
+	       		        		selectedTrader = exchange.getTraders().get(traderIndex);
+	       		        		addCustomClient();
+	       		        	}
+	       		        });
+	       		        trader.getItems().add(addClient);
+	       		        
+	       		        // adding each trader to trader menu
+	       				traderMenu.getItems().add(trader);
+	       			}
 	       			setUpSimStage.hide();
 	       		} catch (Exception e) {
 	       			throwErrorMessage(AlertType.ERROR, "Invalid Argument", "Invalid Argument", "The minimum number of trader is 2.");
