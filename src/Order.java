@@ -14,7 +14,7 @@ public class Order
     private final SimpleIntegerProperty quantityColumn;
     private final SimpleStringProperty orderTypeColumn;
     private final SimpleDoubleProperty priceColumn;
-    private final SimpleStringProperty typeColumn;
+    private final SimpleStringProperty riskColumn;
     private final SimpleStringProperty clientColumn;
     
 	private Company company;
@@ -35,7 +35,7 @@ public class Order
      * @param risk the risk
      * @param client the client
      */
-    public Order(Company company, int quantity, boolean orderType, double price, String type, Client client)
+    public Order(Company company, int quantity, boolean orderType, double price, String risk, Client client)
     {
     	this.company = company;
 		this.openingPrice = company.getCurrentShareValue();
@@ -53,7 +53,7 @@ public class Order
 			orderTypeColumn = new SimpleStringProperty("Sell");
 		}
         priceColumn = new SimpleDoubleProperty(quantity * company.getCurrentShareValue());
-        typeColumn = new SimpleStringProperty(company.getShareType());
+        riskColumn = new SimpleStringProperty(company.getRisk());
         clientColumn = new SimpleStringProperty(client.getName());
     }
     
@@ -64,7 +64,7 @@ public class Order
      */
     public String getRiskColumn()
     {
-    	return typeColumn.get();
+    	return riskColumn.get();
     }
     
     /**
@@ -74,7 +74,7 @@ public class Order
      */
     public void setRiskColumn(String risk)
     {
-    	this.typeColumn.set(risk);
+    	this.riskColumn.set(risk);
     }
     
     /**

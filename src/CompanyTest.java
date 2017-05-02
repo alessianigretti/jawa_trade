@@ -116,7 +116,7 @@ public class CompanyTest {
 	@Test
 	public void testGetRisk()
 	{
-		fail("Not yet implemented");
+		assertEquals("Low", company.getRisk());
 	}
 	
 	@Test
