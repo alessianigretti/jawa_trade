@@ -16,7 +16,7 @@ public class CompanyTest {
 	}
 	
 	@Test
-	public void testClearFinalCount()
+	public void testClearAndSetFinalCount()
 	{
 		company.setBuyCount(10);
 		company.setSellCount(20);
@@ -53,7 +53,7 @@ public class CompanyTest {
 	}
 	
 	@Test
-	public void testGetBuyCount()
+	public void testGetAndSetBuyCount()
 	{
 		assertNotEquals(10, company.getBuyCount());
 		company.setBuyCount(10);
@@ -61,7 +61,7 @@ public class CompanyTest {
 	}
 	
 	@Test
-	public void testGetCompanyTrend()
+	public void testGetAndSetCompanyTrend()
 	{
 		company.setCurrentShareValue(10);
 		company.setCurrentShareValue(12);
@@ -71,7 +71,7 @@ public class CompanyTest {
 	}
 	
 	@Test
-	public void testGetCurrentShareValue()
+	public void testGetAndSetCurrentShareValue()
 	{
 		assertNotEquals(30, company.getCurrentShareValue());
 		company.setCurrentShareValue(30);
@@ -79,7 +79,7 @@ public class CompanyTest {
 	}
 	
 	@Test
-	public void testGetEventEnd()
+	public void testGetAndSetEventEnd()
 	{
 		company.setEventEnd("End");
 		assertEquals("End", company.getEventEnd());
@@ -108,7 +108,7 @@ public class CompanyTest {
 	}
 	
 	@Test
-	public void testGetNetWorth()
+	public void testGetAndSetNetWorth()
 	{
 		fail("Not yet implemented");
 	}
@@ -120,7 +120,7 @@ public class CompanyTest {
 	}
 	
 	@Test
-	public void testGetSellCount()
+	public void testGetAndSetSellCount()
 	{
 		assertNotEquals(company.getSellCount(), 10);
 		company.setSellCount(10);
@@ -130,13 +130,13 @@ public class CompanyTest {
 	@Test
 	public void testGetShareCount()
 	{
-		fail("Not yet implemented");
+		assertEquals(10, company.getShareCount(), 0.01);
 	}
 	
 	@Test
 	public void testGetShareType()
 	{
-		fail("Not yet implemented");
+		assertEquals("Food", company.getShareType());
 	}
 	
 	@Test
@@ -148,7 +148,7 @@ public class CompanyTest {
 	@Test
 	public void testIsEventTriggered()
 	{
-		fail("Not yet implemented");
+		assertFalse(company.isEventTriggered());
 	}
 	
 	@Test
@@ -158,75 +158,36 @@ public class CompanyTest {
 	}
 	
 	@Test
-	public void testSetBuyCount()
-	{
-		fail("Not yet implemented");
-	}
-	
-	@Test
-	public void testSetCompanyTrend()
-	{
-		fail("Not yet implemented");
-	}
-	
-	@Test
-	public void testSetCurrentShareValue()
-	{
-		fail("Not yet implemented");
-	}
-	
-	@Test
-	public void testSetEventEnd()
-	{
-		fail("Not yet implemented");
-	}
-	
-	@Test
-	public void testSetFinalCount()
-	{
-		fail("Not yet implemented");
-	}
-	
-	@Test
 	public void testSetName()
 	{
-		fail("Not yet implemented");
+		assertNotEquals("CompanyName", company.getName());
+		company.setName("CompanyName");
+		assertEquals("CompanyName", company.getName());
 	}
 	
 	@Test
-	public void testSetNetWorth()
+	public void testSetOrderTypeAndTriggerEvent()
 	{
-		fail("Not yet implemented");
-	}
-	
-	@Test
-	public void testSetOrderType()
-	{
-		fail("Not yet implemented");
+		company.triggerEvent();
+		assertFalse(company.randomBool());
+		company.setOrderType("buy");
+		assertTrue(company.randomBool());
 	}
 	
 	@Test
 	public void testSetRisk()
 	{
-		fail("Not yet implemented");
-	}
-	
-	@Test
-	public void testSetSellCount()
-	{
-		fail("Not yet implemented");
-	}
-	
-	@Test
-	public void testTriggerEvent()
-	{
-		fail("Not yet implemented");
+		assertNotEquals("High", company.getRisk());
+		company.setRisk(Company.Type.Property);
+		assertEquals("High", company.getRisk());
 	}
 	
 	@Test
 	public void testUpdateShareCount()
 	{
-		fail("Not yet implemented");
+		assertNotEquals(20, company.getShareCount());
+		company.updateShareCount(5);
+		assertEquals(20, company.getShareCount());
 	}
 	
 	@Test

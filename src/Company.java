@@ -162,7 +162,7 @@ public class Company {
 		return String.valueOf(shareType);
 	}
 	
-	private void setRisk(Type type)
+	public void setRisk(Type type)
 	{
 		switch(type)
 		{
