@@ -217,8 +217,8 @@ public class TradingExchange {
 	{
 		if(!isMarketClosed())
 		{
-			System.out.println("zero " + companies.get(0).getBuyCount());
-			System.out.println("zero " + companies.get(0).getSellCount());
+			//System.out.println("zero " + companies.get(0).getBuyCount());
+			//System.out.println("zero " + companies.get(0).getSellCount());
 			for(int i = 1; i<traders.size(); i++)
 			{
 				for(int j = 0; j<traders.get(i).getClients().size(); j++)
@@ -241,16 +241,16 @@ public class TradingExchange {
 					}
 				}
 			}
-			System.out.println("Before order buy " + companies.get(0).getBuyCount());
-			System.out.println("Before order sell " + companies.get(0).getSellCount());
+			//System.out.println("Before order buy " + companies.get(0).getBuyCount());
+			//System.out.println("Before order sell " + companies.get(0).getSellCount());
 			
 			for(int i = 0; i<companies.size(); i++)
 			{
 				companies.get(i).updateShareValue(companies.get(i).getBuyCount()+companies.get(i).getSellCount());
 				companies.get(i).setFinalCount();
 			}
-			System.out.println("Before order finalbuy " + companies.get(0).getFinalBuyCount());
-			System.out.println("Before order finalsell " + companies.get(0).getFinalSellCount());
+			//System.out.println("Before order finalbuy " + companies.get(0).getFinalBuyCount());
+			//System.out.println("Before order finalsell " + companies.get(0).getFinalSellCount());
 			for(int i = 1; i<traders.size(); i++)
 			{
 				for(int j = 0; j<traders.get(i).getOrderList().size(); j++)
@@ -261,8 +261,8 @@ public class TradingExchange {
 				((RandomTrader) traders.get(i)).switchMode(Math.random());
 				traders.get(i).addOrderHistory();
 			}
-			System.out.println("After order buy " + companies.get(0).getBuyCount());
-			System.out.println("After order sell " + companies.get(0).getSellCount());
+			//System.out.println("After order buy " + companies.get(0).getBuyCount());
+			//System.out.println("After order sell " + companies.get(0).getSellCount());
 			
 			for(int i = 0; i<companies.size(); i++)
 			{
@@ -452,7 +452,7 @@ public class TradingExchange {
 			{
 				for(int k = 0; k<traders.get(i).getClients().get(j).getPortfolio().size(); k++)
 				{
-					if(companies.get(0).getName().equals(traders.get(i).getClients().get(j).getPortfolio().get(k).getCompanyName()))
+					if(companies.get(4).getName().equals(traders.get(i).getClients().get(j).getPortfolio().get(k).getCompanyName()))
 						count = count + traders.get(i).getClients().get(j).getPortfolio().get(k).getSize();
 				}
 			}

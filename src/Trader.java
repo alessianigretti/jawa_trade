@@ -109,7 +109,7 @@ public class Trader {
 		for(int i = 0; i<oH.size(); i++)
 		{
 			if(oH.get(i).getClientName().equalsIgnoreCase(client.getName()))
-				System.out.println(oH.get(i).getClientName());
+				System.out.println("");
 			else
 				oH.remove(i);		
 		}

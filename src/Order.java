@@ -230,9 +230,14 @@ public class Order
 	 *
 	 * @param extra the extra
 	 */
-	public void updateQuantity(int extra)
+	public int updateQuantity(int extra)
 	{
+		if(extra < 0 && client.shareSize(company) < Math.abs(quantity + extra))
+			extra = 0;
+			
 		quantity = quantity + extra;
+		
+		return extra;
 	}
 	
 	/**
