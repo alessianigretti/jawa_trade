@@ -57,7 +57,6 @@ public class TradingExchange {
 		events = new LinkedList();
 		numOfTraders = 2;
 		setUpSim();
-		System.out.println(getShareIndex());
 		checkShareNum();
 		updateShareIndex();
 		shareIndexList.add(getShareIndex());
@@ -69,10 +68,10 @@ public class TradingExchange {
 	 *
 	 * @return the x chart
 	 */
-	public LinkedList getXChart()
+	public LinkedList<Integer> getXChart()
 	{
 		//placeholder
-		LinkedList x = new LinkedList();
+		LinkedList<Integer> x = new LinkedList<Integer>();
 		for (int i = 1; i <= 2880; i++)
 		{
 			x.add(i);
@@ -457,7 +456,6 @@ public class TradingExchange {
 				}
 			}
 		}
-		System.out.println(count);
 	}
 	
 	public boolean isCompanyTradable(Company company)

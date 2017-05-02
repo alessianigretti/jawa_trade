@@ -749,7 +749,14 @@ public class GUI extends Application
 				}
 			}
 		});
-		accountMenu.getItems().addAll(withdrawal, deposit);
+		MenuItem risk = new MenuItem("Risk");
+		risk.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				openRiskWindow();
+			}
+		});
+		accountMenu.getItems().addAll(withdrawal, deposit, risk);
 		
 		// creating menu for orders
 		Menu ordersMenu = new Menu("Orders");
@@ -837,6 +844,69 @@ public class GUI extends Application
 
         return table;
     } 
+    
+    private void openRiskWindow()
+    {
+    	// creating new stage for opening new risk window
+    	Stage riskWindow = new Stage();
+    	
+    	// borderpane for form to fill (frame for riskPane)
+    	BorderPane form = new BorderPane();
+    	form.setPadding(new Insets(15));
+    	
+    	// gridpane for client labels and combobox
+    	GridPane riskPane = new GridPane();
+    	riskPane.setPadding(new Insets(10, 5, 5, 5));
+		
+		// creating and adding label and combobox to gridpane
+    	Label currentRiskLabel = new Label("Current Risk:  ");
+    	Label currentRisk = new Label(selectedClient.getRisk());
+		Label riskLabel = new Label("Risk:  ");
+		// combobox allowing to choose quantities
+		ComboBox risks = new ComboBox();
+		risks.setMinWidth(80/scaleWidth);
+		risks.setMaxWidth(80/scaleWidth);
+		for (int i = 0; i < Company.Risk.values().length; i++)
+			risks.getItems().add(String.valueOf(Company.Risk.values()[i]));
+		
+		riskPane.add(currentRiskLabel, 0, 0);
+		riskPane.add(currentRisk, 1, 0);
+		riskPane.add(riskLabel, 0, 1);
+		riskPane.add(risks, 1, 1);
+		riskPane.add(new Label("             "), 0, 2);
+		riskPane.add(new Label("             "), 1, 2);
+		
+		// creating bottom pane for buttons
+		BorderPane bottomPane = new BorderPane();
+		
+		// button for confirming form and event handler
+		Button confirm = new Button("Confirm");
+		confirm.setOnAction(new EventHandler<ActionEvent>() {
+	       	@Override
+	       	public void handle(ActionEvent event) {
+	       		try {
+	       			selectedClient.setRisk(risks.getSelectionModel().getSelectedItem().toString());
+	       		} catch(Exception e) {
+	       			throwErrorMessage(AlertType.ERROR, "Invalid Argument", "Invalid Argument", "Select a valid risk.");
+	       		}
+	       		riskWindow.hide();
+	       	}
+	    });
+		bottomPane.setCenter(confirm);
+		
+    	form.setCenter(riskPane);
+		form.setBottom(bottomPane);
+		
+		// creating scene for account window
+		Scene addRiskScene = new Scene(form);
+		addRiskScene.getStylesheets().add("resources/com/guigarage/flatterfx/flatterfx.css");
+		
+		riskWindow.sizeToScene();
+		riskWindow.setResizable(false);
+		riskWindow.setTitle("Choose Risk");
+		riskWindow.setScene(addRiskScene);
+		riskWindow.show();
+    }
     
     private void openAccountWindow(String action) throws Exception
     {
