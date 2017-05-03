@@ -1,300 +1,335 @@
-/**
- * @author jon
- *
- */
+
 import java.util.LinkedList;
 import java.util.Random;
 
 /**
- * The Class Company.
+ * The Class Company is responsible for issuing shared to be traded on the stock market.
+ * 
+ * @author Jonathan Magbadelo
  */
 public class Company {
-	
+
 	private boolean eventTrigger = false;
 	private String eventEnd = "";
 	private boolean orderType = false;
 	private String name;
 	private int shareCount;
-	private double netWorth, currentShareValue; 
+	private double netWorth, currentShareValue;
 	private LinkedList<Double> shareValueList = new LinkedList<Double>();
 	private double sellCount;
 	private double buyCount;
 	private double finalSellCount;
 	private double finalBuyCount;
 	private String trend = "-";
-	private Random rand  = new Random();
+	private Random rand = new Random();
+
+	/**
+	 * The Enum Type for the types of commodities.
+	 */
 	public enum Type {
-	    Hitech, Property, Hard, Food
+		Hitech, Property, Hard, Food
 	}
+
+	/**
+	 * The Enum Risk for the available risks.
+	 */
 	public enum Risk {
 		Low, High
 	}
+
 	private Type shareType;
 	private Risk risk;
-	
+
 	/**
 	 * Instantiates a new company.
 	 *
-	 * @param name the name
-	 * @param shareType the share type
-	 * @param currentShareValue the current share value
-	 * @param shareCount the share count
+	 * @param name            the name of the company
+	 * @param type the type of the company
+	 * @param currentShareValue            the current share value of the company
+	 * @param shareCount            the share count of the company
 	 */
-	public Company(String name, String type, double currentShareValue, int shareCount) 
-	{
+	public Company(String name, String type, double currentShareValue, int shareCount) {
 		this.name = name;
 		this.shareCount = shareCount;
 		setNetWorth();
 		this.netWorth = getNetWorth();
-		this.currentShareValue = currentShareValue/100;
-		shareValueList.add(getCurrentShareValue());	
+		this.currentShareValue = currentShareValue / 100;
+		shareValueList.add(getCurrentShareValue());
 		this.shareType = Type.valueOf(type);
 		setRisk(shareType);
 	}
-	
+
 	/**
-	 * Gets the share value list.
+	 * Gets the share value list of the company.
 	 *
-	 * @return the share value list
+	 * @return the share value list of the company
 	 */
-	public LinkedList getShareValueList()
-	{
-		return shareValueList;	// i assume that this is the list of possible quantities that you can get for a given company?
+	public LinkedList getShareValueList() {
+		return shareValueList;
 	}
 
 	/**
-	 * Sets the name.
+	 * Sets the name of the company.
 	 *
-	 * @param name the new name
+	 * @param name
+	 *            the new name of the company
 	 */
-	public void setName(String name) 
-	{
+	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	/**
-	 * Gets the name.
+	 * Gets the name of the company.
 	 *
-	 * @return the name
+	 * @return the name of the company
 	 */
-	public String getName() 
-	{
+	public String getName() {
 		return name;
 	}
-	
+
 	/**
-	 * Update share count.
+	 * Update share count of the company.
 	 *
-	 * @param shareCount the share count
+	 * @param shareCount
+	 *            the share count to update to
 	 */
-	public void updateShareCount(int shareCount) 
-	{
+	public void updateShareCount(int shareCount) {
 		this.shareCount = this.shareCount + shareCount;
 	}
-	
+
 	/**
-	 * Gets the share count.
+	 * Gets the share count of the company.
 	 *
-	 * @return the share count
+	 * @return the share count of the company
 	 */
-	public int getShareCount() 
-	{
+	public int getShareCount() {
 		return shareCount;
 	}
-	
+
 	/**
-	 * Sets the net worth.
+	 * Sets the net worth of the company.
 	 */
-	public void setNetWorth() 
-	{
-		this.netWorth = getShareCount()*getCurrentShareValue();
+	public void setNetWorth() {
+		this.netWorth = getShareCount() * getCurrentShareValue();
 	}
-	
+
 	/**
-	 * Gets the net worth.
+	 * Gets the net worth of the company.
 	 *
-	 * @return the net worth
+	 * @return the net worth of the company
 	 */
-	public double getNetWorth() 
-	{
+	public double getNetWorth() {
 		return netWorth;
 	}
-	
+
 	/**
-	 * Sets the current share value.
+	 * Sets the current share value of the company.
 	 *
-	 * @param currentShareValue the new current share value
+	 * @param currentShareValue
+	 *            the new current share value of the company
 	 */
-	public void setCurrentShareValue(double currentShareValue) 
-	{
+	public void setCurrentShareValue(double currentShareValue) {
 		this.currentShareValue = currentShareValue;
 		shareValueList.add(getCurrentShareValue());
 	}
-	
+
 	/**
-	 * Gets the current share value.
+	 * Gets the current share value of the company.
 	 *
-	 * @return the current share value
+	 * @return the current share value of the company
 	 */
-	public double getCurrentShareValue() 
-	{
+	public double getCurrentShareValue() {
 		return currentShareValue;
 	}
-	
+
 	/**
-	 * Update share value.
+	 * Update share value of the company.
 	 *
-	 * @param excess the excess
+	 * @param excess
+	 *            the excess
 	 */
-	public void updateShareValue(double excess)
-	{
-		setCurrentShareValue(getCurrentShareValue()+(excess/shareCount)*getCurrentShareValue());//supply vs demand
+	public void updateShareValue(double excess) {
+		setCurrentShareValue(getCurrentShareValue() + (excess / shareCount) * getCurrentShareValue());// supply
+																										// vs
+																										// demand
 		setCompanyTrend();
 	}
-	
+
 	/**
-	 * Gets the share type.
+	 * Gets the share type of the company.
 	 *
-	 * @return the share type
+	 * @return the share type of the company
 	 */
-	public String getShareType()
-	{
+	public String getShareType() {
 		return String.valueOf(shareType);
 	}
-	
-	public void setRisk(Type type)
-	{
-		switch(type)
-		{
-			case Hitech:
-				risk = Risk.High;
-				break;
-			case Property:
-				risk = Risk.High;
-				break;
-			case Food:
-				risk = Risk.Low;
-				break;
-			case Hard:
-				risk = Risk.Low;
-				break;
-			default:
+
+	/**
+	 * Sets the risk of the company.
+	 *
+	 * @param type the type of the company, which is associated with a risk
+	 */
+	public void setRisk(Type type) {
+		switch (type) {
+		case Hitech:
+			risk = Risk.High;
+			break;
+		case Property:
+			risk = Risk.High;
+			break;
+		case Food:
+			risk = Risk.Low;
+			break;
+		case Hard:
+			risk = Risk.Low;
+			break;
+		default:
 		}
 	}
-	
-	public String getRisk()
-	{
+
+	/**
+	 * Gets the risk of the company.
+	 *
+	 * @return the risk of the company
+	 */
+	public String getRisk() {
 		return String.valueOf(risk);
 	}
+
 	/**
-	 * Sets the sell count.
+	 * Sets the sell count of the company.
 	 *
-	 * @param sellCount the new sell count
+	 * @param sc the new sell count of the company
 	 */
-	public void setSellCount(double sc)
-	{
+	public void setSellCount(double sc) {
 		sellCount = sellCount + sc;
 	}
-	
+
 	/**
-	 * Sets the buy count.
+	 * Sets the buy count of the company.
 	 *
-	 * @param buyCount the new buy count
+	 * @param bc the new buy count of the company
 	 */
-	public void setBuyCount(double bc)
-	{
+	public void setBuyCount(double bc) {
 		buyCount = buyCount + bc;
 	}
-	
+
 	/**
-	 * Gets the sell count.
+	 * Gets the sell count of the company.
 	 *
-	 * @return the sell count
+	 * @return the sell count of the company
 	 */
-	public double getSellCount()
-	{
+	public double getSellCount() {
 		return sellCount;
 	}
-	
+
 	/**
-	 * Gets the buy count.
+	 * Gets the buy count of the company.
 	 *
-	 * @return the buy count
+	 * @return the buy count of the company
 	 */
-	public double getBuyCount()
-	{
+	public double getBuyCount() {
 		return buyCount;
 	}
-	
+
 	/**
-	 * Clear count.
+	 * Clear count of the company.
 	 */
-	public void clearFinalCount()
-	{
+	public void clearFinalCount() {
 		finalSellCount = 0;
 		finalBuyCount = 0;
 	}
-	
-	public void clearBuyCount()
-	{
+
+	/**
+	 * Clear buy count of the company.
+	 */
+	public void clearBuyCount() {
 		buyCount = 0;
 	}
-	
-	public void clearSellCount()
-	{
+
+	/**
+	 * Clear sell count of the company.
+	 */
+	public void clearSellCount() {
 		sellCount = 0;
 	}
-	
-	public void setCompanyTrend()
-	{
-		int end = shareValueList.size()-1;
-		if(shareValueList.size()>=3)
-		{
-			if(shareValueList.get(end) > shareValueList.get(end-1) && shareValueList.get(end-1) > shareValueList.get(end-2))
-				trend =  "^";
-			if(shareValueList.get(end) < shareValueList.get(end-1) && shareValueList.get(end-1) < shareValueList.get(end-2))
-				trend =  "v";
+
+	/**
+	 * Sets the company trend.
+	 */
+	public void setCompanyTrend() {
+		int end = shareValueList.size() - 1;
+		if (shareValueList.size() >= 3) {
+			if (shareValueList.get(end) > shareValueList.get(end - 1)
+					&& shareValueList.get(end - 1) > shareValueList.get(end - 2))
+				trend = "^";
+			if (shareValueList.get(end) < shareValueList.get(end - 1)
+					&& shareValueList.get(end - 1) < shareValueList.get(end - 2))
+				trend = "v";
 		} else {
 			trend = "-";
 		}
 	}
-	
-	public String getCompanyTrend()
-	{
+
+	/**
+	 * Gets the company trend.
+	 *
+	 * @return the company trend
+	 */
+	public String getCompanyTrend() {
 		return trend;
 	}
-	
-	public void setFinalCount()
-	{
+
+	/**
+	 * Sets the final count of the company.
+	 */
+	public void setFinalCount() {
 		finalBuyCount = getBuyCount();
 		finalSellCount = getSellCount();
 	}
-	
-	public double getFinalSellCount()
-	{
+
+	/**
+	 * Gets the final sell count of the company.
+	 *
+	 * @return the final sell count of the company
+	 */
+	public double getFinalSellCount() {
 		return finalSellCount;
 	}
-	
-	public double getFinalBuyCount()
-	{
+
+	/**
+	 * Gets the final buy count of the company.
+	 *
+	 * @return the final buy count of the company
+	 */
+	public double getFinalBuyCount() {
 		return finalBuyCount;
 	}
-	
-	public void triggerEvent()
-	{
+
+	/**
+	 * Trigger event.
+	 */
+	public void triggerEvent() {
 		eventTrigger = true;
 	}
-	
-	public void endEvent()
-	{
+
+	/**
+	 * End event.
+	 */
+	public void endEvent() {
 		eventTrigger = false;
 		eventEnd = "";
 	}
-	
-	public boolean isEventTriggered()
-	{
+
+	/**
+	 * Checks if event is triggered.
+	 *
+	 * @return true, if is event triggered
+	 */
+	public boolean isEventTriggered() {
 		return eventTrigger;
 	}
+<<<<<<< HEAD
 	
 	public boolean randomBool()
 	{
@@ -319,19 +354,59 @@ public class Company {
 	
 	public void setEventEnd(String end)
 	{
+=======
+
+	/**
+	 * Generate random boolean is the event is not triggered.
+	 *
+	 * @return orderType if the event is triggered, random boolean otherwise
+	 */
+	public boolean randomBool() {
+		if (isEventTriggered())
+			return orderType;
+		else
+			return rand.nextBoolean();
+	}
+
+	/**
+	 * Sets the order type of the company.
+	 *
+	 * @param type the new order type of the company
+	 */
+	public void setOrderType(String type) {
+		if (type.contains("buy"))
+			orderType = true;
+		if (type.contains("sell"))
+			orderType = false;
+	}
+
+	/**
+	 * Sets the event end.
+	 *
+	 * @param end the new event end
+	 */
+	public void setEventEnd(String end) {
+>>>>>>> 3f769d6a5d2cac77dac516b341ada6db1b8ab80c
 		eventEnd = end;
 	}
-	
-	public String getEventEnd()
-	{
+
+	/**
+	 * Gets the event end.
+	 *
+	 * @return the event end
+	 */
+	public String getEventEnd() {
 		return eventEnd;
 	}
-	
-	public void event(String type)
-	{
-		if(type.equalsIgnoreCase(getName()) || type.equalsIgnoreCase(getShareType()) || type.equalsIgnoreCase("UK"))
+
+	/**
+	 * Triggers an event.
+	 *
+	 * @param type the type
+	 */
+	public void event(String type) {
+		if (type.equalsIgnoreCase(getName()) || type.equalsIgnoreCase(getShareType()) || type.equalsIgnoreCase("UK"))
 			triggerEvent();
 	}
-	
-	
+
 }

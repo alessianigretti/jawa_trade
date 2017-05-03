@@ -1,4 +1,3 @@
-
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -10,18 +9,14 @@ import java.util.*;
 
 import com.opencsv.CSVReader;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class TradingExchange.
+ * The Class TradingExchange is responsible for buying and selling in the stock
+ * market.
+ * 
+ * @author Jonathan Magbadelo
  */
-
-/**
- * @author jon
- *
- */
-
 public class TradingExchange {
-	
+
 	private LinkedList<Company> companies;
 	private LinkedList<Trader> traders;
 	private SmartTrader smartTrader;
@@ -39,13 +34,11 @@ public class TradingExchange {
 	private DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMM d yyyy");
 	private DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("H:m");
 	private int nextEvent = 0;
-	
-	
+
 	/**
 	 * Instantiates a new trading exchange.
 	 */
-	public TradingExchange()
-	{
+	public TradingExchange() {
 		currentDate = LocalDate.parse("Feb 6 2017", dateFormatter);
 		currentTime = LocalTime.parse("09:00", timeFormatter);
 		companies = new LinkedList();
@@ -63,234 +56,206 @@ public class TradingExchange {
 		shareIndexList.add(getShareIndex());
 		traders.add(new RandomTrader(3));
 	}
-	
+
 	/**
-	 * Gets the x chart.
+	 * Generates and returns the x axis for the chart.
 	 *
-	 * @return the x chart
+	 * @return the x axis for the chart
 	 */
-	public LinkedList<Integer> getXChart()
-	{
-		//placeholder
+	public LinkedList<Integer> getXChart() {
+		// placeholder
 		LinkedList<Integer> x = new LinkedList<Integer>();
-		for (int i = 1; i <= 2880; i++)
-		{
+		for (int i = 1; i <= 2880; i++) {
 			x.add(i);
 		}
 		return x;
 	}
-	
+
 	/**
 	 * Gets the smart trader.
 	 *
 	 * @return the smart trader
 	 */
-	public SmartTrader getSmartTrader()
-	{
+	public SmartTrader getSmartTrader() {
 		return smartTrader;
 	}
-	
+
 	/**
-	 * Update share index.
+	 * Updates the share index.
 	 */
-	public void updateShareIndex()
-	{
+	public void updateShareIndex() {
 		shareIndex = 0;
-		for(int i = 0; i<companies.size(); i++)
-		{
-			shareIndex =  shareIndex + companies.get(i).getCurrentShareValue();
+		for (int i = 0; i < companies.size(); i++) {
+			shareIndex = shareIndex + companies.get(i).getCurrentShareValue();
 		}
-		shareIndex = shareIndex/companies.size();
+		shareIndex = shareIndex / companies.size();
 		shareIndexList.add(shareIndex);
 	}
-	
+
 	/**
 	 * Gets the share index.
 	 *
 	 * @return the share index
 	 */
-	public double getShareIndex()
-	{
+	public double getShareIndex() {
 		return shareIndex;
 	}
-	
+
 	/**
 	 * Sets the current client.
 	 *
-	 * @param client the new current client
+	 * @param client
+	 *            the new current client
 	 */
-	public void setCurrentClient(Client client)
-	{
+	public void setCurrentClient(Client client) {
 		currentClient = client;
 	}
-	
+
 	/**
 	 * Gets the current client.
 	 *
 	 * @return the current client
 	 */
-	public Client getCurrentClient()
-	{
+	public Client getCurrentClient() {
 		return currentClient;
 	}
-	
+
 	/**
 	 * Gets the events.
 	 *
 	 * @return the events
 	 */
-	public LinkedList<Events> getEvents()
-	{
+	public LinkedList<Events> getEvents() {
 		return events;
 	}
-	
+
 	/**
 	 * Gets the companies.
 	 *
 	 * @return the companies
 	 */
-	public LinkedList<Company> getCompanies()
-	{
+	public LinkedList<Company> getCompanies() {
 		return companies;
 	}
-	
+
 	/**
 	 * Gets the traders.
 	 *
 	 * @return the traders
 	 */
-	public LinkedList<Trader> getTraders()
-	{
+	public LinkedList<Trader> getTraders() {
 		return traders;
 	}
-	
+
 	/**
 	 * Gets the time.
 	 *
 	 * @return the time
 	 */
-	public String getTime()
-	{
+	public String getTime() {
 		return String.valueOf(currentTime);
 	}
-	
+
 	/**
 	 * Gets the date.
 	 *
 	 * @return the date
 	 */
-	public String getDate()
-	{
+	public String getDate() {
 		return String.valueOf(currentDate);
 	}
-	
+
 	/**
-	 * Update date time.
+	 * Updates the date and time.
 	 */
-	public void updateDateTime()
-	{
+	public void updateDateTime() {
 		currentTime = currentTime.plusMinutes(15);
-		if(String.valueOf(currentTime).equals("00:00"))
+		if (String.valueOf(currentTime).equals("00:00"))
 			currentDate = currentDate.plusDays(1);
 		checkEvent();
 		endEvents();
 	}
-	
+
 	/**
-	 * Trade sim.
+	 * Selects the status of the market.
+	 *
+	 * @return the status of the market
 	 */
-	
-	public String marketStatus()
-	{
-		int end = shareIndexList.size()-1;
-		if(shareIndexList.size()>=3)
-		{
-			if(shareIndexList.get(end) > shareIndexList.get(end-1) && shareIndexList.get(end-1) > shareIndexList.get(end-2))
+	public String marketStatus() {
+		int end = shareIndexList.size() - 1;
+		if (shareIndexList.size() >= 3) {
+			if (shareIndexList.get(end) > shareIndexList.get(end - 1)
+					&& shareIndexList.get(end - 1) > shareIndexList.get(end - 2))
 				return "Bull";
-			if(shareIndexList.get(end) < shareIndexList.get(end-1) && shareIndexList.get(end-1) < shareIndexList.get(end-2))
+			if (shareIndexList.get(end) < shareIndexList.get(end - 1)
+					&& shareIndexList.get(end - 1) < shareIndexList.get(end - 2))
 				return "Bear";
 		}
 		return "Undefined";
 	}
-	
-	public void tradeSim()
-	{
-		if(!isMarketClosed())
-		{
-			//System.out.println("zero " + companies.get(0).getBuyCount());
-			//System.out.println("zero " + companies.get(0).getSellCount());
-			for(int i = 1; i<traders.size(); i++)
-			{
-				for(int j = 0; j<traders.get(i).getClients().size(); j++)
-				{
-					double sellAmountMax =   traders.get(i).getSellRate() * traders.get(i).getClients().get(j).getCashHolding();
-					double buyAmountMax  =  traders.get(i).getBuyRate() * traders.get(i).getClients().get(j).getCashHolding();
+
+	/**
+	 * Starts a simulation.
+	 */
+	public void tradeSim() {
+		if (!isMarketClosed()) {
+			for (int i = 1; i < traders.size(); i++) {
+				for (int j = 0; j < traders.get(i).getClients().size(); j++) {
+					double sellAmountMax = traders.get(i).getSellRate()
+							* traders.get(i).getClients().get(j).getCashHolding();
+					double buyAmountMax = traders.get(i).getBuyRate()
+							* traders.get(i).getClients().get(j).getCashHolding();
 					double sellAmount = 0;
 					double buyAmount = 0;
-					while(sellAmount <= sellAmountMax && buyAmount <= buyAmountMax)
-					{
-							int randomCompanyIndex = rand.nextInt(companies.size());
-							if(companies.get(randomCompanyIndex).getRisk().equalsIgnoreCase(traders.get(i).getClients().get(j).getRisk()) || traders.get(i).getClients().get(j).getRisk().equalsIgnoreCase("High"))
-							{
-								double amount = traders.get(i).newOrder(traders.get(i).getClients().get(j), companies.get(randomCompanyIndex));
-								if(amount < 0)
-									sellAmount = sellAmount + Math.abs(amount);
-								else
-									buyAmount = buyAmount + amount;
-							}	
+					while (sellAmount <= sellAmountMax && buyAmount <= buyAmountMax) {
+						int randomCompanyIndex = rand.nextInt(companies.size());
+						if (companies.get(randomCompanyIndex).getRisk()
+								.equalsIgnoreCase(traders.get(i).getClients().get(j).getRisk())
+								|| traders.get(i).getClients().get(j).getRisk().equalsIgnoreCase("High")) {
+							double amount = traders.get(i).newOrder(traders.get(i).getClients().get(j),
+									companies.get(randomCompanyIndex));
+							if (amount < 0)
+								sellAmount = sellAmount + Math.abs(amount);
+							else
+								buyAmount = buyAmount + amount;
+						}
 					}
 				}
 			}
-			//System.out.println("Before order buy " + companies.get(0).getBuyCount());
-			//System.out.println("Before order sell " + companies.get(0).getSellCount());
-			
-			for(int i = 0; i<companies.size(); i++)
-			{
-				companies.get(i).updateShareValue(companies.get(i).getBuyCount()+companies.get(i).getSellCount());
+
+			for (int i = 0; i < companies.size(); i++) {
+				companies.get(i).updateShareValue(companies.get(i).getBuyCount() + companies.get(i).getSellCount());
 				companies.get(i).setFinalCount();
 			}
-			//System.out.println("Before order finalbuy " + companies.get(0).getFinalBuyCount());
-			//System.out.println("Before order finalsell " + companies.get(0).getFinalSellCount());
-			for(int i = 1; i<traders.size(); i++)
-			{
-				for(int j = 0; j<traders.get(i).getOrderList().size(); j++)
-				{
+			for (int i = 1; i < traders.size(); i++) {
+				for (int j = 0; j < traders.get(i).getOrderList().size(); j++) {
 					((RandomTrader) traders.get(i)).completeOrder(traders.get(i).getOrderList().get(j));
 				}
-				
+
 				((RandomTrader) traders.get(i)).switchMode(Math.random());
 				traders.get(i).addOrderHistory();
 			}
-			//System.out.println("After order buy " + companies.get(0).getBuyCount());
-			//System.out.println("After order sell " + companies.get(0).getSellCount());
-			
-			for(int i = 0; i<companies.size(); i++)
-			{
-				if(companies.get(i).getBuyCount() > Math.abs(companies.get(i).getSellCount()))
-				{
-						companies.get(i).clearBuyCount();	
-				}	
-				else
-				{
-						companies.get(i).clearSellCount();
+
+			for (int i = 0; i < companies.size(); i++) {
+				if (companies.get(i).getBuyCount() > Math.abs(companies.get(i).getSellCount())) {
+					companies.get(i).clearBuyCount();
+				} else {
+					companies.get(i).clearSellCount();
 				}
-				
-				for(int a = 1; a<traders.size(); a++)
-				{
-					for(int b = 1; b<traders.get(a).getOrderList().size(); b++)
-					{
-						if(traders.get(a).getOrderList().get(b).isFullyCompleted() == false)
-						{
-							if(traders.get(a).getOrderList().get(b).getOrderType() == true && companies.get(i).getSellCount() != 0)
-							{
-								traders.get(a).getOrderList().get(b).getClient().newShare(1, companies.get(i) );
+
+				for (int a = 1; a < traders.size(); a++) {
+					for (int b = 1; b < traders.get(a).getOrderList().size(); b++) {
+						if (traders.get(a).getOrderList().get(b).isFullyCompleted() == false) {
+							if (traders.get(a).getOrderList().get(b).getOrderType() == true
+									&& companies.get(i).getSellCount() != 0) {
+								traders.get(a).getOrderList().get(b).getClient().newShare(1, companies.get(i));
 								companies.get(i).setSellCount(-1);
 							}
 
-							if(traders.get(a).getOrderList().get(b).getOrderType() == false && companies.get(i).getBuyCount() != 0)
-							{
-									traders.get(a).getOrderList().get(b).getClient().newShare(-1, companies.get(i) );
-									companies.get(i).setBuyCount(-1);
+							if (traders.get(a).getOrderList().get(b).getOrderType() == false
+									&& companies.get(i).getBuyCount() != 0) {
+								traders.get(a).getOrderList().get(b).getClient().newShare(-1, companies.get(i));
+								companies.get(i).setBuyCount(-1);
 							}
 						}
 					}
@@ -299,16 +264,14 @@ public class TradingExchange {
 				companies.get(i).clearFinalCount();
 				companies.get(i).clearBuyCount();
 				companies.get(i).clearSellCount();
-				if(isCompanyTradable(companies.get(i)) == false)
-				{
-					for(int j = 0; j<traders.size(); j++)
-					{
-						for(int k = 0; k<traders.get(j).getClients().size(); k++)
-						{
-							for(int x = 0; x<traders.get(j).getClients().get(k).getPortfolio().size(); x++)
-							{
-								if(traders.get(j).getClients().get(k).getPortfolio().get(x).getCompanyName().equals(companies.get(i).getName()))
-									traders.get(j).getClients().get(k).getPortfolio().remove(traders.get(j).getClients().get(k).getPortfolio().get(x));
+				if (isCompanyTradable(companies.get(i)) == false) {
+					for (int j = 0; j < traders.size(); j++) {
+						for (int k = 0; k < traders.get(j).getClients().size(); k++) {
+							for (int x = 0; x < traders.get(j).getClients().get(k).getPortfolio().size(); x++) {
+								if (traders.get(j).getClients().get(k).getPortfolio().get(x).getCompanyName()
+										.equals(companies.get(i).getName()))
+									traders.get(j).getClients().get(k).getPortfolio()
+											.remove(traders.get(j).getClients().get(k).getPortfolio().get(x));
 							}
 							traders.get(j).getClients().get(k).calculateNetWorth();
 						}
@@ -322,12 +285,16 @@ public class TradingExchange {
 		checkShareNum();
 		updateDateTime();
 	}
-	
+
 	/**
-	 * Sets the up sim.
+	 * Sets up the simulation.
 	 */
+<<<<<<< HEAD
 	private void setUpSim()
 	{
+=======
+	public void setUpSim() {
+>>>>>>> 3f769d6a5d2cac77dac516b341ada6db1b8ab80c
 		try {
 			setUpCompanies(new CSVReader(new FileReader("companies.csv")));
 		} catch (FileNotFoundException e) {
@@ -345,54 +312,55 @@ public class TradingExchange {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
-	 * Sets the up companies.
+	 * Sets up the companies.
+	 *
+	 * @param reader the new companies file
 	 */
-	public void setUpCompanies(CSVReader reader)
-	{
+	public void setUpCompanies(CSVReader reader) {
 		currentCompaniesFile = reader;
 		String[] myEntries;
-		     try {
-				String[] next = reader.readNext();
-				while(next != null)
-				{
-					myEntries = next;
-					Company company = new Company(myEntries[0],myEntries[1],Double.valueOf(myEntries[2]),Integer.valueOf(myEntries[3]));
-					companies.add(company);
-					next = reader.readNext();
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
+		try {
+			String[] next = reader.readNext();
+			while (next != null) {
+				myEntries = next;
+				Company company = new Company(myEntries[0], myEntries[1], Double.valueOf(myEntries[2]),
+						Integer.valueOf(myEntries[3]));
+				companies.add(company);
+				next = reader.readNext();
 			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
-	
 
-	public void setUpClients(CSVReader reader)
-	{
+	/**
+	 * Sets up the clients.
+	 *
+	 * @param reader the new clients file
+	 */
+	public void setUpClients(CSVReader reader) {
 		currentClientsFile = reader;
 		int index = 1;
 		String[] myEntries;
-	     try {
+		try {
 			String[] next = reader.readNext();
-			while(next != null)
-			{
+			while (next != null) {
 				myEntries = next;
-				Client client = new Client(myEntries[0],Double.valueOf(myEntries[1]));
-				for(int i = 2; i<=next.length-1; i++ )
-				{
-					client.initialShare(Integer.valueOf(myEntries[i]), companies.get(i-2));
+				Client client = new Client(myEntries[0], Double.valueOf(myEntries[1]));
+				for (int i = 2; i <= next.length - 1; i++) {
+					client.initialShare(Integer.valueOf(myEntries[i]), companies.get(i - 2));
 				}
 				client.calculateNetWorth();
-				if(client.getName().equals("Norbert DaVinci") || client.getName().equals("Justine Thyme") )
+				if (client.getName().equals("Norbert DaVinci") || client.getName().equals("Justine Thyme"))
 					smartTrader.addClient(client);
-				else
-				{
+				else {
 					traders.get(index).addClient(client);
 					index++;
-					if(index > numOfTraders)
+					if (index > numOfTraders)
 						index = 1;
-					
+
 				}
 				next = reader.readNext();
 			}
@@ -400,91 +368,129 @@ public class TradingExchange {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
-	 * Sets the up random traders.
+	 * Sets up the random traders.
+	 *
+	 * @param num the new number of random traders
 	 */
-	public void setUpRandomTraders(int num)
-	{
+	public void setUpRandomTraders(int num) {
 		numOfTraders = num;
-		for(int i = 0; i<numOfTraders; i++)
-		{
+		for (int i = 0; i < numOfTraders; i++) {
 			RandomTrader randomTrader = new RandomTrader(i);
 			traders.add(randomTrader);
 		}
 	}
+<<<<<<< HEAD
 	
 	private int getNumOfTraders()
 	{
+=======
+
+	/**
+	 * Gets the number of traders.
+	 *
+	 * @return the number of traders
+	 */
+	public int getNumOfTraders() {
+>>>>>>> 3f769d6a5d2cac77dac516b341ada6db1b8ab80c
 		return numOfTraders;
 	}
-	
+
 	/**
-	 * Sets the up events.
+	 * Sets up the events.
+	 *
+	 * @param reader the new events file
 	 */
-	public void setUpEvents(CSVReader reader)
-	{
+	public void setUpEvents(CSVReader reader) {
 		currentEventsFile = reader;
 		String[] myEntries;
-		     try {
-				String[] next = reader.readNext();
-				while(next != null)
-				{
-					myEntries = next;
-					Events event = new Events(myEntries[1],myEntries[0],myEntries[2],myEntries[3],myEntries[4],myEntries[5]);
-					events.add(event);
-					next = reader.readNext();
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
+		try {
+			String[] next = reader.readNext();
+			while (next != null) {
+				myEntries = next;
+				Events event = new Events(myEntries[1], myEntries[0], myEntries[2], myEntries[3], myEntries[4],
+						myEntries[5]);
+				events.add(event);
+				next = reader.readNext();
 			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
-	
+
 	/**
+<<<<<<< HEAD
 	 * Check share num will go soon.
 	 */
 	private void checkShareNum()
 	{
+=======
+	 * Checks the shares number.
+	 */
+	public void checkShareNum() {
+>>>>>>> 3f769d6a5d2cac77dac516b341ada6db1b8ab80c
 		double count = 0;
-		for(int i = 0; i<traders.size(); i++)
-		{
-			for(int j = 0; j<traders.get(i).getClients().size(); j++)
-			{
-				for(int k = 0; k<traders.get(i).getClients().get(j).getPortfolio().size(); k++)
-				{
-					if(companies.get(4).getName().equals(traders.get(i).getClients().get(j).getPortfolio().get(k).getCompanyName()))
+		for (int i = 0; i < traders.size(); i++) {
+			for (int j = 0; j < traders.get(i).getClients().size(); j++) {
+				for (int k = 0; k < traders.get(i).getClients().get(j).getPortfolio().size(); k++) {
+					if (companies.get(4).getName()
+							.equals(traders.get(i).getClients().get(j).getPortfolio().get(k).getCompanyName()))
 						count = count + traders.get(i).getClients().get(j).getPortfolio().get(k).getSize();
 				}
 			}
 		}
-		System.out.println(count);
 	}
+<<<<<<< HEAD
 	
 	private boolean isCompanyTradable(Company company)
 	{
 		if(company.getCurrentShareValue() < 0.01)
+=======
+
+	/**
+	 * Checks if the company is tradable.
+	 *
+	 * @param company the company
+	 * @return true, if company is tradable
+	 */
+	public boolean isCompanyTradable(Company company) {
+		if (company.getCurrentShareValue() < 0.01)
+>>>>>>> 3f769d6a5d2cac77dac516b341ada6db1b8ab80c
 			return false;
-		
+
 		return true;
 	}
+<<<<<<< HEAD
 	
 	private boolean isMarketClosed()
 	{
 		if(currentDate.getDayOfWeek().equals(DayOfWeek.SATURDAY))
+=======
+
+	/**
+	 * Checks if the market is closed.
+	 *
+	 * @return true, if the market is closed
+	 */
+	public boolean isMarketClosed() {
+		if (currentDate.getDayOfWeek().equals(DayOfWeek.SATURDAY))
+>>>>>>> 3f769d6a5d2cac77dac516b341ada6db1b8ab80c
 			return true;
-		if(currentDate.getDayOfWeek().equals(DayOfWeek.SUNDAY))
+		if (currentDate.getDayOfWeek().equals(DayOfWeek.SUNDAY))
 			return true;
-		if(currentDate.toString().equals("2017-12-25"))
+		if (currentDate.toString().equals("2017-12-25"))
 			return true;
-		if(currentDate.toString().equals("2017-12-26"))
+		if (currentDate.toString().equals("2017-12-26"))
 			return true;
-		if(currentDate.toString().equals("2017-04-17"))
+		if (currentDate.toString().equals("2017-04-17"))
 			return true;
-		if(currentDate.toString().equals("2017-04-14"))
+		if (currentDate.toString().equals("2017-04-14"))
 			return true;
-		
+
 		return false;
 	}
+<<<<<<< HEAD
 	
 	private void checkEvent()
 	{
@@ -492,26 +498,42 @@ public class TradingExchange {
 		{
 			for(int i = 0; i<companies.size(); i++)
 			{
+=======
+
+	/**
+	 * Checks the event.
+	 */
+	public void checkEvent() {
+		if (getDate().equals(String.valueOf(events.get(nextEvent).getDate()))
+				&& getTime().equals(String.valueOf(events.get(nextEvent).getTime()))) {
+			for (int i = 0; i < companies.size(); i++) {
+>>>>>>> 3f769d6a5d2cac77dac516b341ada6db1b8ab80c
 				companies.get(i).event(events.get(nextEvent).getEventType()[1]);
-				if(companies.get(i).isEventTriggered())
-				{
+				if (companies.get(i).isEventTriggered()) {
 					companies.get(i).setOrderType(events.get(nextEvent).getEventType()[0]);
-					companies.get(i).setEventEnd(events.get(nextEvent).getEventType()[2] + " " + String.valueOf(events.get(nextEvent).getTime()));
+					companies.get(i).setEventEnd(events.get(nextEvent).getEventType()[2] + " "
+							+ String.valueOf(events.get(nextEvent).getTime()));
 				}
-					
+
 			}
 			nextEvent++;
 		}
-			
+
 	}
+<<<<<<< HEAD
 	
 	private void endEvents()
 	{
+=======
+
+	/**
+	 * End the events.
+	 */
+	public void endEvents() {
+>>>>>>> 3f769d6a5d2cac77dac516b341ada6db1b8ab80c
 		String currentDateTime = getDate() + " " + getTime();
-		for(int i = 0; i<companies.size(); i++)
-		{
-			if(companies.get(i).getEventEnd().equals(currentDateTime))
-			{
+		for (int i = 0; i < companies.size(); i++) {
+			if (companies.get(i).getEventEnd().equals(currentDateTime)) {
 				companies.get(i).endEvent();
 			}
 		}
