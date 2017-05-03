@@ -11,7 +11,7 @@ public class Company {
 
 	private boolean eventTrigger = false;
 	private String eventEnd = "";
-	private boolean orderType;
+	private boolean orderType = false;
 	private String name;
 	private int shareCount;
 	private double netWorth, currentShareValue;
@@ -329,6 +329,32 @@ public class Company {
 	public boolean isEventTriggered() {
 		return eventTrigger;
 	}
+<<<<<<< HEAD
+	
+	public boolean randomBool()
+	{
+		if(isEventTriggered())
+			return getOrderType();
+		else
+			return rand.nextBoolean();
+	}
+	
+	public void setOrderType(String type)
+	{
+		if(type.contains("buy") || type.contains("Buy") )
+			orderType = true;
+		if(type.contains("sell") || type.contains("Sell") )
+			orderType = false;
+	}
+	
+	public boolean getOrderType()
+	{
+		return orderType;
+	}
+	
+	public void setEventEnd(String end)
+	{
+=======
 
 	/**
 	 * Generate random boolean is the event is not triggered.
@@ -360,6 +386,7 @@ public class Company {
 	 * @param end the new event end
 	 */
 	public void setEventEnd(String end) {
+>>>>>>> 3f769d6a5d2cac77dac516b341ada6db1b8ab80c
 		eventEnd = end;
 	}
 

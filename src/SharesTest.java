@@ -5,7 +5,7 @@ import org.junit.Test;
 public class SharesTest {
 
 	public int size = 1;
-	public Company company = new Company("JAWA", "FOOD", 1, 1);
+	public Company company = new Company("JAWA", "Food", 1, 1);
 	public Shares shares = new Shares(size, company);
 	
 	@Test
@@ -18,10 +18,6 @@ public class SharesTest {
 		assertEquals(company.getCurrentShareValue(), shares.getPrice(), 0.001);
 	}
 	
-	@Test
-	public void testGetRisk() {
-		assertTrue(false);
-	}
 	
 	@Test
 	public void testGetShareValue() {
@@ -31,11 +27,6 @@ public class SharesTest {
 	@Test
 	public void testGetSize() {
 		assertEquals(size, shares.getSize(), 0.001);
-	}
-	
-	@Test
-	public void testSetRisk() {
-		assertTrue(false);
 	}
 	
 	@Test

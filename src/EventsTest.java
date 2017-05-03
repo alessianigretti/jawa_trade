@@ -9,7 +9,7 @@ import org.junit.Test;
 
 public class EventsTest {
 
-	Events events = new Events("Event Text", "Jan 1 2017", "09:00", "Action", "Type", "Duration");
+	Events events = new Events("Event Text", "Jan 1 2017", "09:00", "Action", "Type", "2");
 	
 	@Test
 	public void testGetDate() {
@@ -24,7 +24,11 @@ public class EventsTest {
 	
 	@Test
 	public void testGetEventType() {
-		assertArrayEquals(new String[]{"Action", "Type", "Duration"}, events.getEventType());
+		String[] type = new String[3];
+		type[0] = "Action";
+		type[1] = "Type";
+		type[2] = "2017-01-03";
+		assertArrayEquals(type, events.getEventType());
 	}
 	
 	@Test
