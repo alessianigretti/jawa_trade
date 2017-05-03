@@ -35,6 +35,12 @@ public class Company {
 	 */
 	public enum Risk {
 		Low, High
+	;
+	}
+
+	public static Object values() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	private Type shareType;
@@ -329,9 +335,8 @@ public class Company {
 	public boolean isEventTriggered() {
 		return eventTrigger;
 	}
-<<<<<<< HEAD
 	
-	public boolean randomBool()
+	/*public boolean randomBool()
 	{
 		if(isEventTriggered())
 			return getOrderType();
@@ -347,14 +352,11 @@ public class Company {
 			orderType = false;
 	}
 	
-	public boolean getOrderType()
-	{
-		return orderType;
-	}
+	
 	
 	public void setEventEnd(String end)
 	{
-=======
+	}
 
 	/**
 	 * Generate random boolean is the event is not triggered.
@@ -379,6 +381,11 @@ public class Company {
 		if (type.contains("sell"))
 			orderType = false;
 	}
+	
+	public boolean getOrderType()
+	{
+		return orderType;
+	}
 
 	/**
 	 * Sets the event end.
@@ -386,7 +393,6 @@ public class Company {
 	 * @param end the new event end
 	 */
 	public void setEventEnd(String end) {
->>>>>>> 3f769d6a5d2cac77dac516b341ada6db1b8ab80c
 		eventEnd = end;
 	}
 

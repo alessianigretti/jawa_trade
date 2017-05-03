@@ -289,12 +289,8 @@ public class TradingExchange {
 	/**
 	 * Sets up the simulation.
 	 */
-<<<<<<< HEAD
-	private void setUpSim()
-	{
-=======
+	
 	public void setUpSim() {
->>>>>>> 3f769d6a5d2cac77dac516b341ada6db1b8ab80c
 		try {
 			setUpCompanies(new CSVReader(new FileReader("companies.csv")));
 		} catch (FileNotFoundException e) {
@@ -381,11 +377,6 @@ public class TradingExchange {
 			traders.add(randomTrader);
 		}
 	}
-<<<<<<< HEAD
-	
-	private int getNumOfTraders()
-	{
-=======
 
 	/**
 	 * Gets the number of traders.
@@ -393,7 +384,6 @@ public class TradingExchange {
 	 * @return the number of traders
 	 */
 	public int getNumOfTraders() {
->>>>>>> 3f769d6a5d2cac77dac516b341ada6db1b8ab80c
 		return numOfTraders;
 	}
 
@@ -420,16 +410,9 @@ public class TradingExchange {
 	}
 
 	/**
-<<<<<<< HEAD
 	 * Check share num will go soon.
 	 */
-	private void checkShareNum()
-	{
-=======
-	 * Checks the shares number.
-	 */
 	public void checkShareNum() {
->>>>>>> 3f769d6a5d2cac77dac516b341ada6db1b8ab80c
 		double count = 0;
 		for (int i = 0; i < traders.size(); i++) {
 			for (int j = 0; j < traders.get(i).getClients().size(); j++) {
@@ -441,13 +424,7 @@ public class TradingExchange {
 			}
 		}
 	}
-<<<<<<< HEAD
 	
-	private boolean isCompanyTradable(Company company)
-	{
-		if(company.getCurrentShareValue() < 0.01)
-=======
-
 	/**
 	 * Checks if the company is tradable.
 	 *
@@ -456,17 +433,11 @@ public class TradingExchange {
 	 */
 	public boolean isCompanyTradable(Company company) {
 		if (company.getCurrentShareValue() < 0.01)
->>>>>>> 3f769d6a5d2cac77dac516b341ada6db1b8ab80c
 			return false;
 
 		return true;
 	}
-<<<<<<< HEAD
 	
-	private boolean isMarketClosed()
-	{
-		if(currentDate.getDayOfWeek().equals(DayOfWeek.SATURDAY))
-=======
 
 	/**
 	 * Checks if the market is closed.
@@ -475,7 +446,6 @@ public class TradingExchange {
 	 */
 	public boolean isMarketClosed() {
 		if (currentDate.getDayOfWeek().equals(DayOfWeek.SATURDAY))
->>>>>>> 3f769d6a5d2cac77dac516b341ada6db1b8ab80c
 			return true;
 		if (currentDate.getDayOfWeek().equals(DayOfWeek.SUNDAY))
 			return true;
@@ -490,50 +460,37 @@ public class TradingExchange {
 
 		return false;
 	}
-<<<<<<< HEAD
 	
-	private void checkEvent()
-	{
-		if(getDate().equals(String.valueOf(events.get(nextEvent).getDate())) && getTime().equals(String.valueOf(events.get(nextEvent).getTime())))
-		{
-			for(int i = 0; i<companies.size(); i++)
-			{
-=======
 
 	/**
 	 * Checks the event.
 	 */
 	public void checkEvent() {
-		if (getDate().equals(String.valueOf(events.get(nextEvent).getDate()))
-				&& getTime().equals(String.valueOf(events.get(nextEvent).getTime()))) {
-			for (int i = 0; i < companies.size(); i++) {
->>>>>>> 3f769d6a5d2cac77dac516b341ada6db1b8ab80c
+		if (getDate().equals(String.valueOf(events.get(nextEvent).getDate())) && getTime().equals(String.valueOf(events.get(nextEvent).getTime()))) {
+			for (int i = 0; i < companies.size(); i++) 
+			{
 				companies.get(i).event(events.get(nextEvent).getEventType()[1]);
-				if (companies.get(i).isEventTriggered()) {
+				if (companies.get(i).isEventTriggered()) 
+				{
 					companies.get(i).setOrderType(events.get(nextEvent).getEventType()[0]);
 					companies.get(i).setEventEnd(events.get(nextEvent).getEventType()[2] + " "
-							+ String.valueOf(events.get(nextEvent).getTime()));
+					+ String.valueOf(events.get(nextEvent).getTime()));
 				}
-
 			}
 			nextEvent++;
 		}
 
 	}
-<<<<<<< HEAD
-	
-	private void endEvents()
-	{
-=======
-
 	/**
 	 * End the events.
 	 */
-	public void endEvents() {
->>>>>>> 3f769d6a5d2cac77dac516b341ada6db1b8ab80c
+	public void endEvents() 
+	{
 		String currentDateTime = getDate() + " " + getTime();
-		for (int i = 0; i < companies.size(); i++) {
-			if (companies.get(i).getEventEnd().equals(currentDateTime)) {
+		for (int i = 0; i < companies.size(); i++) 
+		{
+			if (companies.get(i).getEventEnd().equals(currentDateTime)) 
+			{
 				companies.get(i).endEvent();
 			}
 		}
