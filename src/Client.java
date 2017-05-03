@@ -205,9 +205,11 @@ public class Client
 			{
 				if(portfolio.get(i).getSize() == 0)
 					return false;
+				else
+					return true;
 			}
 		}
-		return true;
+		return false;
 	}
 	
 	public double shareSize(Company company)

@@ -34,7 +34,6 @@ public class Events {
 		this.eventText = eventText;
 		this.date = LocalDate.parse(eventDate, dateFormatter);
 		this.time = LocalTime.parse(eventTime, timeFormatter);
-		System.out.println(time);
 		eventType[0] = action;
 		eventType[1] = type;
 		eventType[2] = String.valueOf(date.plusDays(Integer.valueOf(duration)));

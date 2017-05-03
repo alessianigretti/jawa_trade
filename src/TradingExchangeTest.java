@@ -12,21 +12,6 @@ public class TradingExchangeTest {
 	TradingExchange tradingExchange = new TradingExchange();
 	
 	@Test
-	public void testCheckEvent() {
-		fail("Not yet implemented");
-	}
-	
-	@Test
-	public void testCheckShareNum() {
-		fail("Not yet implemented");
-	}
-	
-	@Test
-	public void testEndEvents() {
-		fail("Not yet implemented");
-	}
-	
-	@Test
 	public void testGetCompanies() {
 		assertEquals("Pear Computing", tradingExchange.getCompanies().get(0).getName());
 	}
@@ -41,7 +26,7 @@ public class TradingExchangeTest {
 	
 	@Test
 	public void testGetDate() {
-		assertEquals("2017-01-01", tradingExchange.getDate());
+		assertEquals("2017-02-06", tradingExchange.getDate());
 	}
 	
 	@Test
@@ -50,15 +35,8 @@ public class TradingExchangeTest {
 	}
 	
 	@Test
-	public void testGetAndSetNumOfTraders() {
-		assertEquals(2, tradingExchange.getNumOfTraders());
-		tradingExchange.setUpRandomTraders(3);
-		assertEquals(3, tradingExchange.getNumOfTraders());
-	}
-	
-	@Test
 	public void testGetShareIndex() {
-		fail("Not yet implemented");
+		assertEquals(2.395, tradingExchange.getShareIndex(), 0.01);
 	}
 	
 	@Test
@@ -73,7 +51,9 @@ public class TradingExchangeTest {
 	
 	@Test
 	public void testGetTraders() {
-		fail("Not yet implemented");
+		assertEquals(4, tradingExchange.getTraders().size());
+		tradingExchange.getTraders().add(new SmartTrader());
+		assertEquals(5, tradingExchange.getTraders().size());
 	}
 	
 	@Test
@@ -81,18 +61,6 @@ public class TradingExchangeTest {
 		assertEquals("1", tradingExchange.getXChart().get(0).toString());
 	}
 	
-	@Test
-	public void testIsCompanyTradable() {
-		Company company = new Company("Company", "Food", 10, 10);
-		assertTrue(tradingExchange.isCompanyTradable(company));
-		company.setCurrentShareValue(0);
-		assertFalse(tradingExchange.isCompanyTradable(company));
-	}
-	
-	@Test
-	public void testIsMarketClosed() {
-		assertFalse(tradingExchange.isMarketClosed());
-	}
 	
 	@Test
 	public void testMarketStatus() {
@@ -141,7 +109,10 @@ public class TradingExchangeTest {
 	
 	@Test
 	public void testUpdateShareIndex() {
-		fail("Not yet implemented");
+		assertEquals(2.395, tradingExchange.getShareIndex(), 0.01);
+		tradingExchange.tradeSim();
+		tradingExchange.updateShareIndex();
+		assertNotEquals(2.395, tradingExchange.getShareIndex(), 0.01);
 	}
 	
 }

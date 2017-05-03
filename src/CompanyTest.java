@@ -49,7 +49,18 @@ public class CompanyTest {
 	@Test
 	public void testEvent()
 	{
-		fail("Not yet implemented");
+		assertFalse(company.isEventTriggered());
+		company.event("Name");
+		assertTrue(company.isEventTriggered());
+		company.endEvent();
+		assertFalse(company.isEventTriggered());
+		company.event("Food");
+		assertTrue(company.isEventTriggered());
+		company.endEvent();
+		assertFalse(company.isEventTriggered());
+		company.event("Uk");
+		assertTrue(company.isEventTriggered());
+		company.endEvent();
 	}
 	
 	@Test
@@ -110,7 +121,9 @@ public class CompanyTest {
 	@Test
 	public void testGetAndSetNetWorth()
 	{
-		fail("Not yet implemented");
+		assertNotEquals(15, company.getNetWorth(), 0.01);
+		company.setNetWorth();
+		assertEquals(15, company.getNetWorth(), 0.01);
 	}
 	
 	@Test
@@ -130,7 +143,7 @@ public class CompanyTest {
 	@Test
 	public void testGetShareCount()
 	{
-		assertEquals(10, company.getShareCount(), 0.01);
+		assertEquals(15, company.getShareCount(), 0.01);
 	}
 	
 	@Test
@@ -142,7 +155,9 @@ public class CompanyTest {
 	@Test
 	public void testGetShareValueList()
 	{
-		fail("Not yet implemented");
+		assertEquals(1.0, company.getShareValueList().get(0));
+		company.setCurrentShareValue(10.0);
+		assertEquals(10.0, company.getShareValueList().get(1));
 	}
 
 	@Test
@@ -154,7 +169,13 @@ public class CompanyTest {
 	@Test
 	public void testRandomBool()
 	{
-		fail("Not yet implemented");
+		assertFalse(company.isEventTriggered());
+		company.triggerEvent();
+		assertFalse(company.getOrderType());
+		company.setOrderType("Buy");
+		assertTrue(company.isEventTriggered());
+		assertTrue(company.getOrderType());
+		assertTrue(company.randomBool());
 	}
 	
 	@Test
@@ -193,6 +214,10 @@ public class CompanyTest {
 	@Test
 	public void testUpdateShareValue()
 	{
-		fail("Not yet implemented");
+		assertEquals(1, company.getCurrentShareValue(), 0.01);
+		assertEquals(15, company.getShareCount());
+		double excess = 30;
+		company.updateShareValue(excess);
+		assertEquals(3, company.getCurrentShareValue(),0.01);
 	}
 }

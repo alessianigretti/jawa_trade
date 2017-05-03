@@ -59,6 +59,7 @@ public class TradingExchange {
 		setUpSim();
 		checkShareNum();
 		updateShareIndex();
+		System.out.println(getShareIndex());
 		shareIndexList.add(getShareIndex());
 		traders.add(new RandomTrader(3));
 	}
@@ -325,7 +326,7 @@ public class TradingExchange {
 	/**
 	 * Sets the up sim.
 	 */
-	public void setUpSim()
+	private void setUpSim()
 	{
 		try {
 			setUpCompanies(new CSVReader(new FileReader("companies.csv")));
@@ -413,7 +414,7 @@ public class TradingExchange {
 		}
 	}
 	
-	public int getNumOfTraders()
+	private int getNumOfTraders()
 	{
 		return numOfTraders;
 	}
@@ -440,9 +441,9 @@ public class TradingExchange {
 	}
 	
 	/**
-	 * Check share num.
+	 * Check share num will go soon.
 	 */
-	public void checkShareNum()
+	private void checkShareNum()
 	{
 		double count = 0;
 		for(int i = 0; i<traders.size(); i++)
@@ -459,7 +460,7 @@ public class TradingExchange {
 		System.out.println(count);
 	}
 	
-	public boolean isCompanyTradable(Company company)
+	private boolean isCompanyTradable(Company company)
 	{
 		if(company.getCurrentShareValue() < 0.01)
 			return false;
@@ -467,7 +468,7 @@ public class TradingExchange {
 		return true;
 	}
 	
-	public boolean isMarketClosed()
+	private boolean isMarketClosed()
 	{
 		if(currentDate.getDayOfWeek().equals(DayOfWeek.SATURDAY))
 			return true;
@@ -485,7 +486,7 @@ public class TradingExchange {
 		return false;
 	}
 	
-	public void checkEvent()
+	private void checkEvent()
 	{
 		if(getDate().equals(String.valueOf(events.get(nextEvent).getDate())) && getTime().equals(String.valueOf(events.get(nextEvent).getTime())))
 		{
@@ -504,7 +505,7 @@ public class TradingExchange {
 			
 	}
 	
-	public void endEvents()
+	private void endEvents()
 	{
 		String currentDateTime = getDate() + " " + getTime();
 		for(int i = 0; i<companies.size(); i++)
