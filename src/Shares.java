@@ -1,98 +1,87 @@
-// TODO: Auto-generated Javadoc
 /**
- * The Class Shares.
- *
- * @author jon
+ * The Class Shares is responsible for representing the unit of ownership of a traded company.
+ * 
+ * @author Jonathan Magbadelo
  */
-public class Shares{
+public class Shares {
 	private Company company;
 	private double currentPrice;
 	private double shareValue;
 	private double size;
-	
+
 	/**
-	 * Instantiates a new shares.
+	 * Instantiates a new share.
 	 *
-	 * @param size the size
-	 * @param company the company
+	 * @param size
+	 *            the size
+	 * @param company
+	 *            the company
 	 */
-	public Shares(double size,  Company company)
-	{
+	public Shares(double size, Company company) {
 		this.size = size;
-		this.currentPrice = company.getCurrentShareValue() ;
+		this.currentPrice = company.getCurrentShareValue();
 		this.company = company;
 		this.shareValue = currentPrice * size;
 	}
-	
+
 	/**
-	 * Update size.
+	 * Updates the size.
 	 *
-	 * @param num the num
+	 * @param num
+	 *            the extra
 	 */
-	public void updateSize(double num)
-	{
+	public void updateSize(double num) {
 		size = size + num;
-		//updateShareValue();
 	}
-	
+
 	/**
 	 * Gets the size.
 	 *
 	 * @return the size
 	 */
-	public double getSize()
-	{
+	public double getSize() {
 		return size;
 	}
-	
+
 	/**
-	 * Update price.
+	 * Updates the price.
 	 */
-	public void updatePrice()
-	{
+	public void updatePrice() {
 		this.currentPrice = company.getCurrentShareValue();
 	}
-	
+
 	/**
 	 * Gets the price.
 	 *
 	 * @return the price
 	 */
-	public double getPrice()
-	{
+	public double getPrice() {
 		return currentPrice;
 	}
-	
+
 	/**
 	 * Gets the company name.
 	 *
 	 * @return the company name
 	 */
-	public String getCompanyName()
-	{
+	public String getCompanyName() {
 		return company.getName();
 	}
-	
-	
+
 	/**
-	 * Update share value.
+	 * Updates the share value.
 	 */
-	public void updateShareValue()
-	{
-		shareValue = getSize()*getPrice();
+	public void updateShareValue() {
+		shareValue = getSize() * getPrice();
 	}
-	
+
 	/**
 	 * Gets the share value.
 	 *
 	 * @return the share value
 	 */
-	public double getShareValue()
-	{
+	public double getShareValue() {
 		return shareValue;
 	}
-	
-	
-	
 
 }

@@ -1,41 +1,39 @@
 .root {
-    -fx-text-base-color: rgb(0.0, 0.0, 0.0);
-    -fx-text-fill: -fx-text-base-color;
-
-     -dark: rgb(47.0, 52.0, 57.0);
-     -fx-background-color: -dark;
-
-    /*default font */
-    -fx-font-family: 'Helvetica Neue';
-    -fx-font-size: 11.5px;
-    -fx-font-weight: 600;
-    -fx-disabled-opacity: 0.6;
-
-    -flatter-red: rgb(237.0, 68.0, 37.0);
-    -flatter-blue: rgb(0.0, 184.0, 222.0);
-    -light-dark: rgb(53.0, 58.0, 63.0);
+	-fx-text-base-color: rgb(0.0, 0.0, 0.0);
+	-fx-text-fill: -fx-text-base-color;
+	-dark: rgb(47.0, 52.0, 57.0);
+	-fx-background-color: -dark;
+	
+	/*default font */
+	-fx-font-family: 'Helvetica Neue';
+	-fx-font-size: 11.5px;
+	-fx-font-weight: 600;
+	-fx-disabled-opacity: 0.6;
+	-flatter-red: rgb(237.0, 68.0, 37.0);
+	-flatter-blue: rgb(0.0, 184.0, 222.0);
+	-light-dark: rgb(53.0, 58.0, 63.0);
 }
 
 .mnemonic-underline {
-    -fx-stroke: transparent;
+	-fx-stroke: transparent;
 }
 
 .text {
-    -fx-font-smoothing-type: lcd;
-    -fx-font-color: black;
+	-fx-font-smoothing-type: lcd;
+	-fx-font-color: black;
 }
 
 .emoji-text {
-    -fx-fill: -fx-text-base-color;
+	-fx-fill: -fx-text-base-color;
 }
 
 /**** size variants **********************************************************/
 .size-variant-touch {
-    -fx-font-size: 9.0;
+	-fx-font-size: 9.0;
 }
 
 .size-variant-desktop {
-    -fx-font-size: 10.0;
+	-fx-font-size: 10.0;
 }
 
 /*******************************************************************************
@@ -43,22 +41,22 @@
  * Label                                                                       *
  *                                                                             *
  ******************************************************************************/
-
 .label {
-    -fx-text-fill: white;
-    -fx-background: white;
+	-fx-text-fill: white;
+	-fx-background: white;
 }
 
 .label:disabled {
-    -fx-opacity: -fx-disabled-opacity;
+	-fx-opacity: -fx-disabled-opacity;
 }
 
-.label:show-mnemonics > .mnemonic-underline {
-    -fx-stroke: -fx-text-base-color;
+.label:show-mnemonics>.mnemonic-underline {
+	-fx-stroke: -fx-text-base-color;
 }
 
 .text {
-    -fx-effect:dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.2), 0.0, 0.0, 0.0, 1.0);
+	-fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.2), 0.0, 0.0, 0.0,
+		1.0);
 }
 
 /*******************************************************************************
@@ -66,53 +64,47 @@
  * Button & ToggleButton                                                       *
  *                                                                             *
  ******************************************************************************/
-
-.toggle-button, .button{
-   -fx-background-color: -dark;
-   -fx-background-repeat: no-repeat;
-   /*-fx-background-insets: 0.0;
+.toggle-button, .button {
+	-fx-background-color: -dark;
+	-fx-background-repeat: no-repeat;
+	/*-fx-background-insets: 0.0;
    -fx-background-radius: 2.0;*/
-   -fx-border-width: 0.5;
-   -fx-border-color: white;
-   -fx-padding: 0.7em;
-   -fx-text-fill: white;
-   -fx-alignment: CENTER;
-   -fx-content-display: LEFT;
+	-fx-border-width: 0.5;
+	-fx-border-color: white;
+	-fx-padding: 0.7em;
+	-fx-text-fill: white;
+	-fx-alignment: CENTER;
+	-fx-content-display: LEFT;
 }
 
-.toggle-button:focused,
-.button:focused,
-.button:default:focused {
-    -fx-opacity: 0.5;
+.toggle-button:focused, .button:focused, .button:default:focused {
+	-fx-opacity: 0.5;
 }
 
 .toggle-button:focused:selected {
-    -fx-opacity: 0.5;
+	-fx-opacity: 0.5;
 }
 
-.button:hover{
-	-fx-opacity: 0.5;	
+.button:hover {
+	-fx-opacity: 0.5;
 }
 
-.toggle-button:armed,
-.toggle-button:selected,
-.button:armed,
-.button:default:armed {
-     -fx-background-color: derive(white, -20.0%);
+.toggle-button:armed, .toggle-button:selected, .button:armed, .button:default:armed
+	{
+	-fx-background-color: derive(white, -20.0%);
 }
 
 /*******************************************************************************
  *                                                                             *
- * ScrollPane                                                        *
+ * ScrollPane                                                        		   *
  *                                                                             *
  ******************************************************************************/
-
 .scroll-pane {
 	-fx-background: -light-dark;
-    -fx-background-insets: 0;
-    -fx-padding: 0;
-    -fx-border-color: #606060;
-    -fx-border-width: 0 3 3 3;
+	-fx-background-insets: 0;
+	-fx-padding: 0;
+	-fx-border-color: #606060;
+	-fx-border-width: 0 3 3 3;
 }
 
 /*******************************************************************************
@@ -120,9 +112,8 @@
  * Progress Bar                                                       		   *
  *                                                                             *
  ******************************************************************************/
-
-.progress-bar .bar { 
-    -fx-padding: 3px;
+.progress-bar .bar {
+	-fx-padding: 3px;
 }
 
 /*******************************************************************************
@@ -130,174 +121,176 @@
  * Chart                                                        			   *
  *                                                                             *
  ******************************************************************************/
-
 .chart {
-    -fx-padding: 5px;
+	-fx-padding: 5px;
 }
 
 .chart-content {
-    -fx-padding: 20px;
+	-fx-padding: 20px;
 }
 
 .chart-legend-item-symbol {
 	-fx-background-color: grey;
 }
- 
+
 .chart-legend-item {
 	-fx-background-color: transparent;
-    -fx-text-fill: black;
+	-fx-text-fill: black;
 }
 
 .chart-plot-background {
-    -fx-background-color: #e2ecfe;
+	-fx-background-color: #e2ecfe;
 }
 
 .chart-vertical-grid-lines {
-    -fx-stroke: #c0c0c0;
+	-fx-stroke: #c0c0c0;
 }
 
 .chart-horizontal-grid-lines {
-    -fx-stroke: #c0c0c0;
+	-fx-stroke: #c0c0c0;
 }
 
 .chart-alternative-row-fill {
-    -fx-fill: white;
-    -fx-stroke: transparent;
-    -fx-stroke-width: 0;
+	-fx-fill: white;
+	-fx-stroke: transparent;
+	-fx-stroke-width: 0;
 }
 
-.axis{
-  -fx-tick-label-font-color: white;
+.axis {
+	-fx-tick-label-font-color: white;
 }
 
-.default-color0.chart-series-line { -fx-stroke: grey; }
-.default-color0.chart-line-symbol { -fx-background-color: grey, white; }
+.default-color0.chart-series-line {
+	-fx-stroke: grey;
+}
+
+.default-color0.chart-line-symbol {
+	-fx-background-color: grey, white;
+}
 
 /*******************************************************************************
  *                                                                             *
- * TableView                                                        *
+ * TableView                                                        		   *
  *                                                                             *
  ******************************************************************************/
-
-.table-view{
-   -fx-background-color: transparent;
+.table-view {
+	-fx-background-color: transparent;
 }
 
-.table-view:focused{
-    -fx-background-color: transparent;
+.table-view:focused {
+	-fx-background-color: transparent;
 }
 
-.table-view .column-header-background{
-    -fx-background-color: -dark;
-    -fx-border-color: #606060;
-    -fx-border-width: 3 0 3 0;
+.table-view .column-header-background {
+	-fx-background-color: -dark;
+	-fx-border-color: #606060;
+	-fx-border-width: 3 0 3 0;
 }
 
-.table-view .column-header-background .label{
-    -fx-background-color: transparent;
-    -fx-text-fill: white;
+.table-view .column-header-background .label {
+	-fx-background-color: transparent;
+	-fx-text-fill: white;
 }
 
-.table-view .table-cell{
-    -fx-text-fill: white;
+.table-view .table-cell {
+	-fx-text-fill: white;
 }
 
 .table-view .filler {
 	-fx-background-color: transparent;
-    -fx-text-fill: white;
+	-fx-text-fill: white;
 }
 
 .tab-pane>*.tab-header-area>*.tab-header-background {
-   -fx-background-color: -light-dark;
-   -fx-background-repeat: round;
+	-fx-background-color: -light-dark;
+	-fx-background-repeat: round;
 }
 
-.tab-pane .tab
-{
-    -fx-background-color: -dark;
-    -fx-text-fill: white;
+.tab-pane .tab {
+	-fx-background-color: -dark;
+	-fx-text-fill: white;
 }
 
 .tab-pane {
 	-fx-border-color: #606060;
-    -fx-border-width: 3 0 3 0;
+	-fx-border-width: 3 0 3 0;
 }
 
-.tab:hover
-{
-	-fx-opacity: 0.5;	
+.tab:hover {
+	-fx-opacity: 0.5;
 }
 
-.tab .tab-label { 
-    -fx-text-fill: white;
+.tab .tab-label {
+	-fx-text-fill: white;
 }
 
-.tab:selected .tab-label { 
-    -fx-text-fill: white;
+.tab:selected .tab-label {
+	-fx-text-fill: white;
 }
+
 .table-view .column-header {
-    -fx-background-color: transparent;
+	-fx-background-color: transparent;
 }
 
-.table-view .table-cell{
-    -fx-text-fill: white;
+.table-view .table-cell {
+	-fx-text-fill: white;
 }
 
-.table-row-cell{
-    -fx-background-color: -fx-table-cell-border-color, -light-dark;
+.table-row-cell {
+	-fx-background-color: -fx-table-cell-border-color, -light-dark;
 }
 
 /*******************************************************************************
  *                                                                             *
- * MenuBar & MenuItem                                                        *
+ * MenuBar & MenuItem                                                          *
  *                                                                             *
  ******************************************************************************/
-
-.menu-bar { 
-   -fx-background-color: -dark;
+.menu-bar {
+	-fx-background-color: -dark;
 }
 
 .menu-item:focused {
-    -fx-background-color: -dark;
+	-fx-background-color: -dark;
 }
 
 .popup-overlay {
-    -fx-background-color: -dark;
-    -fx-border-color: white;
-    -fx-border-width: 8.0;
-    -fx-background-radius:20.0;
-    -fx-border-radius:15.5, 15.5;
+	-fx-background-color: -dark;
+	-fx-border-color: white;
+	-fx-border-width: 8.0;
+	-fx-background-radius: 20.0;
+	-fx-border-radius: 15.5, 15.5;
 }
 
 .title-bar {
-    -fx-padding: 10;
+	-fx-padding: 10;
 }
 
 .title-bar .icon {
-    -fx-alignment: center-left;
-    -fx-effect:dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.2), 0.0, 0.0, 0.0, 1.0);
+	-fx-alignment: center-left;
+	-fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.2), 0.0, 0.0, 0.0,
+		1.0);
 }
 
 .title-bar .title-label {
-    -fx-padding: 0 10 0 10;
-    -fx-alignment: center;
-    -fx-font-size: 36;
-    -fx-font-weight: bolder;
+	-fx-padding: 0 10 0 10;
+	-fx-alignment: center;
+	-fx-font-size: 36;
+	-fx-font-weight: bolder;
 }
 
 .content-area {
-    -fx-background-color: gray;
+	-fx-background-color: gray;
 }
 
 .content-background {
-    -fx-background-color: -dark;
-    -fx-background-radius:0.0 0.0 11.0 11.0;
-    -fx-padding: 0 10 10 10;
+	-fx-background-color: -dark;
+	-fx-background-radius: 0.0 0.0 11.0 11.0;
+	-fx-padding: 0 10 10 10;
 }
 
 .context-menu {
-    -fx-background-color: -dark;
-    -fx-background-radius: 2.0;
+	-fx-background-color: -dark;
+	-fx-background-radius: 2.0;
 }
 
 .context-menu-item:hover {
@@ -305,7 +298,7 @@
 }
 
 .context-menu .label {
-    -fx-text-fill: white;
+	-fx-text-fill: white;
 }
 
 /*******************************************************************************
@@ -313,21 +306,20 @@
  * Dialog Pane			                                                       *
  *                                                                             *
  ******************************************************************************/
-
 .dialog-pane {
-    -fx-background-color: -dark;
+	-fx-background-color: -dark;
 }
 
 .dialog-pane .label {
-    -fx-text-fill: white;
+	-fx-text-fill: white;
 }
 
 .dialog-pane:header .header-panel {
-    -fx-background-color: -dark;
+	-fx-background-color: -dark;
 }
 
 .dialog-pane:header .header-panel .label {
-    -fx-font-size: 2em;
+	-fx-font-size: 2em;
 }
 
 /*******************************************************************************
@@ -335,71 +327,67 @@
  * TextField & TextArea                                                        *
  *                                                                             *
  ******************************************************************************/
-
-.text-area , .text-field {
-    -fx-background: -dark;
-    -fx-background-insets:  0.0;
-    -fx-background-radius: 2.0;
-    -fx-padding: 0.7em;
-    -fx-border-width: 0.0;
-    -fx-prompt-text-fill: derive(-dark, 50.0%);
-    -fx-highlight-fill: rgb(94.0, 203.0, 234.0);
+.text-area, .text-field {
+	-fx-background: -dark;
+	-fx-background-insets: 0.0;
+	-fx-background-radius: 2.0;
+	-fx-padding: 0.7em;
+	-fx-border-width: 0.0;
+	-fx-prompt-text-fill: derive(-dark, 50.0%);
+	-fx-highlight-fill: rgb(94.0, 203.0, 234.0);
 }
 
-.text-area .text, .text-field > * > .text {
-    -fx-effect: null;
-    -fx-fill: -dark;
+.text-area .text, .text-field>*>.text {
+	-fx-effect: null;
+	-fx-fill: -dark;
 }
 
 .text-area {
-    -fx-padding: 0.15em;
+	-fx-padding: 0.15em;
 }
 
 .text-area .content {
-    -fx-padding: 0.7em;
-    -fx-border-width: 0.0;
-    -fx-background-color: transparent;
+	-fx-padding: 0.7em;
+	-fx-border-width: 0.0;
+	-fx-background-color: transparent;
 }
 
 .text-area:focused  .content {
-     -fx-background-color: transparent;
+	-fx-background-color: transparent;
 }
 
 .text-area:focused, .text-field:focused {
-    -fx-background-color: white, derive(-dark, 80.0%);
-    -fx-background-insets: 0.0, 0.2em;
-    -fx-background-radius: 2.0;
+	-fx-background-color: white, derive(-dark, 80.0%);
+	-fx-background-insets: 0.0, 0.2em;
+	-fx-background-radius: 2.0;
 }
 
-.scroll-bar:vertical > .track-background,
-.scroll-bar:horizontal > .track-background{
-    -fx-background-color: derive(-dark, 50.0%);
-    -fx-background-insets: 0.0;
+.scroll-bar:vertical>.track-background, .scroll-bar:horizontal>.track-background
+	{
+	-fx-background-color: derive(-dark, 50.0%);
+	-fx-background-insets: 0.0;
 }
 
-.scroll-bar:vertical > .thumb,
-.scroll-bar:horizontal > .thumb {
-    -fx-background-color: -dark;
-    -fx-background-insets: 0.0;
-    -fx-background-radius: 0.0;
+.scroll-bar:vertical>.thumb, .scroll-bar:horizontal>.thumb {
+	-fx-background-color: -dark;
+	-fx-background-insets: 0.0;
+	-fx-background-radius: 0.0;
 }
 
-.scroll-bar > .increment-button,
-.scroll-bar > .decrement-button,
-.scroll-bar:hover > .increment-button,
-.scroll-bar:hover > .decrement-button {
-    -fx-background-color: -dark;
+.scroll-bar>.increment-button, .scroll-bar>.decrement-button,
+	.scroll-bar:hover>.increment-button, .scroll-bar:hover>.decrement-button
+	{
+	-fx-background-color: -dark;
 }
 
-.scroll-bar > .increment-button > .increment-arrow,
-.scroll-bar > .decrement-button > .decrement-arrow {
-    -fx-background-color: gray;
+.scroll-bar>.increment-button>.increment-arrow, .scroll-bar>.decrement-button>.decrement-arrow
+	{
+	-fx-background-color: gray;
 }
 
-.scroll-bar > .track-background{
-    -fx-background-color: -dark;
+.scroll-bar>.track-background {
+	-fx-background-color: -dark;
 }
-
 
 /*******************************************************************************
  *                                                                             *
@@ -410,7 +398,7 @@
 	-fx-background-color: gray;
 }
 
-.combo-box-base > .arrow-button > .arrow {
+.combo-box-base>.arrow-button>.arrow {
 	-fx-background-color: -dark;
 }
 
@@ -418,96 +406,37 @@
 	-fx-background-color: white;
 }
 
-
-/*******************************************************************************
- *                                                                             *
- * ChoiceBox                                                                   *
- *                                                                             *
- ******************************************************************************/
-/*.combo-box-base,
-.choice-box {
-    -fx-background-color: -dark;
-    -fx-background-insets:  0.0;
-    -fx-background-radius: 2.0;
-    -fx-border-width: 0.0;
-}
-
-.combo-box-base > .label,
-.choice-box > .label {
-    -fx-padding:0.7em 1.7em 0.7em 0.7em;
-}
-
-.combo-box-base > .arrow-button,
-.choice-box > .open-button {
-    -fx-padding: 1.2em 0.7em 1.2em 0.5em;
-    -fx-background-radius: 0.0 2.0 2.0 0.0;
-}
-
-.combo-box-base:focused,
-.choice-box:focused{
-    -fx-background-color: derive(-dark, 80.0%);
-}
-
-.combo-box-base > .arrow-button > .arrow,
-.choice-box > .open-button > .arrow {
-    -fx-background-color: -dark;
-    -fx-padding: 0.2em;
-    -fx-effect:dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.2), 0.0, 0.0, 0.0, 1.0);
-}
-
-
-.radio-menu-item:checked > .left-container > .radio,
-.check-menu-item:checked > .left-container > .check {
-    -fx-background-color: -dark;
-    -fx-shape: "m 269.9,233.66286 c 0.15,-0.12 1.97,1.7 2.54,3.1 2.3,-7.33 4.09,-9.1 6.79,-12.1 1.5,-0.25 2.4,-0.27 4.36,0.11 -7.1,5.8 -8.8,16.7 -9.9,17.8 l -0.75,0.02 c 0,0 -2.36,-5.24 -5.6,-7.38 -0.27,-0.17 0.02,-1.5 -0.2,-1.6 z";
-    -fx-padding: 0.68em 0.5em 0.0em 0.0em;
-    -fx-effect: dropshadow(gaussian, rgb(0.0, 0.0, 0.0, 0.2), 0.0, 0.0, 0.0, 1.0);
-}
-
-.radio-menu-item > .left-container > .radio,
-.check-menu-item > .left-container > .check {
-    -fx-background-color: transparent;
-    -fx-shape: "m 269.9,233.66286 c 0.15,-0.12 1.97,1.7 2.54,3.1 2.3,-7.33 4.09,-9.1 6.79,-12.1 1.5,-0.25 2.4,-0.27 4.36,0.11 -7.1,5.8 -8.8,16.7 -9.9,17.8 l -0.75,0.02 c 0,0 -2.36,-5.24 -5.6,-7.38 -0.27,-0.17 0.02,-1.5 -0.2,-1.6 z";
-    -fx-padding: 0.68em 0.68em 0.0em 0.0em;
-}*/
-
-
 /*******************************************************************************
  *                                                                             *
  * CheckBox                                                                    *
  *                                                                             *
  ******************************************************************************/
-
 .check-box {
-    -fx-text-fill: -fx-text-base-color;
+	-fx-text-fill: -fx-text-base-color;
 }
 
-.check-box > .box,
-.check-box > .box.unfocused,
-.check-box:disabled > .box,
-.check-box:selected > .box,
-.check-box:indeterminate > .box {
-    -fx-background-radius: 2.0;
-    -fx-background-color: white;
+.check-box>.box, .check-box>.box.unfocused, .check-box:disabled>.box,
+	.check-box:selected>.box, .check-box:indeterminate>.box {
+	-fx-background-radius: 2.0;
+	-fx-background-color: white;
 }
 
-.check-box:focused > .box {
-    -fx-background-color: white, derive(rgb(94.0, 203.0, 234.0), 80.0%);
-    -fx-background-insets: 0.0, 0.15em;
+.check-box:focused>.box {
+	-fx-background-color: white, derive(rgb(94.0, 203.0, 234.0), 80.0%);
+	-fx-background-insets: 0.0, 0.15em;
 }
 
-.check-box:focused:armed > .box {
-    -fx-background-color: white, derive(-fx-text-base-color, 80.0%);
-    -fx-background-insets: 0.0, 0.15em;
+.check-box:focused:armed>.box {
+	-fx-background-color: white, derive(-fx-text-base-color, 80.0%);
+	-fx-background-insets: 0.0, 0.15em;
 }
 
-.check-box:selected > .box > .mark,
-.check-box:indeterminate > .box > .mark {
-    -fx-background-color: -dark;
+.check-box:selected>.box>.mark, .check-box:indeterminate>.box>.mark {
+	-fx-background-color: -dark;
 }
 
-.check-box:indeterminate > .box > .mark {
-    -fx-background-insets: -0.06em -0.17em -0.07em -0.17em;
+.check-box:indeterminate>.box>.mark {
+	-fx-background-insets: -0.06em -0.17em -0.07em -0.17em;
 }
 
 /*******************************************************************************
@@ -515,61 +444,56 @@
  * RadioButton                                                                 *
  *                                                                             *
  ******************************************************************************/
-
 .radio-button {
-    -fx-text-fill: -fx-text-base-color;
+	-fx-text-fill: -fx-text-base-color;
 }
 
-.radio-button > .radio,
-.radio-button > .radio.unfocused,
-.radio-button:disabled > .radio,
-.radio-button:selected > .radio {
-    -fx-background-color: -fx-text-base-color;
-    -fx-padding: 0.4em;
+.radio-button>.radio, .radio-button>.radio.unfocused, .radio-button:disabled>.radio,
+	.radio-button:selected>.radio {
+	-fx-background-color: -fx-text-base-color;
+	-fx-padding: 0.4em;
 }
 
-.radio-button:focused > .radio {
-    -fx-background-color: white, derive(rgb(94.0, 203.0, 234.0), 80.0%);
-    -fx-background-insets: 0.0, 0.15em;
-    -fx-padding: 0.4em;
+.radio-button:focused>.radio {
+	-fx-background-color: white, derive(rgb(94.0, 203.0, 234.0), 80.0%);
+	-fx-background-insets: 0.0, 0.15em;
+	-fx-padding: 0.4em;
 }
 
-.radio-button:focused:armed > .radio {
-    -fx-background-color: white, derive(-fx-text-base-color, 80.0%);
-    -fx-background-insets: 0.0, 0.15em;
+.radio-button:focused:armed>.radio {
+	-fx-background-color: white, derive(-fx-text-base-color, 80.0%);
+	-fx-background-insets: 0.0, 0.15em;
 }
 
-.radio-button:selected > .radio > .dot {
-    -fx-background-color: -dark;
+.radio-button:selected>.radio>.dot {
+	-fx-background-color: -dark;
 }
-
 
 /*******************************************************************************
  *                                                                             *
  * ProgressBar                                                                 *
  *                                                                             *
  ******************************************************************************/
-
-.progress-bar > .track {
-    -fx-background-color: -fx-text-base-color;
-    -fx-background-radius: 2.0;
-    -fx-padding: 0.0;
+.progress-bar>.track {
+	-fx-background-color: -fx-text-base-color;
+	-fx-background-radius: 2.0;
+	-fx-padding: 0.0;
 }
 
-.progress-bar > .bar {
-    -fx-background-color: white;
-    -fx-background-radius: 2.0;
-    -fx-background-insets: 0.0;
-    -fx-border-width: 0.0;
-    -fx-effect: null;
+.progress-bar>.bar {
+	-fx-background-color: white;
+	-fx-background-radius: 2.0;
+	-fx-background-insets: 0.0;
+	-fx-border-width: 0.0;
+	-fx-effect: null;
 }
 
-.progress-bar:indeterminate > .bar {
-    -fx-background-color: derive(white, 50.0%);
-    -fx-background-radius: 2.0;
-    -fx-background-insets: 0.0;
-    -fx-border-width: 0.0;
-    -fx-effect: null;
+.progress-bar:indeterminate>.bar {
+	-fx-background-color: derive(white, 50.0%);
+	-fx-background-radius: 2.0;
+	-fx-background-insets: 0.0;
+	-fx-border-width: 0.0;
+	-fx-effect: null;
 }
 
 /*******************************************************************************
@@ -577,61 +501,25 @@
  * ProgressIndicator                                                           *
  *                                                                             *
  ******************************************************************************/
-
-.progress-indicator > .determinate-indicator > .indicator {
-    -fx-background-color: rgb(255.0, 255.0, 255.0, 0.5);
-    -fx-padding: 0.0;
+.progress-indicator>.determinate-indicator>.indicator {
+	-fx-background-color: rgb(255.0, 255.0, 255.0, 0.5);
+	-fx-padding: 0.0;
 }
 
-.progress-indicator > .determinate-indicator > .progress {
-    -fx-background-color:  white,  derive(white, 50.0%);
-    -fx-background-insets: 0.0, 0.4em;
-    -fx-padding: 1.0em;
+.progress-indicator>.determinate-indicator>.progress {
+	-fx-background-color: white, derive(white, 50.0%);
+	-fx-background-insets: 0.0, 0.4em;
+	-fx-padding: 1.0em;
 }
 
-.progress-indicator > .determinate-indicator > .percentage {
-    -fx-fill: white;
-    -fx-translate-y: -2.4em;
-    -fx-padding: 0.0;
+.progress-indicator>.determinate-indicator>.percentage {
+	-fx-fill: white;
+	-fx-translate-y: -2.4em;
+	-fx-padding: 0.0;
 }
 
-.progress-indicator > .indeterminate-indicator > .segment {
-   -fx-background-color: rgb(0.0, 183.0, 221.0);
-   -fx-scale-x: 0.05em;
-   -fx-scale-y: 0.05em;
+.progress-indicator>.indeterminate-indicator>.segment {
+	-fx-background-color: rgb(0.0, 183.0, 221.0);
+	-fx-scale-x: 0.05em;
+	-fx-scale-y: 0.05em;
 }
-
-/*
-.progress-indicator:indeterminate .segment {
-    -fx-shape:"M 71.079865,1.4240656 A 12.821762,12.821762 0 0 1 58.258103,14.245828 l -10e-7,-12.8217624 z";
-    -fx-scale-shape: false;
-}
-
-.progress-indicator:indeterminate .segment0 {
-     -fx-translate-x: -0.7em;
-     -fx-translate-y: -0.03em;
-}
-
-.progress-indicator:indeterminate .segment1 {
-    -fx-rotate: 90;
-    -fx-translate-x: 0.177em;
-    -fx-translate-y: -1.333em;
-
-}
-
-.progress-indicator:indeterminate .segment2 {
-    -fx-rotate: 180;
-    -fx-translate-x: 1.5em;
-    -fx-translate-y: -0.5em;
-}
-
-.progress-indicator:indeterminate .segment3 {
-    -fx-rotate: 270;
-    -fx-translate-x: 0.67em;
-    -fx-translate-y: 0.8em;
-
-}
-.progress-indicator:indeterminate .segment4 {-fx-shape:null;}
-.progress-indicator:indeterminate .segment5 {-fx-shape:null;}
-.progress-indicator:indeterminate .segment6 {-fx-shape:null;}
-.progress-indicator:indeterminate .segment7 {-fx-shape:null;} */
