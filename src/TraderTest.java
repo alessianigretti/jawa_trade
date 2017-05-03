@@ -4,7 +4,7 @@ import org.junit.Test;
 
 public class TraderTest {
 
-	Trader trader = new Trader();
+	Trader trader = new RandomTrader(0);
 	Client client = new Client("Jon", 10);
 	
 	@Test

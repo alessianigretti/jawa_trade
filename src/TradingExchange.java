@@ -46,7 +46,7 @@ public class TradingExchange {
 	 */
 	public TradingExchange()
 	{
-		currentDate = LocalDate.parse("Feb 7 2017", dateFormatter);
+		currentDate = LocalDate.parse("Feb 6 2017", dateFormatter);
 		currentTime = LocalTime.parse("09:00", timeFormatter);
 		companies = new LinkedList();
 		traders = new LinkedList();
@@ -222,8 +222,8 @@ public class TradingExchange {
 			{
 				for(int j = 0; j<traders.get(i).getClients().size(); j++)
 				{
-					double sellAmountMax =  ((RandomTrader) traders.get(i)).getSellRate() * traders.get(i).getClients().get(j).getNetWorth();
-					double buyAmountMax  =  ((RandomTrader) traders.get(i)).getBuyRate() * traders.get(i).getClients().get(j).getNetWorth();
+					double sellAmountMax =   traders.get(i).getSellRate() * traders.get(i).getClients().get(j).getCashHolding();
+					double buyAmountMax  =  traders.get(i).getBuyRate() * traders.get(i).getClients().get(j).getCashHolding();
 					double sellAmount = 0;
 					double buyAmount = 0;
 					while(sellAmount <= sellAmountMax && buyAmount <= buyAmountMax)
@@ -231,7 +231,7 @@ public class TradingExchange {
 							int randomCompanyIndex = rand.nextInt(companies.size());
 							if(companies.get(randomCompanyIndex).getRisk().equalsIgnoreCase(traders.get(i).getClients().get(j).getRisk()) || traders.get(i).getClients().get(j).getRisk().equalsIgnoreCase("High"))
 							{
-								double amount = ((RandomTrader)traders.get(i)).newOrder(traders.get(i).getClients().get(j), companies.get(randomCompanyIndex));
+								double amount = traders.get(i).newOrder(traders.get(i).getClients().get(j), companies.get(randomCompanyIndex));
 								if(amount < 0)
 									sellAmount = sellAmount + Math.abs(amount);
 								else

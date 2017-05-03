@@ -12,7 +12,7 @@ import java.util.Random;
  */
 public class RandomTrader extends Trader {
 	
-	private double buyRate, sellRate;
+	
 	Random rand  = new Random();
 	int orderNum = 0;
 	
@@ -42,25 +42,7 @@ public class RandomTrader extends Trader {
 		setTraderName("RanTrader " + String.valueOf(i));
 	}
 	
-	/**
-	 * Gets the buy rate.
-	 *
-	 * @return the buy rate
-	 */
-	public double getBuyRate()
-	{
-		return buyRate;
-	}
-	
-	/**
-	 * Gets the sell rate.
-	 *
-	 * @return the sell rate
-	 */
-	public double getSellRate()
-	{
-		return sellRate;
-	}
+
 	
 	/**
 	 * Sets the mode.
@@ -73,16 +55,16 @@ public class RandomTrader extends Trader {
 		switch (mode)
 		{
 			case BALANCED:
-					buyRate = 0.01;
-					sellRate = 0.01;
+					setBuyRate(0.01);
+					setSellRate(0.01);
 					break;
 			case AGGRESSIVE_BUY:
-					buyRate = 0.02;
-					sellRate = 0.005;
+					setBuyRate(0.02);
+					setSellRate(0.005);
 					break;
 			case AGGRESSIVE_SELL:
-					buyRate = 0.005;
-					sellRate = 0.02;
+					setBuyRate(0.005);
+					setSellRate(0.02);
 					break;
 			default: 
 		}
@@ -144,7 +126,7 @@ public class RandomTrader extends Trader {
 		{
 			for(Order o : getOrderList())
 			{
-				if(o.getCompanyName().equals(company.getName()))
+				if(o.getCompanyName().equals(company.getName()) && client.getName().equals(o.getClient().getName()))
 				{
 					orderType = o.getOrderType();
 					alreadyOrdered = true;

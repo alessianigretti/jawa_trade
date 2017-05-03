@@ -51,7 +51,7 @@ public class GUI extends Application
 {
 	// declaring objects from external classes that will be referenced by the UI
     private TradingExchange exchange = new TradingExchange();
-    private Trader selectedTrader = new Trader();
+    private Trader selectedTrader = exchange.getSmartTrader();
     private Client selectedClient = new Client(null, 0);
     private Company selectedCompany = null;
     private XYChart.Series<Number, Number> series = new XYChart.Series<Number, Number>();

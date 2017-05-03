@@ -9,13 +9,13 @@ import java.util.*;
  * @author jon
  *
  */
-public class Trader {
+public abstract class Trader {
 	
 	private LinkedList<Client> clientList;
 	private LinkedList<Order> orderList = new LinkedList();
 	private LinkedList<Order> orderHistory = new LinkedList();
 	private String name;
-	
+	private double buyRate, sellRate;
 	
 	/**
 	 * Instantiates a new trader.
@@ -59,14 +59,44 @@ public class Trader {
 	{
 		return orderList;
 	}
+	
+	/**
+	 * Gets the buy rate.
+	 *
+	 * @return the buy rate
+	 */
+	public double getBuyRate()
+	{
+		return buyRate;
+	}
+	
+	/**
+	 * Gets the sell rate.
+	 *
+	 * @return the sell rate
+	 */
+	public double getSellRate()
+	{
+		return sellRate;
+	}
+	
+	public void setSellRate(double rate)
+	{
+		sellRate = rate;
+	}
+	
+	public void setBuyRate(double rate)
+	{
+		buyRate = rate;
+	}
 
 	/**
 	 * New order.
+	 * @param company 
+	 * @param client 
 	 */
-	public void newOrder()
-	{
-		//tbc
-	}
+	public abstract double newOrder(Client client, Company company);
+	
 	
 	/**
 	 * Adds the client.

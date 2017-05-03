@@ -6,7 +6,7 @@ import java.util.LinkedList;
 public class Client
 {
 	private String name; // basic client details
-	private double netWorth; // total  value of portfolio plus left over cash
+	private double netWorth, initialNetworth, finalNetworth; // total  value of portfolio plus left over cash
 	private double cashHolding;// client investment value
 	private double investment;
 	private double expectedReturn;// expected return on clients investments
