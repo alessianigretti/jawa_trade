@@ -71,7 +71,7 @@ public class GUI extends Application
 	private double scaleHeight = (832 / height) * 1.1;
 	private double scaleWidth = (1200 / width) * 1.1;
 	
-	// panes shared within class methods
+	// elements shared within class methods
 	private ScrollPane commoditiesScroll;
     private ScrollPane newsfeedScroll;
     private double totalSimIterations = 2880.0;
@@ -81,6 +81,8 @@ public class GUI extends Application
     
     /* 
      * Sets up the stage.
+     * 
+     * @param stage the stage
      */
     @Override
     public void start(Stage stage)
@@ -242,7 +244,7 @@ public class GUI extends Application
         info.add(new Label("     "), 5, 0);
         toolbar.setRight(info);
         
-        //
+        // grid for two buttons for simulation
         GridPane simulationGrid = new GridPane();
         
         // button for starting simulation
@@ -270,8 +272,7 @@ public class GUI extends Application
 			      	      {
 			      	        @Override
 			      	        public void run() {
-		      	        		//System.out.println(Integer.valueOf(exchange.getTime().substring(0, 2)));
-			      	        	if(Integer.valueOf(exchange.getTime().substring(0, 2))<16 && Integer.valueOf(exchange.getTime().substring(0, 2))>=9)
+		      	        		if(Integer.valueOf(exchange.getTime().substring(0, 2))<16 && Integer.valueOf(exchange.getTime().substring(0, 2))>=9)
 			      	        	{
 			      	        		exchange.tradeSim();
 			      	        		orders.clear();
@@ -282,7 +283,6 @@ public class GUI extends Application
 			          	        	marketStatusLabel.setText("Market Status: " + exchange.marketStatus());
 			          	        	exchange.updateDateTime();
 			      	        	}	
-			      	        	//System.out.println(exchange.getCompanies().get(0).getCurrentShareValue());
 			      	        	netWorthLabel.setText("Net Worth: " + selectedClient.getNetWorth());
 			      	        	currentDateTimeLabel.setText("Current: " + exchange.getDate() + ", " + exchange.getTime());
 			      	        	for (int i = 0; i < selectedCompany.getShareValueList().size(); i++)
@@ -308,15 +308,15 @@ public class GUI extends Application
 	            } catch (Exception e) {
 		        	if (e.getMessage().equals("Company"))
 		        	{
-		        		throwErrorMessage(AlertType.ERROR, "Invalid Action", "Invalid Action", "You must select a Company.");
+		        		throwErrorMessage(AlertType.ERROR, "Invalid Action", "You must select a Company.");
 		        	} else if (e.getMessage().equals("Client")) {
-		        		throwErrorMessage(AlertType.ERROR, "Invalid Action", "Invalid Action", "You must select a Client.");
+		        		throwErrorMessage(AlertType.ERROR, "Invalid Action", "You must select a Client.");
 		        	}
 	            }
             }
         });
         
-        //
+        // button for setting up simulation
         Button setUpSim = new Button("Set Up Simulation");
         setUpSim.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -324,7 +324,6 @@ public class GUI extends Application
             	setUpSimulation();
             }
         });
-        
         
         simulationGrid.add(setUpSim, 0, 0);
         simulationGrid.add(startSim, 1, 0);
@@ -461,7 +460,6 @@ public class GUI extends Application
      * Creates the commodity cell.
      *
      * @param company the company to be displayed
-     * @param shareValue the share value to be displayed
      * @param trend the trend of the company
      * @return the button to be placed as a cell of the commodities pane
      */
@@ -578,11 +576,11 @@ public class GUI extends Application
             	} catch (NullPointerException e) {
             		if (e.getMessage().equals("Client"))
             		{
-            			throwErrorMessage(AlertType.ERROR, "Invalid Action", "Invalid Action", "You must select a Client.");
+            			throwErrorMessage(AlertType.ERROR, "Invalid Action", "You must select a Client.");
             		}
             		if (e.getMessage().equals("Quantity"))
             		{
-            			throwErrorMessage(AlertType.ERROR, "Invalid Action", "Invalid Action", "You must select a Quantity.");
+            			throwErrorMessage(AlertType.ERROR, "Invalid Action", "You must select a Quantity.");
             		}
             	}
             }
@@ -607,11 +605,11 @@ public class GUI extends Application
             	} catch (NullPointerException e) {
             		if (e.getMessage().equals("Client"))
             		{
-            			throwErrorMessage(AlertType.ERROR, "Invalid Action", "Invalid Action", "You must select a Client.");
+            			throwErrorMessage(AlertType.ERROR, "Invalid Action", "You must select a Client.");
             		}
             		if (e.getMessage().equals("Quantity"))
             		{
-            			throwErrorMessage(AlertType.ERROR, "Invalid Action", "Invalid Action", "You must select a Quantity.");
+            			throwErrorMessage(AlertType.ERROR, "Invalid Action", "You must select a Quantity.");
             		}
             	}
             }
@@ -641,7 +639,7 @@ public class GUI extends Application
      */
     private MenuBar createMenu()
     {
-		// creating menu for data
+		// creating menu for loading data
     	Menu fileMenu = new Menu("File");
     	
     	MenuItem loadClients = new MenuItem("Load Clients...");
@@ -651,7 +649,7 @@ public class GUI extends Application
             	try {
 					exchange.setUpClients(chooseFile());
 				} catch (Exception e) {
-					throwErrorMessage(AlertType.ERROR, "File Not Found!", "File Not Found!", "Select a valid .csv file.");
+					throwErrorMessage(AlertType.ERROR, "File Not Found!", "Select a valid .csv file.");
 				}
             }
     	});
@@ -663,7 +661,7 @@ public class GUI extends Application
 					exchange.setUpCompanies(chooseFile());
 					selectedCompany = exchange.getCompanies().get(0);
 				} catch (Exception e) {
-					throwErrorMessage(AlertType.ERROR, "File Not Found!", "File Not Found!", "Select a valid .csv file.");
+					throwErrorMessage(AlertType.ERROR, "File Not Found!", "Select a valid .csv file.");
 				}
             }
     	});
@@ -674,7 +672,7 @@ public class GUI extends Application
             	try {
 					exchange.setUpEvents(chooseFile());
 				} catch (Exception e) {
-					throwErrorMessage(AlertType.ERROR, "File Not Found!", "File Not Found!", "Select a valid .csv file.");
+					throwErrorMessage(AlertType.ERROR, "File Not Found!", "Select a valid .csv file.");
 				}
             }
     	});
@@ -734,7 +732,7 @@ public class GUI extends Application
 				try {
 					openAccountWindow("Withdraw");
 				} catch (Exception e) {
-					throwErrorMessage(AlertType.ERROR, "Internal Error", "Internal Error", "Must pass \"Withdraw\" or \"Deposit\" as method parameter.");
+					throwErrorMessage(AlertType.ERROR, "Internal Error", "Must pass \"Withdraw\" or \"Deposit\" as method parameter.");
 				}
 			}
 		});
@@ -745,7 +743,7 @@ public class GUI extends Application
 				try {
 					openAccountWindow("Deposit");
 				} catch (Exception e) {
-					throwErrorMessage(AlertType.ERROR, "Internal Error", "Internal Error", "Must pass \"Withdraw\" or \"Deposit\" as method parameter.");
+					throwErrorMessage(AlertType.ERROR, "Internal Error", "Must pass \"Withdraw\" or \"Deposit\" as method parameter.");
 				}
 			}
 		});
@@ -802,7 +800,6 @@ public class GUI extends Application
         table.setEditable(false);
         
         // setting up all columns and location of data in OrderTable class
-        
         TableColumn instrumentsOrders = new TableColumn("Instrument");
         instrumentsOrders.setMinWidth(100/scaleWidth);
         instrumentsOrders.setCellValueFactory(
@@ -845,6 +842,9 @@ public class GUI extends Application
         return table;
     } 
     
+    /**
+     * Creates the stage window to select a risk.
+     */
     private void openRiskWindow()
     {
     	// creating new stage for opening new risk window
@@ -868,7 +868,6 @@ public class GUI extends Application
 		risks.setMaxWidth(80/scaleWidth);
 		for (int i = 0; i < Company.Risk.values().length; i++)
 			risks.getItems().add(String.valueOf(Company.Risk.values()[i]));
-		
 		riskPane.add(currentRiskLabel, 0, 0);
 		riskPane.add(currentRisk, 1, 0);
 		riskPane.add(riskLabel, 0, 1);
@@ -887,7 +886,7 @@ public class GUI extends Application
 	       		try {
 	       			selectedClient.setRisk(risks.getSelectionModel().getSelectedItem().toString());
 	       		} catch(Exception e) {
-	       			throwErrorMessage(AlertType.ERROR, "Invalid Argument", "Invalid Argument", "Select a valid risk.");
+	       			throwErrorMessage(AlertType.ERROR, "Invalid Argument", "Select a valid risk.");
 	       		}
 	       		riskWindow.hide();
 	       	}
@@ -908,6 +907,11 @@ public class GUI extends Application
 		riskWindow.show();
     }
     
+    /**
+     * Creates the stage window to withdraw or deposit.
+     * 
+     * @param action the chosen action (withdrawal or deposit)
+     */
     private void openAccountWindow(String action) throws Exception
     {
     	// creating new stage for opening new account window
@@ -951,7 +955,7 @@ public class GUI extends Application
 	       		try {
 	       			//
 	       		} catch (Exception e) {
-	       			throwErrorMessage(AlertType.ERROR, "Invalid Argument", "Invalid Argument", "The amount must be a number.");
+	       			throwErrorMessage(AlertType.ERROR, "Invalid Argument", "The amount must be a number.");
 	       		}
 	       	}
 	    });
@@ -1039,7 +1043,7 @@ public class GUI extends Application
 		       		selectedClient = exchange.getCurrentClient();
 		       		addCustomClient.hide();
 	       		} catch (Exception e) {
-	       			throwErrorMessage(AlertType.ERROR, "Invalid Argument", "Invalid Argument", "Expected Return and Initial Investment must be numbers.");
+	       			throwErrorMessage(AlertType.ERROR, "Invalid Argument", "Expected Return and Initial Investment must be numbers.");
 	       		}
 	       	}
 	    });
@@ -1064,15 +1068,14 @@ public class GUI extends Application
      * Shows a custom error message.
      * 
      * @param errorType the error type
-     * @param title the title of the error window
      * @param headerText the text of the header of the error window
      * @param contentText the content of the error window
      */
-    private void throwErrorMessage(AlertType errorType, String title, String headerText, String contentText)
+    private void throwErrorMessage(AlertType errorType, String headerText, String contentText)
     {
     	Alert alert = new Alert(errorType, contentText, ButtonType.OK);
 		alert.getDialogPane().getStylesheets().add("resources/com/guigarage/flatterfx/flatterfx.css");
-		alert.setTitle(title);
+		alert.setTitle(headerText);
 	    alert.setHeaderText(headerText);
 		alert.showAndWait();
     }
@@ -1112,9 +1115,48 @@ public class GUI extends Application
 	       			}
 	       			exchange.getTraders().clear();
 	       			exchange.setUpRandomTraders(Integer.valueOf(numOfTraders.getText()));
+	       			traderMenu.getItems().clear();
+	       			for(int i = 0; i < exchange.getTraders().size(); i++)
+	       			{
+	       				final int traderIndex = i;
+	       				// filling menu up with all trader's names
+	       				Menu trader = new Menu(exchange.getTraders().get(i).getTraderName());
+	       				
+	       				// looping through all clients for each trader
+	       				for (int j = 0; j < exchange.getTraders().get(i).getClients().size(); j++)
+	       				{
+	       					final int clientIndex = j;
+	       					// filling menuitems up with all trader's clients' names
+	       					MenuItem client = new MenuItem(exchange.getTraders().get(i).getClients().get(j).getName());
+	       					// setting up event handler for each client
+	       					client.setOnAction(new EventHandler<ActionEvent>() {
+	       	    	            @Override
+	       	    	            public void handle(ActionEvent event) {
+	       	    	            	orders.clear();
+	       	    	            	selectedTrader = exchange.getTraders().get(traderIndex);
+	       	    	            	selectedClient = selectedTrader.getClients().get(clientIndex);
+	       	    	            }
+	       	    	        });
+	       					trader.getItems().add(client);
+	       				}
+	       				
+	       				// menuitem for adding a custom client
+	       				MenuItem addClient = new MenuItem("Add Client...");
+	       		        addClient.setOnAction(new EventHandler<ActionEvent>() {
+	       		        	@Override
+	       		        	public void handle(ActionEvent event) {
+	       		        		selectedTrader = exchange.getTraders().get(traderIndex);
+	       		        		addCustomClient();
+	       		        	}
+	       		        });
+	       		        trader.getItems().add(addClient);
+	       		        
+	       		        // adding each trader to trader menu
+	       				traderMenu.getItems().add(trader);
+	       			}
 	       			setUpSimStage.hide();
 	       		} catch (Exception e) {
-	       			throwErrorMessage(AlertType.ERROR, "Invalid Argument", "Invalid Argument", "The minimum number of trader is 2.");
+	       			throwErrorMessage(AlertType.ERROR, "Invalid Argument", "The minimum number of trader is 2.");
 	       		}
 	       	}
 	    });
@@ -1156,7 +1198,6 @@ public class GUI extends Application
     public static void main(String[] args)
     {
         launch(args);
-        //System.out.println("Thread count " + java.lang.Thread.activeCount());
     }
     
 }
