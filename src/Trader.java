@@ -95,8 +95,75 @@ public abstract class Trader {
 	 * @param company the company
 	 * @return the value of the new order
 	 */
-	public abstract double newOrder(Client client, Company company);
+	public double newOrder(Client client, Company company, boolean type)
+	{
+		System.out.println("fuck smartOrder");
+		return 1;
+	}
+	
+	/**
+	 * Completes the order.
+	 *
+	 * @param o
+	 *            the order
+	 */
+	public void completeOrder(Order o)
+	{
+		for (Client c : getClients()) {
+			if (o.getClientName().equals(c.getName())) {
+				if (o.getOrderType() == true) {
+					if (o.getCompany().getSellCount() != 0) {
+						c.updateCash(-(o.getQuantity() * o.getCurrentShareValue()));
+						if ((o.getQuantity() / o.getCompany().getFinalBuyCount()) * Math.abs(o.getCompany().getFinalSellCount()) >= o.getQuantity()) {
+							c.newShare(o.getQuantity(), o.getCompany());
+							o.getCompany().setSellCount(o.getQuantity());
+							o.isFullyCompleted();
+							c.calculateNetWorth();
+							break;
+						} else {
+							c.newShare(Math.floor((o.getQuantity() / o.getCompany().getFinalBuyCount()) * Math.abs(o.getCompany().getFinalSellCount())), o.getCompany());
+							o.getCompany().setSellCount((Math.ceil((o.getQuantity() / o.getCompany().getFinalBuyCount()) * Math.abs(o.getCompany().getFinalSellCount()))));
+							c.calculateNetWorth();
+							break;
+						}
 
+					}
+				} else {
+					if (o.getCompany().getBuyCount() != 0) {
+						c.updateCash(-(o.getQuantity() * o.getCurrentShareValue()));
+						if ((o.getQuantity() / o.getCompany().getFinalSellCount()) * o.getCompany().getFinalBuyCount() <= o.getQuantity()) { 
+							c.newShare(o.getQuantity(), o.getCompany());
+							o.getCompany().setBuyCount(-o.getQuantity());
+							o.isFullyCompleted();
+							c.calculateNetWorth();
+							break;
+						} else {
+							if (o.getCompany().getFinalBuyCount() > Math.abs(o.getCompany().getFinalSellCount())) {
+								c.newShare(o.getQuantity(), o.getCompany());
+								o.getCompany().setBuyCount(o.getQuantity());
+							} else {
+								c.newShare(Math.ceil(-((o.getQuantity() / o.getCompany().getFinalSellCount()) * o.getCompany().getFinalBuyCount())), o.getCompany());
+								if(c.shareSize(o.getCompany())<0)
+								o.getCompany().setBuyCount( -(Math.floor(((o.getQuantity() / o.getCompany().getFinalSellCount()) * o.getCompany().getFinalBuyCount()))));
+							}
+							c.calculateNetWorth();
+							break;
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	public void switchMode(double num)
+	{
+		
+	}
+	
+	public String getMode()
+	{
+		return "A.I";
+	}
 	/**
 	 * Adds the client.
 	 *
@@ -140,13 +207,7 @@ public abstract class Trader {
 	public LinkedList<Order> getOrderHistory(Client client) {
 		LinkedList<Order> orderHistoryList = orderHistory;
 		for (int i = 0; i < orderHistoryList.size(); i++) {
-			if (orderHistoryList.get(i).getClientName().equalsIgnoreCase(client.getName()))
-				System.out.println("");
-
-			if (orderHistoryList.get(i).getClientName().equalsIgnoreCase(client.getName()))
-				System.out.println(orderHistoryList.get(i).getClientName());
-
-			else
+			if (!(orderHistoryList.get(i).getClient().getName().equalsIgnoreCase(client.getName())))
 				orderHistoryList.remove(i);
 		}
 		return orderHistoryList;

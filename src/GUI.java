@@ -256,33 +256,27 @@ public class GUI extends Application {
 								Platform.runLater(new Runnable() {
 									@Override
 									public void run() {
-										if (Integer.valueOf(exchange.getTime().substring(0, 2)) < 16
-												&& Integer.valueOf(exchange.getTime().substring(0, 2)) >= 9) {
-											exchange.tradeSim();
-											orders.clear();
-											orders.addAll(selectedTrader.getOrderHistory(selectedClient));
-											currentTradingMode.setText(
-													"Mode: " + ((RandomTrader) selectedTrader).getMode().toString());
-										} else {
-											exchange.updateShareIndex();
-											marketStatusLabel.setText("Market Status: " + exchange.marketStatus());
-											exchange.updateDateTime();
-										}
+										long start = System.currentTimeMillis();
+										exchange.tradeSim();
+										orders.clear();
+										orders.addAll(selectedTrader.getOrderHistory(selectedClient));
+										currentTradingMode.setText("Mode: " + (selectedTrader).getMode().toString());
+										marketStatusLabel.setText("Market Status: " + exchange.marketStatus());
 										netWorthLabel.setText("Net Worth: " + selectedClient.getNetWorth());
-										currentDateTimeLabel
-												.setText("Current: " + exchange.getDate() + ", " + exchange.getTime());
+										currentDateTimeLabel.setText("Current: " + exchange.getDate() + ", " + exchange.getTime());
 										for (int i = 0; i < selectedCompany.getShareValueList().size(); i++) {
 											// updating chart depending on
 											// selected commodity
 											exchange.getXChart().get(i);
-											series.getData().add(new XYChart.Data(exchange.getXChart().get(i),
-													selectedCompany.getShareValueList().get(i)));
+											series.getData().add(new XYChart.Data(exchange.getXChart().get(i),selectedCompany.getShareValueList().get(i)));
 										}
 										commoditiesScroll.setContent(displayAllCommodities());
 										newsfeedScroll.setContent(displayAllNews());
 										currentSimIterations++;
 										double progress = currentSimIterations / totalSimIterations;
 										progressBar.setProgress(progress);
+										long end = System.currentTimeMillis();
+										//System.out.println(end-start);
 									}
 								});
 								Thread.sleep(500);
@@ -372,11 +366,9 @@ public class GUI extends Application {
 		allNews.add(new Label("No events to display."), 0, 0);
 
 		for (int i = 0; i < exchange.getEvents().size(); i++) {
-			if (exchange.getDate().equals(exchange.getEvents().get(i).getDate().toString())
-					&& exchange.getTime().equals(exchange.getEvents().get(i).getTime().toString())) {
+			if (exchange.getEvents().get(i).isTrriggered()) {
 				// creating new cells + filler cells and adding them to gridpane
-				BorderPane news = createNewsCell(exchange.getEvents().get(i).getDate().toString() + " - ",
-						exchange.getEvents().get(i).getTime().toString(), exchange.getEvents().get(i).getEventText());
+				BorderPane news = createNewsCell(exchange.getEvents().get(i).getDate().toString() + " - ",exchange.getEvents().get(i).getTime().toString(), exchange.getEvents().get(i).getEventText());
 				allNews.add(news, 0, (i * 2 + 1));
 				BorderPane filler = createNewsCell(" ", " ", " ");
 				allNews.add(filler, 0, (i * 2 + 2));
@@ -465,8 +457,7 @@ public class GUI extends Application {
 					try {
 						selectedCompany = exchange.getCompanies().get(i);
 						exchange.getXChart().get(i);
-						series.getData()
-								.add(new XYChart.Data(exchange.getXChart().get(i), company.getShareValueList().get(i)));
+						series.getData().add(new XYChart.Data(exchange.getXChart().get(i), company.getShareValueList().get(i)));
 					} catch (Exception e) {
 						// ignoring error on timing when selecting different
 						// company too fast for the threads

@@ -15,6 +15,7 @@ public class Events {
 	private String eventText;
 	private LocalDate date;
 	private LocalTime time;
+	private boolean triggered;
 	private DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMM d yyyy", Locale.ENGLISH);
 	private DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("H:m");
 
@@ -35,6 +36,7 @@ public class Events {
 		eventType[0] = action;
 		eventType[1] = type;
 		eventType[2] = String.valueOf(date.plusDays(Integer.valueOf(duration)));
+		triggered = false;
 	}
 
 	/**
@@ -72,6 +74,16 @@ public class Events {
 	 */
 	public String[] getEventType() {
 		return eventType;
+	}
+	
+	public void trigger()
+	{
+		triggered = true;
+	}
+	
+	public boolean isTrriggered()
+	{
+		return triggered;
 	}
 
 }

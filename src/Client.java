@@ -8,13 +8,14 @@ import java.util.LinkedList;
  */
 public class Client
 {
-	private String name; // basic client details
-	private double netWorth, initialNetworth, finalNetworth; // total value of portfolio plus left over cash
-	private double cashHolding; // client investment value
-	private double investment;
-	private double expectedReturn; // expected return on clients investments
+	private String name; // the name of the client
+	private double netWorth, initialNetworth, finalNetworth;  // the initial networth and final networth of the client after the simulation
+	private double cashHolding; // the clients current cash holding
+	private double investment; // the clients initial investment value
+	private double expectedReturn; // expected return on a clients investments
 	private LinkedList<Shares> portfolio = new LinkedList(); // collection of shares that the client currently owns
 	private Company.Risk risk = Company.Risk.High; // all clients by default have a high risk
+	private double sellAmount, buyAmount, sellMax, buyMax; // keeps track of the how much of the clients cash is exposed to the market
 
 	/**
 	 * Instantiates a new client specifying name, expected return and cash holding.
@@ -212,7 +213,7 @@ public class Client
 	public boolean hasShare(Company company) {
 		for (int i = 0; i < portfolio.size(); i++) {
 			if (company.getName().equals(portfolio.get(i).getCompanyName())) {
-				if (portfolio.get(i).getSize() == 0)
+				if (portfolio.get(i).getSize() <= 0)
 					return false;
 				else
 					return true;
@@ -235,5 +236,77 @@ public class Client
 			}
 		}
 		return size;
+	}
+	
+	/**
+	 * Sets the max buy amount for client orders
+	 * @param rate
+	 */
+	public void setBuyMax(double rate)
+	{
+		buyMax = rate*getCashHolding();
+	}
+	
+	/**
+	 * Sets the max sell amount for client orders
+	 * @param rate
+	 */
+	public void setSellMax(double rate)
+	{
+		sellMax = rate*getCashHolding();
+	}
+	
+	/**
+	 * Sets the current buy amount from client orders
+	 * @param amount
+	 */
+	public void setBuyAmount(double amount)
+	{
+		buyAmount = amount;
+	}
+	
+	/**
+	 * Sets the current sell amount from client orders
+	 * @param amount
+	 */
+	public void setSellAmount(double amount)
+	{
+		sellAmount = amount;
+	}
+	
+	/**
+	 * Gets the max buy amount that can be traded for a client
+	 * @return
+	 */
+	public double getBuyMax()
+	{
+		return buyMax;
+	}
+	
+	/**
+	 * Gets the max sell amount that can be traded for a client
+	 * @return
+	 */
+	public double getSellMax()
+	{
+		return sellMax;
+	}
+	
+	/**
+	 * Gets the current buy amount from trades for the client
+	 * @return
+	 */
+	public double getBuyAmount()
+	{
+		return buyAmount;
+	}
+	
+	/**
+	 * Gets the current sell amount from trades for the client
+	 * @return
+	 */
+	public double getSellAmount()
+	{
+		return sellAmount;
 	}
 }

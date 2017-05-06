@@ -3,24 +3,24 @@ import java.util.LinkedList;
 import java.util.Random;
 
 /**
- * The Class Company is responsible for issuing shared to be traded on the stock market.
+ * The Class Company is responsible for issuing shares to be traded on the stock market.
  * 
  * @author Jonathan Magbadelo
  */
 public class Company {
 
-	private boolean eventTrigger = false;
-	private String eventEnd = "";
-	private boolean orderType = false;
-	private String name;
-	private int shareCount;
-	private double netWorth, currentShareValue;
-	private LinkedList<Double> shareValueList = new LinkedList<Double>();
-	private double sellCount;
-	private double buyCount;
-	private double finalSellCount;
-	private double finalBuyCount;
-	private String trend = "-";
+	private boolean eventTrigger = false; //indicates whether an event that affects the company has happended
+	private String eventEnd = ""; //end date/time of the event affecting the company
+	private boolean orderType = false; //set orderType for when a company event happens
+	private String name; //name of the company
+	private int shareCount; //company share count
+	private double netWorth, currentShareValue; //the current share value and networth of the company
+	private LinkedList<Double> shareValueList = new LinkedList<Double>(); //list of company share values
+	private double sellCount; //current count of sell orders for the company
+	private double buyCount; //current count of buy orders for the company
+	private double finalSellCount; //final count of sell orders for the company
+	private double finalBuyCount; //final count of buy orders for the company
+	private String trend = "-"; //current trend of the companies share value
 	private Random rand = new Random();
 
 	/**
@@ -35,22 +35,16 @@ public class Company {
 	 */
 	public enum Risk {
 		Low, High
-	;
 	}
 
-	public static Object values() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	private Type shareType;
-	private Risk risk;
+	private Type shareType; //the company share type
+	private Risk risk; //the risk asscoicted with the company
 
 	/**
 	 * Instantiates a new company.
 	 *
 	 * @param name            the name of the company
-	 * @param type the type of the company
+	 * @param type 			the type of the company
 	 * @param currentShareValue            the current share value of the company
 	 * @param shareCount            the share count of the company
 	 */
@@ -364,10 +358,8 @@ public class Company {
 	 * @return orderType if the event is triggered, random boolean otherwise
 	 */
 	public boolean randomBool() {
-		if (isEventTriggered())
+		
 			return orderType;
-		else
-			return rand.nextBoolean();
 	}
 
 	/**

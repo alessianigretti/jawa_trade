@@ -63,8 +63,8 @@ public class RandomTrader extends Trader {
 	 *
 	 * @return the mode
 	 */
-	public Mode getMode() {
-		return mode;
+	public String getMode() {
+		return mode.toString();
 	}
 
 	/**
@@ -75,18 +75,17 @@ public class RandomTrader extends Trader {
 	 */
 	public void switchMode(double ranNum) {
 		switch (getMode()) {
-		case BALANCED:
+		case "BALANCED":
 			if (ranNum < 0.1)
 				setMode(Mode.AGGRESSIVE_SELL);
 			if (ranNum > 0.1 && ranNum < 0.2)
 				setMode(Mode.AGGRESSIVE_BUY);
-			// System.out.println("blaaaaaaaaaaaaaa " + ranNum);
 			break;
-		case AGGRESSIVE_BUY:
+		case "AGGRESSIVE_BUY":
 			if (ranNum < 0.7)
 				setMode(Mode.BALANCED);
 			break;
-		case AGGRESSIVE_SELL:
+		case "AGGRESSIVE_SELL":
 			if (ranNum < 0.6)
 				setMode(Mode.BALANCED);
 			break;
@@ -103,146 +102,87 @@ public class RandomTrader extends Trader {
 	 *            the company
 	 * @return the double
 	 */
-	public double newOrder(Client client, Company company) {
-		Order oldOrder = null;
-		Order order = null;
+	public double newOrder(Client client, Company company, boolean type)
+	{
+		boolean orderType = type;
 		boolean alreadyOrdered = false;
-		boolean orderType = rand.nextBoolean();
-		if (client.shareSize(company) != 0) {
-			for (Order o : getOrderList()) {
-				if (o.getCompanyName().equals(company.getName()) && client.getName().equals(o.getClient().getName())) {
-					orderType = o.getOrderType();
-					alreadyOrdered = true;
-					oldOrder = o;
-				} else
-					orderType = company.randomBool();
-			}
-		} else
-			orderType = true;
-		int quantity = randomQuantity();
-		if (orderType == false) {
-			if (client.shareSize(company) < 50 || client.shareSize(company) - quantity < 0) {
-				if (client.getName().equals("Ellen Fotheringay-Smythe"))
-					System.out.println(company.getName() + " " + quantity + " " + client.shareSize(company));
-				quantity = rand.nextInt((int) client.shareSize(company));
-			}
-			quantity = -quantity;
+		int quantity;
+		
+		if(company.isEventTriggered())
+			orderType = company.randomBool();
+		
+		if(orderType == true)
+		{
+			quantity = randomQuantity();
 		}
-
-		if (client.getName().equals("Ellen Fotheringay-Smythe"))
-			System.out.println(company.getName() + " " + quantity + " " + client.shareSize(company));
-		if (alreadyOrdered)
-			quantity = oldOrder.updateQuantity(quantity);
-		else {
-			order = new Order(company, quantity, orderType, quantity * company.getCurrentShareValue(), "RiskLev",
-					client);
-			if (orderType == true)
-				getOrderList().addFirst(order);
-			else
-				getOrderList().addLast(order);
-		}
-
-		if (orderType == false)
-			company.setSellCount(quantity);
 		else
-			company.setBuyCount(quantity);
-
-		return quantity * company.getCurrentShareValue();
-	}
-
-	/**
-	 * Completes the order.
-	 *
-	 * @param o
-	 *            the order
-	 */
-	public void completeOrder(Order o) {
-		orderNum++;
-		for (Client c : getClients()) {
-			if (o.getClientName().equals(c.getName())) {
-				if (o.getOrderType() == true) {
-					if (o.getCompany().getSellCount() != 0) {
-						c.updateCash(-(o.getQuantity() * o.getCurrentShareValue()));
-						if ((o.getQuantity() / o.getCompany().getFinalBuyCount())
-								* Math.abs(o.getCompany().getFinalSellCount()) >= o.getQuantity()) {
-							c.newShare(o.getQuantity(), o.getCompany());
-
-							System.out.println(orderNum);
-
-							o.getCompany().setSellCount(o.getQuantity());
-							o.isFullyCompleted();
-							c.calculateNetWorth();
-							break;
-						} else {
-							c.newShare(Math.floor((o.getQuantity() / o.getCompany().getFinalBuyCount())
-									* Math.abs(o.getCompany().getFinalSellCount())), o.getCompany());
-							
-							System.out.println(orderNum);
-							
-							o.getCompany().setSellCount((Math.ceil((o.getQuantity() / o.getCompany().getFinalBuyCount())
-									* Math.abs(o.getCompany().getFinalSellCount()))));
-							c.calculateNetWorth();
-							break;
-						}
-
+		{
+			if(client.shareSize(company) <= 4)
+			{
+				quantity = (int) client.shareSize(company);;
+			}
+			else	
+				quantity = rand.nextInt((int)client.shareSize(company)/4);
+			
+			quantity = quantity*-1;
+			
+		}
+		for(Order o: getOrderList())
+		{
+			if(o.getCompany().getName().equals(company.getName()) && o.getClient().getName().equals(client.getName()))
+			{
+				if(o.getOrderType() == orderType)
+				{
+					if(orderType == true)
+					{
+						quantity = rand.nextInt((int)((client.getBuyMax()-client.getBuyAmount())/company.getCurrentShareValue()));
 					}
-				} else {
-					if (o.getCompany().getBuyCount() != 0) {
-						c.updateCash(-(o.getQuantity() * o.getCurrentShareValue()));
-						if ((o.getQuantity() / o.getCompany().getFinalSellCount())
-								* o.getCompany().getFinalBuyCount() <= o.getQuantity()) {
-							c.newShare(o.getQuantity(), o.getCompany());
-
-							System.out.println(orderNum);
-							
-							o.getCompany().setBuyCount(-o.getQuantity());
-							o.isFullyCompleted();
-							c.calculateNetWorth();
-							break;
-						} else {
-							if (o.getCompany().getFinalBuyCount() > Math.abs(o.getCompany().getFinalSellCount())) {
-								c.newShare(o.getQuantity(), o.getCompany());
-								
-								System.out.println(orderNum);
-								
-								o.getCompany().setBuyCount(o.getQuantity());
-							} else {
-								
-								System.out.println(orderNum);
-								
-								c.newShare(Math.ceil(-((o.getQuantity() / o.getCompany().getFinalSellCount())
-										* o.getCompany().getFinalBuyCount())), o.getCompany());
-								o.getCompany().setBuyCount(
-										-(Math.floor(((o.getQuantity() / o.getCompany().getFinalSellCount())
-												* o.getCompany().getFinalBuyCount()))));
-							}
-							c.calculateNetWorth();
-							break;
-						}
+					else
+					{
+						int moneyR = rand.nextInt((int)((client.getSellMax()-client.getSellAmount())/company.getCurrentShareValue()));
+						int shareR = (int)client.shareSize(company)-Math.abs(o.getQuantity());
+						quantity = Math.min(moneyR, shareR);
+						quantity = quantity*-1;
 					}
 				}
-				
-				System.out.println(orderNum + " ooooo" + o.getQuantity() + " " + o.getCompany().getFinalBuyCount() + " "
-						+ o.getCompany().getFinalSellCount());
+				else
+					quantity = 0;
+				o.updateQuantity(quantity);
+				alreadyOrdered = true;
+				break;
 			}
-
 		}
+		
+		if(alreadyOrdered == false)
+		{
+			Order order = new Order(company,quantity,orderType,quantity*company.getCurrentShareValue(),company.getRisk(),client);
+			getOrderList().add(order);
+		}
+		
+		if (orderType == false)
+		{
+			company.setSellCount(quantity);
+			client.setSellAmount(client.getSellAmount()+Math.abs((quantity*company.getCurrentShareValue())));
+		}
+		else
+		{
+			company.setBuyCount(quantity);	
+			client.setBuyAmount(client.getBuyAmount()+(quantity*company.getCurrentShareValue()));
+		}	
+		return quantity*company.getCurrentShareValue();
 	}
 
-	/**
-	 * Generates a random quantity.
-	 *
-	 * @return the random quantity generated
-	 */
-	public int randomQuantity() {
-		LinkedList temp = new LinkedList();
-		for (int i = 0; i < 6; i++) {
+	
+	public int randomQuantity() 
+	{
+		int[] temp = new int[5];
+		for (int i = 0; i < 5; i++) {
 			if (i == 0)
-				temp.add(50);
+				temp[i] = 100;
 			else
-				temp.add(100 * i);
+				temp[i] = (100 * i);
 		}
-		return (int) temp.get(rand.nextInt(6));
+		return  temp[rand.nextInt(5)];
 	}
 
 }

@@ -1,0 +1,33 @@
+LinkedList<Integer> index = new LinkedList<Integer>();
+					LinkedList<Integer> sellList = new LinkedList<Integer>();
+					LinkedList<Integer> buyList = new LinkedList<Integer>();
+					for(int x = 0; x<companies.size(); x++)
+					{
+						index.add(x);
+					}
+					
+					for(int y = 0; y<companies.size(); y++)
+					{
+						if(traders.get(i).getClients().get(j).hasShare(companies.get(y)))
+								if(sellList.size() > companies.size()/2)
+									buyList.add(index.get(y));
+								else
+									sellList.add(index.get(y));
+						else
+								buyList.add(index.get(y));
+					}
+					System.out.println(sellList.size());
+					System.out.println(buyList.size());
+					while (traders.get(i).getClients().get(j).getBuyAmount() < traders.get(i).getClients().get(j).getBuyMax()-1) 
+					{
+						int randomCompanyIndex = buyList.get(rand.nextInt(buyList.size()));
+						if (companies.get(randomCompanyIndex).getRisk().equalsIgnoreCase(traders.get(i).getClients().get(j).getRisk()) || traders.get(i).getClients().get(j).getRisk().equalsIgnoreCase("High")) 
+						{
+							double check = traders.get(i).newOrder(traders.get(i).getClients().get(j), companies.get(randomCompanyIndex),true);
+							if(check == 0)
+								traders.get(i).getClients().get(j).setBuyAmount(traders.get(i).getClients().get(j).getBuyMax());
+								
+						}
+						System.out.println(traders.get(i).getClients().get(j).getBuyAmount());
+					}
+					System.out.println("done buys");

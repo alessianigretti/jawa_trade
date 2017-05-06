@@ -39,7 +39,7 @@ public class TradingExchange {
 	 * Instantiates a new trading exchange.
 	 */
 	public TradingExchange() {
-		currentDate = LocalDate.parse("Feb 6 2017", dateFormatter);
+		currentDate = LocalDate.parse("Feb 7 2017", dateFormatter);
 		currentTime = LocalTime.parse("09:00", timeFormatter);
 		companies = new LinkedList();
 		traders = new LinkedList();
@@ -48,13 +48,11 @@ public class TradingExchange {
 		traders.add(smartTrader);
 		shareIndexList = new LinkedList<Double>();
 		events = new LinkedList();
-		numOfTraders = 2;
+		numOfTraders = 4;
 		setUpSim();
 		checkShareNum();
 		updateShareIndex();
-		System.out.println(getShareIndex());
 		shareIndexList.add(getShareIndex());
-		traders.add(new RandomTrader(3));
 	}
 
 	/**
@@ -171,7 +169,10 @@ public class TradingExchange {
 	public void updateDateTime() {
 		currentTime = currentTime.plusMinutes(15);
 		if (String.valueOf(currentTime).equals("00:00"))
+		{
 			currentDate = currentDate.plusDays(1);
+			updateShareIndex();
+		}	
 		checkEvent();
 		endEvents();
 	}
@@ -198,62 +199,73 @@ public class TradingExchange {
 	 * Starts a simulation.
 	 */
 	public void tradeSim() {
-		if (!isMarketClosed()) {
-			for (int i = 1; i < traders.size(); i++) {
-				for (int j = 0; j < traders.get(i).getClients().size(); j++) {
-					double sellAmountMax = traders.get(i).getSellRate()
-							* traders.get(i).getClients().get(j).getCashHolding();
-					double buyAmountMax = traders.get(i).getBuyRate()
-							* traders.get(i).getClients().get(j).getCashHolding();
-					double sellAmount = 0;
-					double buyAmount = 0;
-					while (sellAmount <= sellAmountMax && buyAmount <= buyAmountMax) {
+		if (!isMarketClosed()) 
+		{
+			for (int i = 0; i < traders.size(); i++) 
+			{
+				for (int j = 0; j < traders.get(i).getClients().size(); j++) 
+				{
+					traders.get(i).getClients().get(j).setBuyMax(traders.get(i).getBuyRate());
+					traders.get(i).getClients().get(j).setSellMax(traders.get(i).getSellRate());
+					traders.get(i).getClients().get(j).setBuyAmount(0);
+					traders.get(i).getClients().get(j).setSellAmount(0);
+					System.out.println(traders.get(0).getClients().get(0).getBuyMax());
+					System.out.println(traders.get(0).getClients().get(0).getCashHolding());
+					while(traders.get(i).getClients().get(j).getSellAmount() < traders.get(i).getClients().get(j).getSellMax()-10 && traders.get(i).getClients().get(j).getBuyAmount() < traders.get(i).getClients().get(j).getBuyMax()-10) 
+					{
+						boolean type;
 						int randomCompanyIndex = rand.nextInt(companies.size());
-						if (companies.get(randomCompanyIndex).getRisk()
-								.equalsIgnoreCase(traders.get(i).getClients().get(j).getRisk())
-								|| traders.get(i).getClients().get(j).getRisk().equalsIgnoreCase("High")) {
-							double amount = traders.get(i).newOrder(traders.get(i).getClients().get(j),
-									companies.get(randomCompanyIndex));
-							if (amount < 0)
-								sellAmount = sellAmount + Math.abs(amount);
+						if (companies.get(randomCompanyIndex).getRisk().equalsIgnoreCase(traders.get(i).getClients().get(j).getRisk()) || traders.get(i).getClients().get(j).getRisk().equalsIgnoreCase("High")) 
+						{
+							if(traders.get(i).getClients().get(j).hasShare(companies.get(randomCompanyIndex)))
+								type = rand.nextBoolean();
 							else
-								buyAmount = buyAmount + amount;
+								type = true;
+							traders.get(i).newOrder(traders.get(i).getClients().get(j), companies.get(randomCompanyIndex),type);
 						}
 					}
 				}
 			}
-
+			System.out.println(traders.get(0).getOrderList().size());
+			//Update share values using rules of supply vs demand
 			for (int i = 0; i < companies.size(); i++) {
 				companies.get(i).updateShareValue(companies.get(i).getBuyCount() + companies.get(i).getSellCount());
 				companies.get(i).setFinalCount();
 			}
-			for (int i = 1; i < traders.size(); i++) {
-				for (int j = 0; j < traders.get(i).getOrderList().size(); j++) {
-					((RandomTrader) traders.get(i)).completeOrder(traders.get(i).getOrderList().get(j));
+			//
+			for (int i = 0; i < traders.size(); i++) 
+			{
+				for (int j = 0; j < traders.get(i).getOrderList().size(); j++) 
+				{
+					 traders.get(i).completeOrder(traders.get(i).getOrderList().get(j));
 				}
-
-				((RandomTrader) traders.get(i)).switchMode(Math.random());
+				traders.get(i).switchMode(Math.random());
 				traders.get(i).addOrderHistory();
 			}
 
-			for (int i = 0; i < companies.size(); i++) {
-				if (companies.get(i).getBuyCount() > Math.abs(companies.get(i).getSellCount())) {
+			for (int i = 0; i < companies.size(); i++) 
+			{
+				if (companies.get(i).getBuyCount() > Math.abs(companies.get(i).getSellCount())) 
+				{
 					companies.get(i).clearBuyCount();
-				} else {
+				} 
+				else 
+				{
 					companies.get(i).clearSellCount();
 				}
 
-				for (int a = 1; a < traders.size(); a++) {
-					for (int b = 1; b < traders.get(a).getOrderList().size(); b++) {
-						if (traders.get(a).getOrderList().get(b).isFullyCompleted() == false) {
-							if (traders.get(a).getOrderList().get(b).getOrderType() == true
-									&& companies.get(i).getSellCount() != 0) {
+				for (int a = 0; a < traders.size(); a++) 
+				{
+					for (int b = 0; b < traders.get(a).getOrderList().size(); b++) 
+					{
+						if (traders.get(a).getOrderList().get(b).isFullyCompleted() == false) 
+						{
+							if (traders.get(a).getOrderList().get(b).getOrderType() == true && companies.get(i).getSellCount() != 0)
+							{
 								traders.get(a).getOrderList().get(b).getClient().newShare(1, companies.get(i));
 								companies.get(i).setSellCount(-1);
 							}
-
-							if (traders.get(a).getOrderList().get(b).getOrderType() == false
-									&& companies.get(i).getBuyCount() != 0) {
+							if (traders.get(a).getOrderList().get(b).getOrderType() == false && companies.get(i).getBuyCount() != 0) {
 								traders.get(a).getOrderList().get(b).getClient().newShare(-1, companies.get(i));
 								companies.get(i).setBuyCount(-1);
 							}
@@ -264,23 +276,25 @@ public class TradingExchange {
 				companies.get(i).clearFinalCount();
 				companies.get(i).clearBuyCount();
 				companies.get(i).clearSellCount();
-				if (isCompanyTradable(companies.get(i)) == false) {
-					for (int j = 0; j < traders.size(); j++) {
-						for (int k = 0; k < traders.get(j).getClients().size(); k++) {
-							for (int x = 0; x < traders.get(j).getClients().get(k).getPortfolio().size(); x++) {
-								if (traders.get(j).getClients().get(k).getPortfolio().get(x).getCompanyName()
-										.equals(companies.get(i).getName()))
-									traders.get(j).getClients().get(k).getPortfolio()
-											.remove(traders.get(j).getClients().get(k).getPortfolio().get(x));
+				//removes company from stock market if its share value is less than 1 penny
+				if (isCompanyTradable(companies.get(i)) == false) 
+				{
+					for (int j = 0; j < traders.size(); j++) 
+					{
+						for (int k = 0; k < traders.get(j).getClients().size(); k++) 
+						{
+							for (int x = 0; x < traders.get(j).getClients().get(k).getPortfolio().size(); x++) 
+							{
+								if (traders.get(j).getClients().get(k).getPortfolio().get(x).getCompanyName().equals(companies.get(i).getName()))
+									traders.get(j).getClients().get(k).getPortfolio().remove(traders.get(j).getClients().get(k).getPortfolio().get(x));
 							}
 							traders.get(j).getClients().get(k).calculateNetWorth();
 						}
 					}
 					companies.remove(companies.get(i));
+					//System.out.println(companies.size() + " " + getDate());
 				}
 			}
-			checkShareNum();
-			updateDateTime();
 		}
 		checkShareNum();
 		updateDateTime();
@@ -417,12 +431,12 @@ public class TradingExchange {
 		for (int i = 0; i < traders.size(); i++) {
 			for (int j = 0; j < traders.get(i).getClients().size(); j++) {
 				for (int k = 0; k < traders.get(i).getClients().get(j).getPortfolio().size(); k++) {
-					if (companies.get(4).getName()
-							.equals(traders.get(i).getClients().get(j).getPortfolio().get(k).getCompanyName()))
+					if (companies.get(0).getName().equals(traders.get(i).getClients().get(j).getPortfolio().get(k).getCompanyName()))
 						count = count + traders.get(i).getClients().get(j).getPortfolio().get(k).getSize();
 				}
 			}
 		}
+		System.out.println(count);
 	}
 	
 	/**
@@ -457,6 +471,10 @@ public class TradingExchange {
 			return true;
 		if (currentDate.toString().equals("2017-04-14"))
 			return true;
+		if (Integer.valueOf(getTime().substring(0, 2)) >= 16)
+			return true;
+		if (Integer.valueOf(getTime().substring(0, 2)) < 9) 
+			return true;
 
 		return false;
 	}
@@ -473,10 +491,10 @@ public class TradingExchange {
 				if (companies.get(i).isEventTriggered()) 
 				{
 					companies.get(i).setOrderType(events.get(nextEvent).getEventType()[0]);
-					companies.get(i).setEventEnd(events.get(nextEvent).getEventType()[2] + " "
-					+ String.valueOf(events.get(nextEvent).getTime()));
+					companies.get(i).setEventEnd(events.get(nextEvent).getEventType()[2] + " " + String.valueOf(events.get(nextEvent).getTime()));
 				}
 			}
+			events.get(nextEvent).trigger();
 			nextEvent++;
 		}
 
