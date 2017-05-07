@@ -39,7 +39,7 @@ public class TradingExchange {
 	 * Instantiates a new trading exchange.
 	 */
 	public TradingExchange() {
-		currentDate = LocalDate.parse("Feb 7 2017", dateFormatter);
+		currentDate = LocalDate.parse("Jan 1 2017", dateFormatter);
 		currentTime = LocalTime.parse("09:00", timeFormatter);
 		companies = new LinkedList();
 		traders = new LinkedList();
@@ -50,7 +50,7 @@ public class TradingExchange {
 		events = new LinkedList();
 		numOfTraders = 4;
 		setUpSim();
-		checkShareNum();
+		//checkShareNum();
 		updateShareIndex();
 		shareIndexList.add(getShareIndex());
 	}
@@ -295,7 +295,7 @@ public class TradingExchange {
 				}
 			}
 		}
-		checkShareNum();
+		//checkShareNum();
 		updateDateTime();
 	}
 
@@ -420,22 +420,6 @@ public class TradingExchange {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	/**
-	 * Check share num will go soon.
-	 */
-	public void checkShareNum() {
-		double count = 0;
-		for (int i = 0; i < traders.size(); i++) {
-			for (int j = 0; j < traders.get(i).getClients().size(); j++) {
-				for (int k = 0; k < traders.get(i).getClients().get(j).getPortfolio().size(); k++) {
-					if (companies.get(0).getName().equals(traders.get(i).getClients().get(j).getPortfolio().get(k).getCompanyName()))
-						count = count + traders.get(i).getClients().get(j).getPortfolio().get(k).getSize();
-				}
-			}
-		}
-		System.out.println(count);
 	}
 	
 	/**

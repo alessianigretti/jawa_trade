@@ -5,7 +5,10 @@ import org.junit.Test;
 public class CompanyTest {
 	
 	Company company = new Company("Name", "Food", 100, 15);
-
+	
+	/**
+	 * Test the clearBuyCount method in the Company class. This test validates that a companies buy count can be cleared.
+	 */
 	@Test
 	public void testClearBuyCount()
 	{
@@ -15,6 +18,9 @@ public class CompanyTest {
 		assertEquals(0, company.getBuyCount(), 0.01);
 	}
 	
+	/**
+	 * Test the clearFinalCount and setFinalCount method in the Company class. This test validates that the final buy/sell count can be set and cleared.
+	 */
 	@Test
 	public void testClearAndSetFinalCount()
 	{
@@ -28,6 +34,9 @@ public class CompanyTest {
 		assertEquals(0, company.getFinalSellCount(), 0.01);
 	}
 	
+	/**
+	 * Test the clearSellCount method in the Company class. This test validates that the sell count can be cleared.
+	 */
 	@Test
 	public void testClearSellCount()
 	{
@@ -37,6 +46,9 @@ public class CompanyTest {
 		assertEquals(0, company.getSellCount(), 0.01);
 	}
 	
+	/**
+	 * Test the endEvent method in the Company class. This test validates that an event ending affects its effects on a company.
+	 */
 	@Test
 	public void testEndEvent()
 	{
@@ -46,6 +58,9 @@ public class CompanyTest {
 		assertFalse(company.isEventTriggered());
 	}
 	
+	/**
+	 * Test the event method in the Company class. This test validates that a company can be affected by an event starting.
+	 */
 	@Test
 	public void testEvent()
 	{
@@ -63,6 +78,9 @@ public class CompanyTest {
 		company.endEvent();
 	}
 	
+	/**
+	 * Test the getBuyCount and setBuyCount methods in the Company class. This test validates that the buy count can be set and retrieved.
+	 */
 	@Test
 	public void testGetAndSetBuyCount()
 	{
@@ -71,6 +89,9 @@ public class CompanyTest {
 		assertEquals(10, company.getBuyCount(), 0.01);
 	}
 	
+	/**
+	 * Test the getCompanyTrend and setCompanyTrend methods in the Company class. This test validates that the company trend can be set and retrieved.
+	 */
 	@Test
 	public void testGetAndSetCompanyTrend()
 	{
@@ -81,6 +102,9 @@ public class CompanyTest {
 		assertEquals("^", company.getCompanyTrend());
 	}
 	
+	/**
+	 * Test the getCurrentShareValue and setCurrentShareValue methods in the Company class. This test validates that the current share value can be set and retrieved.
+	 */
 	@Test
 	public void testGetAndSetCurrentShareValue()
 	{
@@ -89,6 +113,9 @@ public class CompanyTest {
 		assertEquals(30, company.getCurrentShareValue(), 0.01);
 	}
 	
+	/**
+	 * Test the getEventEnd and setEventEnd methods in the Company class. This test validates that an events end can be set and retrieved.
+	 */
 	@Test
 	public void testGetAndSetEventEnd()
 	{
@@ -96,6 +123,9 @@ public class CompanyTest {
 		assertEquals("End", company.getEventEnd());
 	}
 	
+	/**
+	 * Test the getFinalBuyCount method in the Company class. This test validates that the final buy count for a company can be retrieved.
+	 */
 	@Test
 	public void testGetFinalBuyCount()
 	{
@@ -104,6 +134,9 @@ public class CompanyTest {
 		assertEquals(10, company.getFinalBuyCount(), 0.01);
 	}
 	
+	/**
+	 * Test the getFinalSellCount method in the Company class. This test validates that a companies final sell count can be retrieved.
+	 */
 	@Test
 	public void testGetFinalSellCount()
 	{
@@ -112,12 +145,18 @@ public class CompanyTest {
 		assertEquals(10, company.getFinalSellCount(), 0.01);
 	}
 	
+	/**
+	 * Test the getName method in the Company class. This test validates that a companies name can be retrieved.
+	 */
 	@Test
 	public void testGetName()
 	{
 		assertEquals("Name", company.getName());
 	}
 	
+	/**
+	 * Test the getNetWorth and setNetWorth methods in the Company class. This test validates that a companies networth can be set and retrieved.
+	 */
 	@Test
 	public void testGetAndSetNetWorth()
 	{
@@ -126,12 +165,18 @@ public class CompanyTest {
 		assertEquals(15, company.getNetWorth(), 0.01);
 	}
 	
+	/**
+	 * Test the getRisk method in the Company class. This test validates that the risk associated with a company can be retrieved.
+	 */
 	@Test
 	public void testGetRisk()
 	{
 		assertEquals("Low", company.getRisk());
 	}
 	
+	/**
+	 * Test the getSellCount and setSellCount method in the Company class. This test validates that the sell count can be set and retrieved.
+	 */
 	@Test
 	public void testGetAndSetSellCount()
 	{
@@ -140,18 +185,27 @@ public class CompanyTest {
 		assertEquals(company.getSellCount(), 10, 0.01);
 	}
 	
+	/**
+	 * Test the getShareCount method in the Company class. This test validates that the share count for a company can be retrieved.
+	 */
 	@Test
 	public void testGetShareCount()
 	{
 		assertEquals(15, company.getShareCount(), 0.01);
 	}
 	
+	/**
+	 * Test the getShareType method in the Company class. This test validates that the share type of a company can be retrieved.
+	 */
 	@Test
 	public void testGetShareType()
 	{
 		assertEquals("Food", company.getShareType());
 	}
 	
+	/**
+	 * Test the getShareValueList method in the Company class. This test validates that the share value list for a company can be retrieved.
+	 */
 	@Test
 	public void testGetShareValueList()
 	{
@@ -160,12 +214,20 @@ public class CompanyTest {
 		assertEquals(10.0, company.getShareValueList().get(1));
 	}
 
+	/**
+	 * Test the isEventTriggered method in the Company class. This test validates that an event can be triggered which affects whether a company is brought/sold.
+	 */
 	@Test
 	public void testIsEventTriggered()
 	{
 		assertFalse(company.isEventTriggered());
+		company.triggerEvent();
+		assertTrue(company.isEventTriggered());
 	}
 	
+	/**
+	 * Test the getOrderType method in the Company class. This test validates that the order type associated with a event that affects a company can be retrieved.
+	 */
 	@Test
 	public void testGetOrderType()
 	{
@@ -177,6 +239,9 @@ public class CompanyTest {
 		assertTrue(company.getOrderType());
 	}
 	
+	/**
+	 * Test the setName method in the Company class. This test validates that the company name can be changed.
+	 */
 	@Test
 	public void testSetName()
 	{
@@ -185,6 +250,9 @@ public class CompanyTest {
 		assertEquals("CompanyName", company.getName());
 	}
 	
+	/**
+	 * Test the setOrderType and triggerEvent method in the Company class. This test validates that the triggering of an event affects how traders buy and sell.
+	 */
 	@Test
 	public void testSetOrderTypeAndTriggerEvent()
 	{
@@ -194,6 +262,9 @@ public class CompanyTest {
 		assertTrue(company.getOrderType());
 	}
 	
+	/**
+	 * Test the setRisk method in the Company class. This test validates that the risk associated with a company can be changed.
+	 */
 	@Test
 	public void testSetRisk()
 	{
@@ -202,6 +273,9 @@ public class CompanyTest {
 		assertEquals("High", company.getRisk());
 	}
 	
+	/**
+	 * Test the updateShareCount method in the Company class. This test validates that the share count of a company can be updated.
+	 */
 	@Test
 	public void testUpdateShareCount()
 	{
@@ -210,6 +284,9 @@ public class CompanyTest {
 		assertEquals(20, company.getShareCount());
 	}
 	
+	/**
+	 * Test the updateShareValue method in the Company class. This test validates that a companies share value increases due to supply vs demand.
+	 */
 	@Test
 	public void testUpdateShareValue()
 	{
