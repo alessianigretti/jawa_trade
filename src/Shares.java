@@ -4,10 +4,10 @@
  * @author Jonathan Magbadelo
  */
 public class Shares {
-	private Company company;
-	private double currentPrice;
-	private double shareValue;
-	private double size;
+	private Company company; //reference object to the company the share is a part of 
+	private double currentPrice; //current price of the company for one share
+	private double shareValue;//current value of the share owned
+	private double size;//size of the share owned
 
 	/**
 	 * Instantiates a new share.

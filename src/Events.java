@@ -11,11 +11,11 @@ import java.util.Locale;
  */
 public class Events {
 
-	private String[] eventType = new String[3];
-	private String eventText;
-	private LocalDate date;
-	private LocalTime time;
-	private boolean triggered;
+	private String[] eventType = new String[3]; //keeps the event action, type and duration
+	private String eventText; //text information regarding the event
+	private LocalDate date; //date of the event
+	private LocalTime time; // time of the event
+	private boolean triggered; //checks if event is triggered or not
 	private DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMM d yyyy", Locale.ENGLISH);
 	private DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("H:m");
 
@@ -76,11 +76,19 @@ public class Events {
 		return eventType;
 	}
 	
+	/**
+	 * Sets the event trigger as true.
+	 *
+	 */
 	public void trigger()
 	{
 		triggered = true;
 	}
-	
+	/**
+	 * Checks if the event is triggered
+	 *
+	 * @return trigger
+	 */
 	public boolean isTrriggered()
 	{
 		return triggered;

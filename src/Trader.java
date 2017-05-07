@@ -7,11 +7,11 @@ import java.util.*;
  */
 public abstract class Trader {
 
-	private LinkedList<Client> clientList;
-	private LinkedList<Order> orderList = new LinkedList();
-	private LinkedList<Order> orderHistory = new LinkedList();
-	private String name;
-	private double buyRate, sellRate;
+	private LinkedList<Client> clientList; //list of clients a trader is in charge of.
+	private LinkedList<Order> orderList = new LinkedList<Order>(); //order list for current cycle of trading
+	private LinkedList<Order> orderHistory = new LinkedList<Order>(); //order history for all trades for a day
+	private String name; // trader name
+	private double buyRate, sellRate; // buy and sell rate that determines the amount of cash that the trader can have access to for their clients
 
 	/**
 	 * Instantiates a new trader.
@@ -155,14 +155,24 @@ public abstract class Trader {
 		}
 	}
 	
+	/**
+	 * Switch mode of the trader.
+	 *
+	 * @param random number
+	 */
 	public void switchMode(double num)
 	{
-		
+		//do nothing
 	}
 	
+	/**
+	 * Adds .
+	 *
+	 * @param get mode of trader
+	 */
 	public String getMode()
 	{
-		return "A.I";
+		return "A.I.";
 	}
 	/**
 	 * Adds the client.

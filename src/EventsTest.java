@@ -37,4 +37,11 @@ public class EventsTest {
 		assertEquals(LocalTime.parse("09:00", timeFormatter), events.getTime());
 	}
 	
+	@Test
+	public void testTrigger(){
+		assertFalse(events.isTrriggered());
+		events.trigger();
+		assertTrue(events.isTrriggered());
+	}
+	
 }

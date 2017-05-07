@@ -330,40 +330,18 @@ public class Company {
 		return eventTrigger;
 	}
 	
-	/*public boolean randomBool()
-	{
-		if(isEventTriggered())
-			return getOrderType();
-		else
-			return rand.nextBoolean();
-	}
-	
-	public void setOrderType(String type)
-	{
-		if(type.contains("buy") || type.contains("Buy") )
-			orderType = true;
-		if(type.contains("sell") || type.contains("Sell") )
-			orderType = false;
-	}
-	
-	
-	
-	public void setEventEnd(String end)
-	{
-	}
-
 	/**
-	 * Generate random boolean is the event is not triggered.
+	 * Returns orderType.
 	 *
-	 * @return orderType if the event is triggered, random boolean otherwise
+	 * @return true if buy, false if sell
 	 */
-	public boolean randomBool() {
+	public boolean getOrderType() {
 		
 			return orderType;
 	}
 
 	/**
-	 * Sets the order type of the company.
+	 * Sets the order type of the company if an event is set.
 	 *
 	 * @param type the new order type of the company
 	 */
@@ -374,11 +352,6 @@ public class Company {
 			orderType = false;
 	}
 	
-	public boolean getOrderType()
-	{
-		return orderType;
-	}
-
 	/**
 	 * Sets the event end.
 	 *

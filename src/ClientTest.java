@@ -63,7 +63,7 @@ public class ClientTest {
 	
 	@Test
 	public void testInitialShare() {
-		assertFalse(client.hasShare(company)); //found a massive bug through this!! Thanks JUnit!
+		assertFalse(client.hasShare(company)); 
 		client.initialShare(1, company);
 		assertTrue(client.hasShare(company));
 	}
@@ -90,12 +90,13 @@ public class ClientTest {
 	}
 	
 	@Test
-	public void testSetRisk() {
+	public void testSetGetRisk() {
 		assertEquals("High", client.getRisk());
 		client.setRisk("Low");
 		assertEquals("Low", client.getRisk());
 		
 	}
+	
 	
 	@Test
 	public void testUpdateCash() {
@@ -104,6 +105,39 @@ public class ClientTest {
 		assertEquals(300.00, client.getCashHolding(), 0.001);
 	}
 	
+	@Test
+	public void testHasShare(){
+		assertFalse(client.hasShare(company));
+		client.initialShare(500, company);
+		assertTrue(client.hasShare(company));
+	}
+	
+	@Test
+	public void testShareSize(){
+		assertNotEquals(500,client.shareSize(company),0.01);
+		client.initialShare(500, company);
+		assertEquals(500,client.shareSize(company),0.01);
+	}
+	
+	@Test
+	public void testSetGetBuySellMax(){
+		assertNotEquals(1.5, client.getBuyMax());
+		assertNotEquals(1.5, client.getSellMax());
+		client.setBuyMax(0.01);
+		client.setSellMax(0.01);
+		assertEquals(1.5, client.getBuyMax(),0.01);
+		assertEquals(1.5, client.getSellMax(),0.01);
+	}
+	
+	@Test
+	public void testSetGetBuySellAmount(){
+		assertNotEquals(100, client.getBuyAmount());
+		assertNotEquals(150, client.getSellAmount());
+		client.setBuyAmount(100);
+		client.setSellAmount(150);
+		assertEquals(100, client.getBuyAmount(),0.01);
+		assertEquals(150, client.getSellAmount(),0.01);
+	}
 	
 
 }

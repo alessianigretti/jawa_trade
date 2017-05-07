@@ -167,15 +167,14 @@ public class CompanyTest {
 	}
 	
 	@Test
-	public void testRandomBool()
+	public void testGetOrderType()
 	{
 		assertFalse(company.isEventTriggered());
 		company.triggerEvent();
 		assertFalse(company.getOrderType());
-		company.setOrderType("Buy");
+		company.setOrderType("buy");
 		assertTrue(company.isEventTriggered());
 		assertTrue(company.getOrderType());
-		assertTrue(company.randomBool());
 	}
 	
 	@Test
@@ -190,9 +189,9 @@ public class CompanyTest {
 	public void testSetOrderTypeAndTriggerEvent()
 	{
 		company.triggerEvent();
-		assertFalse(company.randomBool());
+		assertFalse(company.getOrderType());
 		company.setOrderType("buy");
-		assertTrue(company.randomBool());
+		assertTrue(company.getOrderType());
 	}
 	
 	@Test

@@ -17,23 +17,23 @@ import com.opencsv.CSVReader;
  */
 public class TradingExchange {
 
-	private LinkedList<Company> companies;
-	private LinkedList<Trader> traders;
-	private SmartTrader smartTrader;
-	private double shareIndex;
-	private Client currentClient;
-	private int numOfTraders;
-	private LinkedList<Double> shareIndexList;
-	private LinkedList<Events> events;
+	private LinkedList<Company> companies; //List of companies on the stock exchange
+	private LinkedList<Trader> traders; // list of traders trading on the stock exchange
+	private SmartTrader smartTrader; //smart trader who trades on behalf of wolf and geko
+	private double shareIndex; //avarage share price of all the companies on the exchange
+	private Client currentClient; //current client 
+	private int numOfTraders; //number of random traders
+	private LinkedList<Double> shareIndexList; //list of share index to check if market becomes bull or bear
+	private LinkedList<Events> events; //list of events
 	private Random rand = new Random();
 	private CSVReader currentClientsFile;
 	private CSVReader currentCompaniesFile;
 	private CSVReader currentEventsFile;
-	private LocalDate currentDate;
-	private LocalTime currentTime;
+	private LocalDate currentDate; //current date of simulation
+	private LocalTime currentTime; //current time of simulation
 	private DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMM d yyyy");
 	private DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("H:m");
-	private int nextEvent = 0;
+	private int nextEvent = 0; //index of next scheduled event
 
 	/**
 	 * Instantiates a new trading exchange.
@@ -196,7 +196,7 @@ public class TradingExchange {
 	}
 
 	/**
-	 * Starts a simulation.
+	 * Starts a trading cycle which represents 15 minutes of trading in real time.
 	 */
 	public void tradeSim() {
 		if (!isMarketClosed()) 
@@ -292,7 +292,6 @@ public class TradingExchange {
 						}
 					}
 					companies.remove(companies.get(i));
-					//System.out.println(companies.size() + " " + getDate());
 				}
 			}
 		}

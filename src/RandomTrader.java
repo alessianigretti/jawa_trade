@@ -10,10 +10,9 @@ import java.util.Random;
 public class RandomTrader extends Trader {
 
 	Random rand = new Random();
-	int orderNum = 0;
 
 	/**
-	 * The Enum Mode for the modes of trading.
+	 * Enum values for different trading modes.
 	 */
 	public enum Mode {
 		BALANCED, AGGRESSIVE_BUY, AGGRESSIVE_SELL
@@ -21,7 +20,7 @@ public class RandomTrader extends Trader {
 
 	private Mode[] ranMode = Mode.values();
 
-	private Mode mode;
+	private Mode mode; //random trader mode
 
 	/**
 	 * Instantiates a new random trader.
@@ -34,7 +33,7 @@ public class RandomTrader extends Trader {
 	}
 
 	/**
-	 * Sets the mode.
+	 * Sets the mode for the random trader.
 	 *
 	 * @param mode
 	 *            the new mode
@@ -109,7 +108,7 @@ public class RandomTrader extends Trader {
 		int quantity;
 		
 		if(company.isEventTriggered())
-			orderType = company.randomBool();
+			orderType = company.getOrderType();
 		
 		if(orderType == true)
 		{
@@ -173,6 +172,10 @@ public class RandomTrader extends Trader {
 	}
 
 	
+	/**
+	 * Random quantity for a buy order
+	 * @return a random integer between 100 and 500
+	 */
 	public int randomQuantity() 
 	{
 		int[] temp = new int[5];

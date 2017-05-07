@@ -16,13 +16,13 @@ public class Order {
 	private final SimpleStringProperty riskColumn;
 	private final SimpleStringProperty clientColumn;
 
-	private Company company;
-	private double openingPrice, closingPrice;
-	private int quantity;
-	private String clientName;
+	private Company company; //reference to company object that the order relates to
+	private double openingPrice, closingPrice; // opening and closing price of the quantity*company share value
+	private int quantity; //how much share a client wishes to buy/sell
+	private String clientName; //client name buying/selling share
 	private boolean orderType; // true == buy; false == sell;
-	private boolean isFullyCompleted = false;
-	private Client client;
+	private boolean isFullyCompleted = false; //checks if an order is fully completed
+	private Client client; //reference to client object that the order relates to.
 
 	/**
 	 * Instantiates a new order.
