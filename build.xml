@@ -1,27 +1,143 @@
-<project name="TestNG_WORKSPACE" default="junit-report" basedir=".">
-  <!-- Sets the property variables to point to respective directories -->
-  <property name="junit-xml-dir" value="${basedir}/junittest"/>
-  <property name="report-dir" value="${basedir}/html-report" />
-  
-  <!-- Ant target to generate html report -->
-  <target name="junit-report">
-    <!-- Delete and recreate the html report directories -->
-    <delete dir="${report-dir}" failonerror="false"/>
-    <mkdir dir="${report-dir}" />
-    <mkdir dir="${report-dir}/Junit" />
-    <!-- Ant task to generate the html report.
-    todir - Directory to generate the output reports
-
-    fileset - Directory to look for the junit xml reports.
-
-    report - defines the type of format to be generated.
-      Here we are using "noframes" which generates a single html report.
-     -->
-    <junitreport todir="${report-dir}/Junit">
-      <fileset dir="${junit-xml-dir}">
-        <include name="**/*.xml" />
-      </fileset>
-      <report format="noframes" todir="${report-dir}/Junit" />
-    </junitreport>
-  </target>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- WARNING: Eclipse auto-generated file.
+              Any modifications will be overwritten.
+              To include a user specific buildfile here, simply create one in the same
+              directory with the processing instruction <?eclipse.ant.import?>
+              as the first entry and export the buildfile again. --><project basedir="." default="build" name="JawaTrade">
+    <property environment="env"/>
+    <property name="ECLIPSE_HOME" value="../../Downloads/Installers/eclipse-java-luna-SR1-win32-x86_64/eclipse/"/>
+    <property name="junit.output.dir" value="junit"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.8"/>
+    <property name="source" value="1.8"/>
+    <path id="JUnit 4.libraryclasspath">
+        <pathelement location="${ECLIPSE_HOME}plugins/org.junit_4.11.0.v201303080030/junit.jar"/>
+        <pathelement location="${ECLIPSE_HOME}plugins/org.hamcrest.core_1.3.0.v201303031735.jar"/>
+    </path>
+    <path id="JawaTrade.classpath">
+        <pathelement location="bin"/>
+        <pathelement location="opencsv-3.9.jar"/>
+        <path refid="JUnit 4.libraryclasspath"/>
+    </path>
+    <target name="init">
+        <mkdir dir="bin"/>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="src">
+                <exclude name="**/*.ucls"/>
+                <exclude name="**/*.useq"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="clean">
+        <delete dir="bin"/>
+    </target>
+    <target depends="clean" name="cleanall"/>
+    <target depends="build-subprojects,build-project" name="build"/>
+    <target name="build-subprojects"/>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
+            <src path="src"/>
+            <classpath refid="JawaTrade.classpath"/>
+        </javac>
+    </target>
+    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
+    <target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
+        <copy todir="${ant.library.dir}">
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </copy>
+        <unzip dest="${ant.library.dir}">
+            <patternset includes="jdtCompilerAdapter.jar"/>
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </unzip>
+    </target>
+    <target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
+        <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+        <antcall target="build"/>
+    </target>
+    <target name="ClientTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="ClientTest" todir="${junit.output.dir}"/>
+            <test name="CompanyTest" todir="${junit.output.dir}"/>
+            <test name="EventsTest" todir="${junit.output.dir}"/>
+            <test name="OrderTest" todir="${junit.output.dir}"/>
+            <test name="RandomTraderTest" todir="${junit.output.dir}"/>
+            <test name="SharesTest" todir="${junit.output.dir}"/>
+            <test name="SmartTraderTest" todir="${junit.output.dir}"/>
+            <test name="TradingExchangeTest" todir="${junit.output.dir}"/>
+            <classpath refid="JawaTrade.classpath"/>
+        </junit>
+    </target>
+    <target name="CompanyTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="CompanyTest" todir="${junit.output.dir}"/>
+            <classpath refid="JawaTrade.classpath"/>
+        </junit>
+    </target>
+    <target name="EventsTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="EventsTest" todir="${junit.output.dir}"/>
+            <classpath refid="JawaTrade.classpath"/>
+        </junit>
+    </target>
+    <target name="Gui">
+        <java classname="GUI" failonerror="true" fork="yes">
+            <classpath refid="JawaTrade.classpath"/>
+        </java>
+    </target>
+    <target name="OrderTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="OrderTest" todir="${junit.output.dir}"/>
+            <classpath refid="JawaTrade.classpath"/>
+        </junit>
+    </target>
+    <target name="RandomTraderTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="RandomTraderTest" todir="${junit.output.dir}"/>
+            <classpath refid="JawaTrade.classpath"/>
+        </junit>
+    </target>
+    <target name="SharesTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="SharesTest" todir="${junit.output.dir}"/>
+            <classpath refid="JawaTrade.classpath"/>
+        </junit>
+    </target>
+    <target name="SmartTraderTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="SmartTraderTest" todir="${junit.output.dir}"/>
+            <classpath refid="JawaTrade.classpath"/>
+        </junit>
+    </target>
+    <target name="TradingExchangeTest">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="TradingExchangeTest" todir="${junit.output.dir}"/>
+            <classpath refid="JawaTrade.classpath"/>
+        </junit>
+    </target>
+    <target name="junitreport">
+        <junitreport todir="${junit.output.dir}">
+            <fileset dir="${junit.output.dir}">
+                <include name="TEST-*.xml"/>
+            </fileset>
+            <report format="frames" todir="${junit.output.dir}"/>
+        </junitreport>
+    </target>
 </project>

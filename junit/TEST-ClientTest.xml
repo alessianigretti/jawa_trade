@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuite errors="0" failures="0" hostname="Akin" name="ClientTest" skipped="0" tests="18" time="0.53" timestamp="2017-05-08T14:31:07">
+  <properties>
+    <property name="java.vendor" value="Oracle Corporation" />
+    <property name="env.USERDOMAIN_ROAMINGPROFILE" value="AKIN" />
+    <property name="sun.java.launcher" value="SUN_STANDARD" />
+    <property name="eclipse.pdebuild.templates" value="/C:/Users/jon/Downloads/Installers/eclipse-java-luna-SR1-win32-x86_64/eclipse/plugins/org.eclipse.pde.build_3.9.0.v20140415-2029/templates/" />
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers" />
+    <property name="env.PROMPT" value="$P$G" />
+    <property name="os.name" value="Windows 10" />
+    <property name="env.FP_NO_HOST_CHECK" value="NO" />
+    <property name="sun.boot.class.path" value="C:\Program Files\Java\jre1.8.0_131\lib\resources.jar;C:\Program Files\Java\jre1.8.0_131\lib\rt.jar;C:\Program Files\Java\jre1.8.0_131\lib\sunrsasign.jar;C:\Program Files\Java\jre1.8.0_131\lib\jsse.jar;C:\Program Files\Java\jre1.8.0_131\lib\jce.jar;C:\Program Files\Java\jre1.8.0_131\lib\charsets.jar;C:\Program Files\Java\jre1.8.0_131\lib\jfr.jar;C:\Program Files\Java\jre1.8.0_131\classes" />
+    <property name="env.COMPUTERNAME" value="AKIN" />
+    <property name="env.CommonProgramW6432" value="C:\Program Files\Common Files" />
+    <property name="env.ALLUSERSPROFILE" value="C:\ProgramData" />
+    <property name="sun.desktop" value="windows" />
+    <property name="java.vm.specification.vendor" value="Oracle Corporation" />
+    <property name="ant.home" value="C:\Users\jon\Downloads\Installers\eclipse-java-luna-SR1-win32-x86_64\eclipse\plugins\org.apache.ant_1.9.2.v201404171502" />
+    <property name="java.runtime.version" value="1.8.0_131-b11" />
+    <property name="env.HOMEPATH" value="\Users\jon" />
+    <property name="env.VSSDK140Install" value="C:\Program Files (x86)\Microsoft Visual Studio 14.0\VSSDK\" />
+    <property name="user.name" value="jon" />
+    <property name="user.language" value="en" />
+    <property name="sun.boot.library.path" value="C:\Program Files\Java\jre1.8.0_131\bin" />
+    <property name="ant.project.default-target" value="build" />
+    <property name="ant.project.name" value="JawaTrade" />
+    <property name="java.version" value="1.8.0_131" />
+    <property name="env.PROCESSOR_IDENTIFIER" value="AMD64 Family 21 Model 19 Stepping 1, AuthenticAMD" />
+    <property name="env.OnlineServices" value="Online Services" />
+    <property name="user.timezone" value="" />
+    <property name="env.asl.log" value="Destination=file" />
+    <property name="env.TEMP" value="C:\Users\jon\AppData\Local\Temp" />
+    <property name="sun.arch.data.model" value="64" />
+    <property name="java.endorsed.dirs" value="C:\Program Files\Java\jre1.8.0_131\lib\endorsed" />
+    <property name="sun.cpu.isalist" value="amd64" />
+    <property name="env.HOMEDRIVE" value="C:" />
+    <property name="sun.jnu.encoding" value="Cp1252" />
+    <property name="file.encoding.pkg" value="sun.io" />
+    <property name="env.VS110COMNTOOLS" value="C:\Program Files (x86)\Microsoft Visual Studio 11.0\Common7\Tools\" />
+    <property name="ECLIPSE_HOME" value="../../Downloads/Installers/eclipse-java-luna-SR1-win32-x86_64/eclipse/" />
+    <property name="file.separator" value="\" />
+    <property name="java.specification.name" value="Java Platform API Specification" />
+    <property name="java.class.version" value="52.0" />
+    <property name="user.country" value="GB" />
+    <property name="env.BuildLabEx" value="10586.633.amd64fre.th2_release.161004-1602" />
+    <property name="java.home" value="C:\Program Files\Java\jre1.8.0_131" />
+    <property name="env.PSModulePath" value="C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules\" />
+    <property name="env.APPDATA" value="C:\Users\jon\AppData\Roaming" />
+    <property name="env.PUBLIC" value="C:\Users\Public" />
+    <property name="java.vm.info" value="mixed mode" />
+    <property name="env.ComSpec" value="C:\WINDOWS\system32\cmd.exe" />
+    <property name="env.OS" value="Windows_NT" />
+    <property name="env.CommonProgramFiles" value="C:\Program Files\Common Files" />
+    <property name="ant.file" value="C:\Users\jon\Documents\SE CW\build.xml" />
+    <property name="os.version" value="10.0" />
+    <property name="env.ProgramW6432" value="C:\Program Files" />
+    <property name="ant.file.JawaTrade" value="C:\Users\jon\Documents\SE CW\build.xml" />
+    <property name="path.separator" value=";" />
+    <property name="java.vm.version" value="25.131-b11" />
+    <property name="user.variant" value="" />
+    <property name="env.USERPROFILE" value="C:\Users\jon" />
+    <property name="ant.library.dir" value="C:\Users\jon\Downloads\Installers\eclipse-java-luna-SR1-win32-x86_64\eclipse\plugins\org.apache.ant_1.9.2.v201404171502\lib" />
+    <property name="junit.output.dir" value="junit" />
+    <property name="java.awt.printerjob" value="sun.awt.windows.WPrinterJob" />
+    <property name="env.TMP" value="C:\Users\jon\AppData\Local\Temp" />
+    <property name="env.BuildLab" value="10586.th2_release.161004-1602" />
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle" />
+    <property name="awt.toolkit" value="sun.awt.windows.WToolkit" />
+    <property name="user.script" value="" />
+    <property name="eclipse.pdebuild.scripts" value="/C:/Users/jon/Downloads/Installers/eclipse-java-luna-SR1-win32-x86_64/eclipse/plugins/org.eclipse.pde.build_3.9.0.v20140415-2029/scripts/" />
+    <property name="user.home" value="C:\Users\jon" />
+    <property name="target" value="1.8" />
+    <property name="env.ProgramData" value="C:\ProgramData" />
+    <property name="env.VS140COMNTOOLS" value="C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\Tools\" />
+    <property name="env.SESSIONNAME" value="Console" />
+    <property name="env.ProgramFiles(x86)" value="C:\Program Files (x86)" />
+    <property name="java.specification.vendor" value="Oracle Corporation" />
+    <property name="java.vendor.url" value="http://java.oracle.com/" />
+    <property name="env.NUMBER_OF_PROCESSORS" value="4" />
+    <property name="java.library.path" value="C:\Program Files\Java\jre1.8.0_131\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:/Program Files/Java/jre1.8.0_131/bin/server;C:/Program Files/Java/jre1.8.0_131/bin;C:/Program Files/Java/jre1.8.0_131/lib/amd64;C:\ProgramData\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\ATI Technologies\ATI.ACE\Core-Static;C:\Program Files (x86)\Windows Live\Shared;C:\Users\jon\.dnx\bin;C:\Program Files\Microsoft DNX\Dnvm\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit\;C:\Program Files (x86)\nodejs\;C:\Program Files\Git\cmd;C:\Program Files\MATLAB\R2016b\bin;C:\Program Files (x86)\Skype\Phone\;C:\Users\jon\Anaconda2;C:\Users\jon\Anaconda2\Scripts;C:\Users\jon\Anaconda2\Library\bin;C:\ProgramData\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\ATI Technologies\ATI.ACE\Core-Static;C:\Program Files (x86)\Windows Live\Shared;C:\Program Files\MATLAB\R2014b\bin;C:\Program Files\nodejs\;C:\Program Files (x86)\Skype\Phone\;C:\Program Files\OpenVPN\bin;C:\Users\jon\.dnx\bin;C:\Program Files\Microsoft DNX\Dnvm\;C:\Python27\Scripts;C:\Program Files (x86)\Microsoft VS Code\bin;C:\Users\jon\AppData\Roaming\npm;C:\apache-ant-1.10.1\bin;C:\Users\jon\Downloads\Installers\eclipse-java-luna-SR1-win32-x86_64\eclipse;;." />
+    <property name="ant.file.type.JawaTrade" value="file" />
+    <property name="java.vm.vendor" value="Oracle Corporation" />
+    <property name="java.runtime.name" value="Java(TM) SE Runtime Environment" />
+    <property name="ant.version" value="Apache Ant(TM) version 1.9.2 compiled on July 8 2013" />
+    <property name="java.class.path" value="C:\Users\jon\Documents\SE CW\bin;C:\Users\jon\Documents\SE CW\opencsv-3.9.jar;C:\Users\jon\Downloads\Installers\eclipse-java-luna-SR1-win32-x86_64\eclipse\plugins\org.junit_4.11.0.v201303080030\junit.jar;C:\Users\jon\Downloads\Installers\eclipse-java-luna-SR1-win32-x86_64\eclipse\plugins\org.hamcrest.core_1.3.0.v201303031735.jar;C:\Users\jon\Downloads\Installers\eclipse-java-luna-SR1-win32-x86_64\eclipse\plugins\org.apache.ant_1.9.2.v201404171502\lib\ant-launcher.jar;C:\Users\jon\Downloads\Installers\eclipse-java-luna-SR1-win32-x86_64\eclipse\plugins\org.apache.ant_1.9.2.v201404171502\lib\ant.jar;C:\Users\jon\Downloads\Installers\eclipse-java-luna-SR1-win32-x86_64\eclipse\plugins\org.apache.ant_1.9.2.v201404171502\lib\ant-junit.jar;C:\Users\jon\Downloads\Installers\eclipse-java-luna-SR1-win32-x86_64\eclipse\plugins\org.apache.ant_1.9.2.v201404171502\lib\ant-junit4.jar" />
+    <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner ClientTest filtertrace=true haltOnError=false haltOnFailure=false formatter=org.apache.tools.ant.taskdefs.optional.junit.OutErrSummaryJUnitResultFormatter showoutput=false outputtoformatters=true logfailedtests=true logtestlistenerevents=false formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,C:\Users\jon\Documents\SE CW\junit\TEST-ClientTest.xml crashfile=C:\Users\jon\Documents\SE CW\junitvmwatcher8578180999221991411.properties propsfile=C:\Users\jon\Documents\SE CW\junit7916054189717866217.properties" />
+    <property name="env.PCBRAND" value="Pavilion" />
+    <property name="env.ANT_OPTS" value="-Xms256M -Xmx512M" />
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification" />
+    <property name="env.windir" value="C:\WINDOWS" />
+    <property name="env.LOGONSERVER" value="\\MicrosoftAccount" />
+    <property name="env.PROCESSOR_ARCHITECTURE" value="AMD64" />
+    <property name="java.vm.specification.version" value="1.8" />
+    <property name="sun.os.patch.level" value="" />
+    <property name="sun.cpu.endian" value="little" />
+    <property name="debuglevel" value="source,lines,vars" />
+    <property name="env.ProgramFiles" value="C:\Program Files" />
+    <property name="env.ANT_HOME" value="C:\Users\jon\Downloads\Installers\eclipse-java-luna-SR1-win32-x86_64\eclipse\plugins\org.apache.ant_1.9.2.v201404171502" />
+    <property name="env.PROCESSOR_REVISION" value="1301" />
+    <property name="eclipse.pdebuild.home" value="/C:/Users/jon/Downloads/Installers/eclipse-java-luna-SR1-win32-x86_64/eclipse/plugins/org.eclipse.pde.build_3.9.0.v20140415-2029/./" />
+    <property name="java.io.tmpdir" value="C:\Users\jon\AppData\Local\Temp\" />
+    <property name="env.CommonProgramFiles(x86)" value="C:\Program Files (x86)\Common Files" />
+    <property name="env.VS120COMNTOOLS" value="C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\Tools\" />
+    <property name="java.vendor.url.bug" value="http://bugreport.sun.com/bugreport/" />
+    <property name="env.SystemRoot" value="C:\WINDOWS" />
+    <property name="java.awt.graphicsenv" value="sun.awt.Win32GraphicsEnvironment" />
+    <property name="os.arch" value="amd64" />
+    <property name="java.ext.dirs" value="C:\Program Files\Java\jre1.8.0_131\lib\ext;C:\WINDOWS\Sun\Java\lib\ext" />
+    <property name="env.LOCALAPPDATA" value="C:\Users\jon\AppData\Local" />
+    <property name="user.dir" value="C:\Users\jon\Documents\SE CW" />
+    <property name="line.separator" value="&#xd;&#xa;" />
+    <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM" />
+    <property name="env.PATHEXT" value=".COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC" />
+    <property name="env.Path" value="C:/Program Files/Java/jre1.8.0_131/bin/server;C:/Program Files/Java/jre1.8.0_131/bin;C:/Program Files/Java/jre1.8.0_131/lib/amd64;C:\ProgramData\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\ATI Technologies\ATI.ACE\Core-Static;C:\Program Files (x86)\Windows Live\Shared;C:\Users\jon\.dnx\bin;C:\Program Files\Microsoft DNX\Dnvm\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit\;C:\Program Files (x86)\nodejs\;C:\Program Files\Git\cmd;C:\Program Files\MATLAB\R2016b\bin;C:\Program Files (x86)\Skype\Phone\;C:\Users\jon\Anaconda2;C:\Users\jon\Anaconda2\Scripts;C:\Users\jon\Anaconda2\Library\bin;C:\ProgramData\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\ATI Technologies\ATI.ACE\Core-Static;C:\Program Files (x86)\Windows Live\Shared;C:\Program Files\MATLAB\R2014b\bin;C:\Program Files\nodejs\;C:\Program Files (x86)\Skype\Phone\;C:\Program Files\OpenVPN\bin;C:\Users\jon\.dnx\bin;C:\Program Files\Microsoft DNX\Dnvm\;C:\Python27\Scripts;C:\Program Files (x86)\Microsoft VS Code\bin;C:\Users\jon\AppData\Roaming\npm;C:\apache-ant-1.10.1\bin;C:\Users\jon\Downloads\Installers\eclipse-java-luna-SR1-win32-x86_64\eclipse;" />
+    <property name="basedir" value="C:\Users\jon\Documents\SE CW" />
+    <property name="ant.java.version" value="1.8" />
+    <property name="ant.core.lib" value="C:\Users\jon\Downloads\Installers\eclipse-java-luna-SR1-win32-x86_64\eclipse\plugins\org.apache.ant_1.9.2.v201404171502\lib\ant.jar" />
+    <property name="env.USERNAME" value="jon" />
+    <property name="source" value="1.8" />
+    <property name="env.SystemDrive" value="C:" />
+    <property name="file.encoding" value="Cp1252" />
+    <property name="env.USERDOMAIN" value="AKIN" />
+    <property name="java.specification.version" value="1.8" />
+    <property name="ant.project.invoked-targets" value="build,ClientTest,CompanyTest,EventsTest,OrderTest,RandomTraderTest,SharesTest,SmartTraderTest,TradingExchangeTest,junitreport" />
+    <property name="env.Platform" value="MCD" />
+    <property name="env.PROCESSOR_LEVEL" value="21" />
+  </properties>
+  <testcase classname="ClientTest" name="testSetGetRisk" time="0.004" />
+  <testcase classname="ClientTest" name="testCalculateNetWorth" time="0.003" />
+  <testcase classname="ClientTest" name="testGetNetWorth" time="0.0" />
+  <testcase classname="ClientTest" name="testCalculateInvestment" time="0.001" />
+  <testcase classname="ClientTest" name="testUpdateCash" time="0.0" />
+  <testcase classname="ClientTest" name="testShareSize" time="0.003" />
+  <testcase classname="ClientTest" name="testGetInvestment" time="0.001" />
+  <testcase classname="ClientTest" name="testGetName" time="0.001" />
+  <testcase classname="ClientTest" name="testSetExpectedReturn" time="0.0" />
+  <testcase classname="ClientTest" name="testSetGetBuySellAmount" time="0.002" />
+  <testcase classname="ClientTest" name="testInitialShare" time="0.0" />
+  <testcase classname="ClientTest" name="testGetCashHolding" time="0.0" />
+  <testcase classname="ClientTest" name="testHasShare" time="0.0" />
+  <testcase classname="ClientTest" name="testSetGetBuySellMax" time="0.0" />
+  <testcase classname="ClientTest" name="testGetExpectedReturn" time="0.001" />
+  <testcase classname="ClientTest" name="testSetName" time="0.0" />
+  <testcase classname="ClientTest" name="testNewShare" time="0.002" />
+  <testcase classname="ClientTest" name="testGetPortfolio" time="0.001" />
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

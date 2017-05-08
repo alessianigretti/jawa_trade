@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="ClientTest" project="JawaTrade" tests="110" started="110" failures="6" errors="0" ignored="0">
+  <testsuite name="SmartTraderTest" time="0.588">
+    <testcase name="testGetMode" classname="SmartTraderTest" time="0.001"/>
+    <testcase name="testGetSetSellBuyRate" classname="SmartTraderTest" time="0.0"/>
+    <testcase name="testGetOrderList" classname="SmartTraderTest" time="0.107"/>
+    <testcase name="testAddGetClient" classname="SmartTraderTest" time="0.002"/>
+    <testcase name="testNewCompleteOrder" classname="SmartTraderTest" time="0.005"/>
+    <testcase name="testSetGetTraderName" classname="SmartTraderTest" time="0.472"/>
+  </testsuite>
+  <testsuite name="TradingExchangeTest" time="0.4">
+    <testcase name="testGetAndSetCurrentClient" classname="TradingExchangeTest" time="0.017"/>
+    <testcase name="testGetTraders" classname="TradingExchangeTest" time="0.015"/>
+    <testcase name="testGetDate" classname="TradingExchangeTest" time="0.016"/>
+    <testcase name="testGetTime" classname="TradingExchangeTest" time="0.013"/>
+    <testcase name="testGetCompanies" classname="TradingExchangeTest" time="0.011"/>
+    <testcase name="testGetShareIndex" classname="TradingExchangeTest" time="0.026"/>
+    <testcase name="testIsCompanyTradeable" classname="TradingExchangeTest" time="0.013"/>
+    <testcase name="testUpdateShareIndex" classname="TradingExchangeTest" time="0.097">
+      <failure>java.lang.AssertionError: Values should be different. Actual: 2.395&#13;
+	at org.junit.Assert.fail(Assert.java:88)&#13;
+	at org.junit.Assert.failEquals(Assert.java:185)&#13;
+	at org.junit.Assert.assertNotEquals(Assert.java:230)&#13;
+	at org.junit.Assert.assertNotEquals(Assert.java:247)&#13;
+	at TradingExchangeTest.testUpdateShareIndex(TradingExchangeTest.java:165)&#13;
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)&#13;
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)&#13;
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)&#13;
+	at java.lang.reflect.Method.invoke(Method.java:483)&#13;
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:47)&#13;
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)&#13;
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:44)&#13;
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)&#13;
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:271)&#13;
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:70)&#13;
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:50)&#13;
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:238)&#13;
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:63)&#13;
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:236)&#13;
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:53)&#13;
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:229)&#13;
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:309)&#13;
+	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:50)&#13;
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)&#13;
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:459)&#13;
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:675)&#13;
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:382)&#13;
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:192)&#13;
+&#13;
+</failure>
+    </testcase>
+    <testcase name="testSetUpCompanies" classname="TradingExchangeTest" time="0.013"/>
+    <testcase name="testMarketStatus" classname="TradingExchangeTest" time="0.011"/>
+    <testcase name="testGetEvents" classname="TradingExchangeTest" time="0.011"/>
+    <testcase name="testUpdateDateTime" classname="TradingExchangeTest" time="0.015"/>
+    <testcase name="testGetXChart" classname="TradingExchangeTest" time="0.038"/>
+    <testcase name="testSetUpClients" classname="TradingExchangeTest" time="0.021"/>
+    <testcase name="testCheckEndEvent" classname="TradingExchangeTest" time="0.038"/>
+    <testcase name="testIsMarketClosed" classname="TradingExchangeTest" time="0.012"/>
+    <testcase name="testSetUpEvents" classname="TradingExchangeTest" time="0.013"/>
+    <testcase name="testGetSmartTrader" classname="TradingExchangeTest" time="0.009"/>
+  </testsuite>
+  <testsuite name="ClientTest" time="0.025">
+    <testcase name="testSetGetRisk" classname="ClientTest" time="0.002"/>
+    <testcase name="testCalculateNetWorth" classname="ClientTest" time="0.002"/>
+    <testcase name="testGetNetWorth" classname="ClientTest" time="0.001"/>
+    <testcase name="testCalculateInvestment" classname="ClientTest" time="0.001"/>
+    <testcase name="testUpdateCash" classname="ClientTest" time="0.001"/>
+    <testcase name="testShareSize" classname="ClientTest" time="0.0"/>
+    <testcase name="testGetInvestment" classname="ClientTest" time="0.001"/>
+    <testcase name="testGetName" classname="ClientTest" time="0.001"/>
+    <testcase name="testSetExpectedReturn" classname="ClientTest" time="0.001"/>
+    <testcase name="testSetGetBuySellAmount" classname="ClientTest" time="0.001"/>
+    <testcase name="testInitialShare" classname="ClientTest" time="0.002"/>
+    <testcase name="testGetCashHolding" classname="ClientTest" time="0.001"/>
+    <testcase name="testHasShare" classname="ClientTest" time="0.001"/>
+    <testcase name="testSetGetBuySellMax" classname="ClientTest" time="0.001"/>
+    <testcase name="testGetExpectedReturn" classname="ClientTest" time="0.003"/>
+    <testcase name="testSetName" classname="ClientTest" time="0.001"/>
+    <testcase name="testNewShare" classname="ClientTest" time="0.0"/>
+    <testcase name="testGetPortfolio" classname="ClientTest" time="0.004"/>
+  </testsuite>
+  <testsuite name="RandomTraderTest" time="0.008">
+    <testcase name="testSwitchMode" classname="RandomTraderTest" time="0.001"/>
+    <testcase name="testGetMode" classname="RandomTraderTest" time="0.001"/>
+    <testcase name="testGetSetSellBuyRate" classname="RandomTraderTest" time="0.0"/>
+    <testcase name="testGetAndSetMode" classname="RandomTraderTest" time="0.001"/>
+    <testcase name="testGetOrderList" classname="RandomTraderTest" time="0.001"/>
+    <testcase name="testAddGetClient" classname="RandomTraderTest" time="0.0"/>
+    <testcase name="testNewCompleteOrder" classname="RandomTraderTest" time="0.001"/>
+    <testcase name="testSetGetTraderName" classname="RandomTraderTest" time="0.003"/>
+  </testsuite>
+  <testsuite name="SharesTest" time="0.007">
+    <testcase name="testGetPrice" classname="SharesTest" time="0.001"/>
+    <testcase name="testUpdatePrice" classname="SharesTest" time="0.001"/>
+    <testcase name="testUpdateSize" classname="SharesTest" time="0.001"/>
+    <testcase name="testGetSize" classname="SharesTest" time="0.0"/>
+    <testcase name="testGetShareValue" classname="SharesTest" time="0.001"/>
+    <testcase name="testUpdateShareValue" classname="SharesTest" time="0.0"/>
+    <testcase name="testGetCompanyName" classname="SharesTest" time="0.003"/>
+  </testsuite>
+  <testsuite name="EventsTest" time="0.049">
+    <testcase name="testTrigger" classname="EventsTest" time="0.001"/>
+    <testcase name="testGetDate" classname="EventsTest" time="0.003"/>
+    <testcase name="testGetTime" classname="EventsTest" time="0.001"/>
+    <testcase name="testGetEventText" classname="EventsTest" time="0.001"/>
+    <testcase name="testGetEventType" classname="EventsTest" time="0.041"/>
+  </testsuite>
+  <testsuite name="OrderTest" time="0.063">
+    <testcase name="testUpdateQuantity" classname="OrderTest" time="0.002"/>
+    <testcase name="testGetClientName" classname="OrderTest" time="0.003"/>
+    <testcase name="testGetAndSetRiskColumn" classname="OrderTest" time="0.011"/>
+    <testcase name="testGetCurrentShareValue" classname="OrderTest" time="0.004"/>
+    <testcase name="testGetAndSetQuantityColumn" classname="OrderTest" time="0.001"/>
+    <testcase name="testGetOpeningPrice" classname="OrderTest" time="0.006"/>
+    <testcase name="testGetAndSetPriceColumn" classname="OrderTest" time="0.001"/>
+    <testcase name="testGetQuantity" classname="OrderTest" time="0.003"/>
+    <testcase name="testGetAndSetClosingPrice" classname="OrderTest" time="0.001"/>
+    <testcase name="testGetOrderType" classname="OrderTest" time="0.007"/>
+    <testcase name="testGetClient" classname="OrderTest" time="0.002"/>
+    <testcase name="testGetAndSetOrderTypeColumn" classname="OrderTest" time="0.001"/>
+    <testcase name="testGetAndSetClientColumn" classname="OrderTest" time="0.001"/>
+    <testcase name="testGetCompany" classname="OrderTest" time="0.001"/>
+    <testcase name="testFullyCompleted" classname="OrderTest" time="0.002"/>
+    <testcase name="testGetCompanyName" classname="OrderTest" time="0.002"/>
+    <testcase name="testGetAndSetCompanyColumn" classname="OrderTest" time="0.014"/>
+  </testsuite>
+  <testsuite name="CompanyTest" time="0.055">
+    <testcase name="testGetFinalBuyCount" classname="CompanyTest" time="0.0"/>
+    <testcase name="testEndEvent" classname="CompanyTest" time="0.002"/>
+    <testcase name="testGetAndSetNetWorth" classname="CompanyTest" time="0.005"/>
+    <testcase name="testGetShareValueList" classname="CompanyTest" time="0.01"/>
+    <testcase name="testEvent" classname="CompanyTest" time="0.001"/>
+    <testcase name="testGetAndSetSellCount" classname="CompanyTest" time="0.001"/>
+    <testcase name="testGetShareType" classname="CompanyTest" time="0.004"/>
+    <testcase name="testGetName" classname="CompanyTest" time="0.001"/>
+    <testcase name="testGetRisk" classname="CompanyTest" time="0.001"/>
+    <testcase name="testSetOrderTypeAndTriggerEvent" classname="CompanyTest" time="0.003"/>
+    <testcase name="testGetShareCount" classname="CompanyTest" time="0.001"/>
+    <testcase name="testClearSellCount" classname="CompanyTest" time="0.002"/>
+    <testcase name="testClearBuyCount" classname="CompanyTest" time="0.001"/>
+    <testcase name="testUpdateShareCount" classname="CompanyTest" time="0.001"/>
+    <testcase name="testUpdateShareValue" classname="CompanyTest" time="0.01"/>
+    <testcase name="testGetAndSetCompanyTrend" classname="CompanyTest" time="0.001"/>
+    <testcase name="testGetAndSetBuyCount" classname="CompanyTest" time="0.001"/>
+    <testcase name="testGetFinalSellCount" classname="CompanyTest" time="0.001"/>
+    <testcase name="testClearAndSetFinalCount" classname="CompanyTest" time="0.0"/>
+    <testcase name="testGetOrderType" classname="CompanyTest" time="0.001"/>
+    <testcase name="testGetAndSetCurrentShareValue" classname="CompanyTest" time="0.0"/>
+    <testcase name="testSetName" classname="CompanyTest" time="0.001"/>
+    <testcase name="testSetRisk" classname="CompanyTest" time="0.002"/>
+    <testcase name="testGetAndSetEventEnd" classname="CompanyTest" time="0.001"/>
+    <testcase name="testIsEventTriggered" classname="CompanyTest" time="0.001"/>
+  </testsuite>
+  <testsuite name="TraderTest" time="0.067">
+    <testcase name="testAddAndGetOrderHistory" classname="TraderTest" time="0.003">
+      <failure>java.lang.AssertionError: Not yet implemented&#13;
+	at org.junit.Assert.fail(Assert.java:88)&#13;
+	at TraderTest.testAddAndGetOrderHistory(TraderTest.java:18)&#13;
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)&#13;
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)&#13;
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)&#13;
+	at java.lang.reflect.Method.invoke(Method.java:483)&#13;
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:47)&#13;
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)&#13;
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:44)&#13;
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)&#13;
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:271)&#13;
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:70)&#13;
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:50)&#13;
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:238)&#13;
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:63)&#13;
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:236)&#13;
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:53)&#13;
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:229)&#13;
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:309)&#13;
+	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:50)&#13;
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)&#13;
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:459)&#13;
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:675)&#13;
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:382)&#13;
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:192)&#13;
+&#13;
+</failure>
+    </testcase>
+    <testcase name="testGetOrderList" classname="TraderTest" time="0.004">
+      <failure>java.lang.AssertionError: Not yet implemented&#13;
+	at org.junit.Assert.fail(Assert.java:88)&#13;
+	at TraderTest.testGetOrderList(TraderTest.java:28)&#13;
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)&#13;
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)&#13;
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)&#13;
+	at java.lang.reflect.Method.invoke(Method.java:483)&#13;
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:47)&#13;
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)&#13;
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:44)&#13;
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)&#13;
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:271)&#13;
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:70)&#13;
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:50)&#13;
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:238)&#13;
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:63)&#13;
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:236)&#13;
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:53)&#13;
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:229)&#13;
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:309)&#13;
+	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:50)&#13;
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)&#13;
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:459)&#13;
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:675)&#13;
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:382)&#13;
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:192)&#13;
+&#13;
+</failure>
+    </testcase>
+    <testcase name="testGetAndSetTraderName" classname="TraderTest" time="0.052">
+      <failure>
+        <expected>No trader selected.</expected>
+        <actual>RanTrader 0</actual>org.junit.ComparisonFailure: expected:&lt;[No trader selected.]&gt; but was:&lt;[RanTrader 0]&gt;&#13;
+	at org.junit.Assert.assertEquals(Assert.java:115)&#13;
+	at org.junit.Assert.assertEquals(Assert.java:144)&#13;
+	at TraderTest.testGetAndSetTraderName(TraderTest.java:33)&#13;
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)&#13;
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)&#13;
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)&#13;
+	at java.lang.reflect.Method.invoke(Method.java:483)&#13;
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:47)&#13;
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)&#13;
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:44)&#13;
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)&#13;
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:271)&#13;
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:70)&#13;
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:50)&#13;
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:238)&#13;
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:63)&#13;
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:236)&#13;
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:53)&#13;
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:229)&#13;
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:309)&#13;
+	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:50)&#13;
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)&#13;
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:459)&#13;
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:675)&#13;
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:382)&#13;
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:192)&#13;
+&#13;
+</failure>
+    </testcase>
+    <testcase name="testClearOrders" classname="TraderTest" time="0.002">
+      <failure>java.lang.AssertionError: Not yet implemented&#13;
+	at org.junit.Assert.fail(Assert.java:88)&#13;
+	at TraderTest.testClearOrders(TraderTest.java:23)&#13;
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)&#13;
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)&#13;
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)&#13;
+	at java.lang.reflect.Method.invoke(Method.java:483)&#13;
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:47)&#13;
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)&#13;
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:44)&#13;
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)&#13;
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:271)&#13;
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:70)&#13;
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:50)&#13;
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:238)&#13;
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:63)&#13;
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:236)&#13;
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:53)&#13;
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:229)&#13;
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:309)&#13;
+	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:50)&#13;
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)&#13;
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:459)&#13;
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:675)&#13;
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:382)&#13;
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:192)&#13;
+&#13;
+</failure>
+    </testcase>
+    <testcase name="testNewOrder" classname="TraderTest" time="0.002">
+      <failure>java.lang.AssertionError: Not yet implemented&#13;
+	at org.junit.Assert.fail(Assert.java:88)&#13;
+	at TraderTest.testNewOrder(TraderTest.java:40)&#13;
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)&#13;
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)&#13;
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)&#13;
+	at java.lang.reflect.Method.invoke(Method.java:483)&#13;
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:47)&#13;
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)&#13;
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:44)&#13;
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)&#13;
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:271)&#13;
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:70)&#13;
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:50)&#13;
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:238)&#13;
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:63)&#13;
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:236)&#13;
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:53)&#13;
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:229)&#13;
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:309)&#13;
+	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:50)&#13;
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)&#13;
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:459)&#13;
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:675)&#13;
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:382)&#13;
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:192)&#13;
+&#13;
+</failure>
+    </testcase>
+    <testcase name="testAddAndGetClients" classname="TraderTest" time="0.0"/>
+  </testsuite>
+</testrun>
