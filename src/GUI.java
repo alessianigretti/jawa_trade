@@ -786,7 +786,7 @@ public class GUI extends Application {
 			public void handle(ActionEvent event) {
 				throwErrorMessage(AlertType.NONE, "About",
 						"JAWA trade© for Wolf and Gecko\nAll rights reserved.\n\n"
-						+ "Jonathan Magbadelo - Alessia Nigretti - Jack O' Neill - Walid Lamaichi");
+						+ "Jonathan Magbadelo - Alessia Nigretti - Jack O' Neill - Walid Lamaici");
 			}
 		});
 		aboutMenu.getItems().add(about);
