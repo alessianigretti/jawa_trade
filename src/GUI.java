@@ -740,12 +740,55 @@ public class GUI extends Application {
 		Menu helpMenu = new Menu("Help");
 		// menuitem for tutorial
 		MenuItem tutorial = new MenuItem("Tutorial");
+		tutorial.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				throwErrorMessage(AlertType.NONE, "Tutorial",
+						"________________________________\n" +
+						"- How to start the application:\n" +
+						"Step 1: Click on Traders\n" +
+						"Step 2: Select any existent client data\n" + 
+						"Step 3: Select any existent company\n" + 
+						"Step 4: Start simulation\n" +
+						"________________________________\n" +
+						"- How to import custom data:\n" +
+						"Step 1: Click on File\n" +
+						"Step 2: Select a .csv file for loading Clients, Companies or Events\n" +
+						"________________________________\n" +
+						"- How to edit the number of traders in the simulation:\n" +
+						"Step 1: Click on Set Up Simulation\n" +
+						"Step 2: Insert the number of traders\n" +
+						"________________________________\n" +
+						"- How to withdraw and deposit:\n" +
+						"Step 1: Click on Account\n" +
+						"Step 2: Select withdrawal or deposit\n" + 
+						"Step 3: Insert the amount you wish to withdraw or deposit\n" +
+						"________________________________\n" +
+						"- How to clear data from orders table:\n" +
+						"Step 1: Click on Orders\n" +
+						"Step 2: Click on Clear Order Table\n" +
+						"________________________________\n" +
+						"- How to make New Order:\n" +
+						"Step 1: Select any existent company\n" + 
+						"Step 2: Click on New Order\n" +
+						"Step 3: Select the amount of shares\n" +
+						"Step 4: Click on Buy or Sell");
+			}
+		});
 		helpMenu.getItems().add(tutorial);
 
 		// creating menu for about
 		Menu aboutMenu = new Menu("About");
 		// menuitem for about
 		MenuItem about = new MenuItem("About");
+		about.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				throwErrorMessage(AlertType.NONE, "About",
+						"JAWA trade© for Wolf and Gecko\nAll rights reserved.\n\n"
+						+ "Jonathan Magbadelo - Alessia Nigretti - Jack O' Neill - Walid Lamaichi");
+			}
+		});
 		aboutMenu.getItems().add(about);
 
 		// creating menu bar to show on top of stage
